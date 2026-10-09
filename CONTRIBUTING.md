@@ -139,10 +139,11 @@ Maintainers release from `main`:
 
 The tag starts the publish workflow. It checks that the tag matches `package.json`, runs every check, publishes to npm with provenance, and creates a release with that version's changelog section as the notes. Versions with a hyphen go out as prereleases, under an npm tag named after their label: `1.3.0-beta.1` goes out under `beta`.
 
-npm can only trust the workflow for a package that already exists, so the very first version is published by hand:
+npm can only trust the workflow for a package that already exists, so the very first version publishes with a token:
 
-1. Run `pnpm check:package`, then `npm publish --access public`. For a beta, like `1.0.0-beta.1`, add `--tag beta`.
-2. On npmjs.com, open the package settings and add a trusted publisher. Use the repository `Avijit07x/cursorcam`, the workflow `npm-publish.yml` and the environment `release`.
-3. Push the tag. The workflow sees that the version is already on npm, skips publishing, and creates the release.
+1. Create an npm token that can publish, and add it to the repository as the `NPM_TOKEN` secret.
+2. Push the tag. The workflow publishes with the token and creates the release.
+3. On npmjs.com, open the package settings and add a trusted publisher. Use the repository `Avijit07x/cursorcam`, the workflow `npm-publish.yml` and the environment `release`.
+4. Delete the `NPM_TOKEN` secret and the token. Later releases publish without it.
 
 By contributing, you agree that your contributions are licensed under the [Apache-2.0 License](./LICENSE).

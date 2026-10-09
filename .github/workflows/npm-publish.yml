@@ -34,6 +34,7 @@ jobs:
         with:
           node-version: '24'
           package-manager-cache: false
+          registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -60,6 +61,8 @@ jobs:
           CURSORCAM_CRASH_TESTS: '1'
 
       - name: Publish to npm with provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           name="$(node -p "require('./package.json').name")"
           version="${GITHUB_REF_NAME#v}"
