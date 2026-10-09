@@ -38,9 +38,9 @@ The git hooks in `.githooks/` format and lint staged files, check commit message
   - `app/globals.css` holds the colors, the Fredoka font, the scrollbar, and the sticker shadow and sticker text classes.
   - Animations use Motion (`motion/react`). `lib/motion.ts` holds the shared springs, and `MotionProvider` calms motion for people who ask for less.
   - `components/brand/` has the animated sticker logo and the sticker art, `components/ui/` the shared background, button and footer, and `components/coming-soon/` the coming-soon page. New pages reuse `brand/` and `ui/`, and the full home page replaces `ComingSoon` in `app/page.tsx`.
-  - `app/icon.svg` must stay identical to `assets/favicon.svg`, the browser-tab icon. `public/og.png` is the share image.
+  - `app/icon.svg` must stay identical to `assets/favicon.svg`, the browser-tab icon. `public/og.png` is the share image, a 1200×630 export of `assets/banner.svg`.
   - `demo/` holds the sample app the README video records: `app/`, served by `pnpm demo:app`, with `readme-steps.json` and `style.json`.
-- `assets/`: the logo files, and the README video `demo.mp4` with its animated preview `demo.webp`. The logo is a tilted sticker with a white edge and a soft shadow, and the wordmark is lowercase Fredoka Bold, outlined to shapes. `favicon.svg` is an upright version without the shadow, for small sizes. `logo.html` shows every logo file where it is used.
+- `assets/`: the logo files, and the README video `demo.mp4` with its animated preview `demo.webp`. The logo is a tilted sticker with a white edge and a soft shadow, and the wordmark is lowercase Fredoka Bold, outlined to shapes. `favicon.svg` is an upright version without the shadow, for small sizes. `logo.html` shows every logo file where it is used. `banner.svg` is the 1200×630 banner for posts and the share image.
 - `docs/`: the user guides, with steps and style files to copy in `examples/`, plus the design plan `PLAN.md` and `TEST-RESULTS.md`. The README links to the guides and stays short.
 
 ## Rules
