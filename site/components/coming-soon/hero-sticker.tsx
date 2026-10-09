@@ -52,7 +52,7 @@ export function HeroSticker() {
         type="button"
         aria-label="Boop the CursorCam logo"
         onClick={boop}
-        className="relative block size-[clamp(4.5rem,13dvh,7rem)] cursor-pointer rounded-4xl outline-none focus-visible:ring-4 focus-visible:ring-brand-soft"
+        className="relative block size-[clamp(3.5rem,13dvh,7rem)] cursor-pointer rounded-4xl outline-none focus-visible:ring-4 focus-visible:ring-brand-soft"
         initial={{ scale: 0, rotate: -40 }}
         animate={{ scale: 1, rotate: 0 }}
         transition={{ ...POP, delay: 0.1 }}

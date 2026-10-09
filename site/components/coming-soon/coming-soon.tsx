@@ -15,7 +15,7 @@ const TAGLINE_DELAY = 1.05;
 
 export function ComingSoon() {
   return (
-    <div className="relative isolate flex h-dvh min-h-160 flex-col overflow-x-clip">
+    <div className="relative isolate flex h-dvh min-h-80 flex-col overflow-x-clip">
       <Backdrop />
       <FloatingStickers />
       <main className="relative z-10 mx-auto flex min-h-0 w-full max-w-5xl flex-1 flex-col items-center justify-center px-4 pt-8 text-center sm:pt-10">
@@ -34,7 +34,7 @@ export function ComingSoon() {
           Ask Claude for a demo video.
         </motion.h2>
         <div
-          className="@container-size mt-6 mb-4 flex min-h-0 w-full flex-1 items-center justify-center"
+          className="@container-size mt-6 mb-4 flex min-h-0 w-full flex-1 items-center justify-center short:hidden"
           style={{ maxHeight: MINI_DEMO_MAX_HEIGHT }}
         >
           <MiniDemo />

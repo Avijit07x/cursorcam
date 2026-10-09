@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@custom-variant short (@media (max-height: 38rem));
+
 @theme {
   --font-sans: var(--font-fredoka), ui-rounded, system-ui, sans-serif;
   --color-ink: #1e1b4b;

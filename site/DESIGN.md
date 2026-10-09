@@ -90,6 +90,7 @@ All animation uses Motion (`motion/react`). Reuse the springs in `lib/motion.ts`
 ## Layout
 
 - The coming-soon page fits in one window with no scrolling. The logo sits above the name, and the mini demo takes the height that is left, shrinking on short screens.
+- On windows under 608 px tall, like phones turned sideways or laptops with a short browser window, the mini demo hides so the rest still fits. The `short:` variant in `app/globals.css` marks these windows.
 - On phones, keep a 16 px side gutter and no sideways scrolling.
 
 ## Footer and links
