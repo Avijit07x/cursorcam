@@ -6,7 +6,7 @@ import { EVENTS_FILE } from '../../../src/runs/dirs.js';
 import type { StatusFile } from '../../../src/runs/status.js';
 import { ExitCode } from '../../../src/shared/exit-codes.js';
 import { useFixtureServer } from '../../helpers/fixture-server.js';
-import { browserAvailable } from '../helpers.js';
+import { browserAvailable, CI_SLOWDOWN, FAIL_FAST_TIMEOUT_MS } from '../helpers.js';
 import { eventsOf, useRecorder } from '../recorder-helpers.js';
 
 const TOKEN = 'tok-live-91c3e7';
@@ -28,13 +28,13 @@ describe.skipIf(!browserAvailable())('recording safety', () => {
     const started = performance.now();
     const error = await recorder.fail({
       url: site.url('/basics.html'),
-      timeout: 1_500,
+      timeout: FAIL_FAST_TIMEOUT_MS,
       steps: [{ waitFor: 'text=Never here' }],
     });
 
     expect(error.exitCode).toBe(ExitCode.StepFailed);
     expect(error.message).toContain('Step 1 (waitFor text=Never here): Could not find');
-    expect(performance.now() - started).toBeLessThan(15_000);
+    expect(performance.now() - started).toBeLessThan(15_000 * CI_SLOWDOWN);
   });
 
   it('blurs secrets and masked elements, and keeps secret values out of every file', async () => {

@@ -14,6 +14,8 @@ const SOCKET_ID_BYTES = 6;
 const MAX_ANSWER_BYTES = 4096;
 const SEND_TIMEOUT_MS = 10_000;
 const ACCEPTED_REPLY = 'ok';
+const LINE_END = '\n';
+const TRAILING_NEWLINE = /\r?\n$/;
 
 export function answerSocketPath(platform: NodeJS.Platform = process.platform): string {
   const id = randomBytes(SOCKET_ID_BYTES).toString('hex');
@@ -35,9 +37,7 @@ export class AnswerChannel implements AnswerSource {
     const socketPath = answerSocketPath();
     const previous = this.#status.current;
     const answer = Promise.withResolvers<string>();
-    const server = createServer({ allowHalfOpen: true }, (socket) =>
-      receive(socket, answer.resolve),
-    );
+    const server = createServer((socket) => receive(socket, answer.resolve));
     await listen(server, socketPath);
     try {
       await this.#status.update({
@@ -82,33 +82,48 @@ function listen(server: Server, path: string): Promise<void> {
 }
 
 function receive(socket: Socket, onAnswer: (answer: string) => void): void {
-  const chunks: Buffer[] = [];
-  let size = 0;
-  socket.on('data', (chunk: Buffer) => {
-    size += chunk.length;
-    if (size > MAX_ANSWER_BYTES) {
+  let received = '';
+  let answered = false;
+  socket.setEncoding('utf8');
+  socket.on('data', (chunk: string) => {
+    if (answered) return;
+    received += chunk;
+    if (Buffer.byteLength(received) > MAX_ANSWER_BYTES) {
       socket.destroy();
       return;
     }
-    chunks.push(chunk);
-  });
-  socket.on('end', () => {
-    const answer = Buffer.concat(chunks)
-      .toString('utf8')
-      .replace(/\r?\n$/, '');
+    const end = received.indexOf(LINE_END);
+    if (end === -1) return;
+    const answer = parseAnswer(received.slice(0, end));
+    if (answer === undefined) {
+      socket.destroy();
+      return;
+    }
+    answered = true;
     socket.end(ACCEPTED_REPLY);
     if (answer !== '') onAnswer(answer);
   });
   socket.on('error', () => socket.destroy());
 }
 
+function parseAnswer(line: string): string | undefined {
+  try {
+    const value: unknown = JSON.parse(line);
+    return typeof value === 'string' ? value : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 export function sendAnswer(socketPath: string, answer: string): Promise<void> {
+  const line = `${JSON.stringify(answer.replace(TRAILING_NEWLINE, ''))}${LINE_END}`;
   const reply = new Promise<void>((resolve, reject) => {
     const socket = createConnection(socketPath);
     let response = '';
-    socket.on('connect', () => socket.end(answer));
-    socket.on('data', (chunk: Buffer) => {
-      response += chunk.toString('utf8');
+    socket.setEncoding('utf8');
+    socket.on('connect', () => socket.write(line));
+    socket.on('data', (chunk: string) => {
+      response += chunk;
     });
     socket.on('close', () => {
       if (response === ACCEPTED_REPLY) resolve();

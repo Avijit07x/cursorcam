@@ -1,5 +1,5 @@
 import { access, mkdir } from 'node:fs/promises';
-import { basename, extname, join } from 'node:path';
+import { extname, join, posix } from 'node:path';
 import type { Dialog, Download, Page } from 'playwright-core';
 import type { DialogPolicy } from '../config/steps.js';
 import { redact } from '../shared/redact.js';
@@ -134,7 +134,7 @@ export class PageHandlers {
 }
 
 export function safeFileName(name: string): string {
-  const cleaned = [...basename(name.replaceAll('\\', '/'))]
+  const cleaned = [...posix.basename(name.replaceAll('\\', '/'))]
     .map((char) =>
       char.charCodeAt(0) < FIRST_PRINTABLE_CHAR_CODE || UNSAFE_FILE_NAME_CHARS.has(char)
         ? '_'
@@ -145,7 +145,8 @@ export function safeFileName(name: string): string {
     .trim();
   if (cleaned === '') return FALLBACK_DOWNLOAD_NAME;
   if (cleaned.length <= MAX_FILE_NAME_LENGTH) return cleaned;
-  const extension = extname(cleaned).length <= MAX_EXTENSION_LENGTH ? extname(cleaned) : '';
+  const extension =
+    posix.extname(cleaned).length <= MAX_EXTENSION_LENGTH ? posix.extname(cleaned) : '';
   return `${cleaned.slice(0, MAX_FILE_NAME_LENGTH - extension.length)}${extension}`;
 }
 

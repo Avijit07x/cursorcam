@@ -93,7 +93,7 @@ export async function recordRun(
     return { plan, dirs, run, status, paths, recording };
   } catch (error) {
     if (error instanceof StepFailure) printStep(plan, error.stepIndex, '✗');
-    await reportFailure(dirs.outDir, status, error);
+    await reportFailure(dirs.outDir, status, error, lifecycle);
     throw error;
   }
 }
@@ -102,7 +102,9 @@ export async function reportFailure(
   outDir: string,
   status: StatusFile,
   error: unknown,
+  lifecycle: Lifecycle,
 ): Promise<void> {
+  if (lifecycle.stopping) return;
   const frame = join(outDir, FAILURE_FRAME);
   const hasFrame = await access(frame).then(
     () => true,

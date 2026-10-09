@@ -15,7 +15,7 @@ export function useTempDir(scope: Scope = 'each'): { path: () => string } {
   });
 
   teardown(async () => {
-    if (dir) await rm(dir, { recursive: true, force: true });
+    if (dir) await rm(dir, { recursive: true, force: true, maxRetries: 10, retryDelay: 200 });
     dir = undefined;
   });
 

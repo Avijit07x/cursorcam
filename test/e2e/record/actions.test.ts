@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { ExitCode } from '../../../src/shared/exit-codes.js';
-import { browserAvailable } from '../helpers.js';
+import { browserAvailable, FAIL_FAST_TIMEOUT_MS } from '../helpers.js';
 import { useFixtureServer } from '../../helpers/fixture-server.js';
 import { eventsOf, useRecorder } from '../recorder-helpers.js';
 
@@ -55,7 +55,7 @@ describe.skipIf(!browserAvailable())('recording actions', () => {
   it('treats a see-through element as hidden', async () => {
     const error = await recorder.fail({
       url: site.url('/motion.html'),
-      timeout: 1_500,
+      timeout: FAIL_FAST_TIMEOUT_MS,
       steps: [{ click: '#ghost' }],
     });
 

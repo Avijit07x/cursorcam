@@ -5,7 +5,7 @@ import { messageOf, CursorCamError } from '../shared/errors.js';
 import { formatBytes } from '../shared/format.js';
 import { jpegSize } from '../shared/jpeg.js';
 import { runCommand } from '../system/command.js';
-import { coreLimitsOfProcessesWith } from '../system/core-limit.js';
+import { BLOCKING_CORE_LIMIT_BYTES, coreLimitsOfProcessesWith } from '../system/core-limit.js';
 import { freeBytes } from '../system/disk.js';
 
 export type CheckStatus = 'ok' | 'warn' | 'fail';
@@ -116,7 +116,7 @@ export async function checkCoreDumps(
       detail: 'set by the launcher (not checked on macOS)',
     };
   const limits = await coreLimitsOfProcessesWith(session.profileDir);
-  if (limits.length > 0 && limits.every((limit) => limit === 0)) {
+  if (limits.length > 0 && limits.every((limit) => limit === BLOCKING_CORE_LIMIT_BYTES)) {
     return {
       name: 'Crash dumps',
       status: 'ok',
@@ -127,7 +127,7 @@ export async function checkCoreDumps(
     name: 'Crash dumps',
     status: 'fail',
     detail: 'Crash dumps are not turned off for the browser',
-    fix: 'Report this as a bug. A browser crash could fill the disk.',
+    fix: 'Install prlimit, part of util-linux, and run doctor again. Without it a browser crash could fill the disk.',
   };
 }
 

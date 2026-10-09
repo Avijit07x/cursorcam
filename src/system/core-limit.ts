@@ -1,6 +1,8 @@
 import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
+export const BLOCKING_CORE_LIMIT_BYTES = 1;
+
 const PROC_DIR = '/proc';
 const PID_PATTERN = /^\d+$/;
 const CORE_LIMIT_PATTERN = /^Max core file size\s+(\S+)/m;

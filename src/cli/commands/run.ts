@@ -47,7 +47,7 @@ export function registerRun(program: Command): void {
         process.stdout.write(`${lines.join('\n')}\n`);
         return ExitCode.Ok;
       } catch (error) {
-        await reportFailure(dirs.outDir, status, error);
+        await reportFailure(dirs.outDir, status, error, lifecycle);
         throw error;
       }
     }),

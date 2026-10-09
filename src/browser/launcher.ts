@@ -1,5 +1,6 @@
 import { chmod, mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
+import { BLOCKING_CORE_LIMIT_BYTES } from '../system/core-limit.js';
 import type { BrowserInstall } from './finder.js';
 
 export interface BrowserExecutable {
@@ -9,7 +10,16 @@ export interface BrowserExecutable {
 
 const BROWSER_BIN_ENV = 'CURSORCAM_BROWSER_BIN';
 const LAUNCHER_MODE = 0o755;
-const LAUNCHER_SCRIPT = `#!/bin/sh\nulimit -c 0\nexec "$${BROWSER_BIN_ENV}" "$@"\n`;
+const CORE_LIMIT = `${BLOCKING_CORE_LIMIT_BYTES}:${BLOCKING_CORE_LIMIT_BYTES}`;
+const LAUNCHER_SCRIPT = [
+  '#!/bin/sh',
+  `if command -v prlimit >/dev/null 2>&1 && prlimit --core=${CORE_LIMIT} true >/dev/null 2>&1; then`,
+  `  exec prlimit --core=${CORE_LIMIT} -- "$${BROWSER_BIN_ENV}" "$@"`,
+  'fi',
+  'ulimit -c 0',
+  `exec "$${BROWSER_BIN_ENV}" "$@"`,
+  '',
+].join('\n');
 
 async function writeLauncher(launcherPath: string): Promise<void> {
   const current = await readFile(launcherPath, 'utf8').catch(() => undefined);

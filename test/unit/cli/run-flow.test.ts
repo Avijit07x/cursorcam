@@ -1,8 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { limitSteps, runName } from '../../../src/cli/run-flow.js';
+import { limitSteps, reportFailure, runName } from '../../../src/cli/run-flow.js';
 import { parseSteps } from '../../../src/config/load-steps.js';
 import { posterFileName, videoFileName } from '../../../src/render/renderer.js';
+import { readResult, readStatus, StatusFile } from '../../../src/runs/status.js';
+import { CursorCamError } from '../../../src/shared/errors.js';
 import { ExitCode } from '../../../src/shared/exit-codes.js';
+import { Lifecycle } from '../../../src/system/lifecycle.js';
+import { useTempDir } from '../../helpers/temp-dir.js';
 
 const plan = parseSteps(
   {
@@ -38,5 +42,31 @@ describe('run options', () => {
     expect(videoFileName('discord', 'square')).toBe('video-discord-square.mp4');
     expect(posterFileName('discord', 'square')).toBe('poster-discord-square.jpg');
     expect(posterFileName('default', 'vertical')).toBe('poster-vertical.jpg');
+  });
+});
+
+describe('reportFailure', () => {
+  const out = useTempDir();
+  const failure = new CursorCamError('Step 2 failed', { exitCode: ExitCode.StepFailed });
+
+  it('saves the failure for wait to read', async () => {
+    await reportFailure(out.path(), new StatusFile(out.path()), failure, new Lifecycle());
+
+    expect(await readResult(out.path())).toMatchObject({
+      ok: false,
+      exitCode: ExitCode.StepFailed,
+      error: 'Step 2 failed',
+    });
+    expect(await readStatus(out.path())).toMatchObject({ state: 'failed' });
+  });
+
+  it('saves nothing once the run is shutting down, so wait reports it as stopped', async () => {
+    const lifecycle = new Lifecycle();
+    await lifecycle.dispose();
+
+    await reportFailure(out.path(), new StatusFile(out.path()), failure, lifecycle);
+
+    expect(await readResult(out.path())).toBeUndefined();
+    expect(await readStatus(out.path())).toBeUndefined();
   });
 });

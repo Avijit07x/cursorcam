@@ -27,6 +27,15 @@ describe('AnswerChannel', () => {
     expect(status.current).toEqual({ state: 'recording', step: 3 });
   });
 
+  it('keeps an answer with line breaks whole', async () => {
+    const status = new StatusFile(dir.path());
+    const answer = new AnswerChannel(status).waitForAnswer('note');
+
+    await sendAnswer(await waitUntilAsked(status), 'first line\nsecond line\n');
+
+    await expect(answer).resolves.toBe('first line\nsecond line');
+  });
+
   it('gives up with exit 6 when nobody answers', async () => {
     const channel = new AnswerChannel(new StatusFile(dir.path()), 30);
 

@@ -19,6 +19,20 @@ describe('Lifecycle', () => {
     expect(order).toEqual(['second', 'first']);
   });
 
+  it('reports stopping from the moment dispose starts', async () => {
+    const lifecycle = new Lifecycle();
+    const seen: boolean[] = [];
+    lifecycle.add(() => {
+      seen.push(lifecycle.stopping);
+    });
+
+    expect(lifecycle.stopping).toBe(false);
+    await lifecycle.dispose();
+
+    expect(seen).toEqual([true]);
+    expect(lifecycle.stopping).toBe(true);
+  });
+
   it('runs every disposer even when one fails', async () => {
     const lifecycle = new Lifecycle();
     const after = vi.fn();

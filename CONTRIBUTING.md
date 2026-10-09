@@ -87,7 +87,7 @@ On Vercel, set the project's Root Directory to `site` and keep "Include files ou
 - **commit-msg** checks the message against the convention: `feat`, `fix`, `perf`, `chore`, `docs`, `refactor`, `test`, `ci`, `build` or `revert`, for example `fix(record): wait for fonts before typing`.
 - **pre-push** checks formatting, lint and types.
 
-CI runs every check again, and the tests on Linux, macOS and Windows.
+Once the repository is public, CI runs every check again, the crash test, and the browser tests on Linux, macOS and Windows. Until then, run `pnpm check` before you push. Every release still runs all the checks and the crash test before it publishes.
 
 ## Project structure
 

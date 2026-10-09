@@ -5,7 +5,10 @@ import { launchBrowser } from '../../src/browser/launch.js';
 import type { BrowserSession } from '../../src/browser/session.js';
 import { captureFirstFrame } from '../../src/record/screencast.js';
 import { jpegSize } from '../../src/shared/jpeg.js';
-import { coreLimitsOfProcessesWith } from '../../src/system/core-limit.js';
+import {
+  BLOCKING_CORE_LIMIT_BYTES,
+  coreLimitsOfProcessesWith,
+} from '../../src/system/core-limit.js';
 import type { NavigatorWithUserAgentData } from './browser-types.js';
 import { browserAvailable, usePageServer, useTempCache } from './helpers.js';
 
@@ -71,7 +74,7 @@ describe.skipIf(!browserAvailable())('launchBrowser', () => {
       const limits = await coreLimitsOfProcessesWith(session.profileDir);
 
       expect(limits.length).toBeGreaterThan(0);
-      expect(new Set(limits)).toEqual(new Set([0]));
+      expect(new Set(limits)).toEqual(new Set([BLOCKING_CORE_LIMIT_BYTES]));
     },
   );
 

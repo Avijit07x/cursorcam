@@ -6,6 +6,10 @@ export class Lifecycle {
   readonly #disposers: Disposer[] = [];
   #disposed = false;
 
+  get stopping(): boolean {
+    return this.#disposed;
+  }
+
   add(disposer: Disposer): void {
     this.#disposers.push(disposer);
   }

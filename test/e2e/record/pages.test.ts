@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { ExitCode } from '../../../src/shared/exit-codes.js';
 import { useFixtureServer } from '../../helpers/fixture-server.js';
-import { browserAvailable } from '../helpers.js';
+import { browserAvailable, CI_SLOWDOWN } from '../helpers.js';
 import { eventsOf, useRecorder } from '../recorder-helpers.js';
 
 describe.skipIf(!browserAvailable())('recording real pages', () => {
@@ -108,7 +108,7 @@ describe.skipIf(!browserAvailable())('recording real pages', () => {
     });
 
     expect(await run.recording.session.page.getByRole('button').textContent()).toBe('Exported');
-    expect(performance.now() - started).toBeLessThan(25_000);
+    expect(performance.now() - started).toBeLessThan(25_000 * CI_SLOWDOWN);
   });
 
   it('scrolls smoothly with the wheel, inside lists and on the page', async () => {
@@ -128,7 +128,7 @@ describe.skipIf(!browserAvailable())('recording real pages', () => {
     const positions = run.frames.map((frame) => frame.scrollY);
     const steps = positions.slice(1).map((y, index) => Math.abs(y - (positions[index] ?? y)));
     expect(new Set(positions).size).toBeGreaterThan(10);
-    expect(Math.max(...steps)).toBeLessThan(400);
+    expect(Math.max(...steps)).toBeLessThan(400 * CI_SLOWDOWN);
   });
 
   it('taps on a phone and ends with exit 10 on a challenge page', async () => {

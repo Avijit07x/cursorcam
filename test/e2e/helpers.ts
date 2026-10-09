@@ -8,6 +8,8 @@ import { resolvePaths, type AppPaths } from '../../src/system/paths.js';
 import { useTempDir } from '../helpers/temp-dir.js';
 
 export const CLI_PATH = join(import.meta.dirname, '..', '..', 'dist', 'cli', 'index.js');
+export const CI_SLOWDOWN = process.env.CI ? 3 : 1;
+export const FAIL_FAST_TIMEOUT_MS = 1_500 * CI_SLOWDOWN;
 
 export function browserAvailable(): boolean {
   try {

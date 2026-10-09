@@ -7,7 +7,7 @@ import { jpegSize } from '../../src/shared/jpeg.js';
 import { useFixtureServer } from '../helpers/fixture-server.js';
 import { solidPng } from '../helpers/png.js';
 import { useTempDir } from '../helpers/temp-dir.js';
-import { browserAvailable, CLI_PATH, useTempCache } from './helpers.js';
+import { browserAvailable, CLI_PATH, FAIL_FAST_TIMEOUT_MS, useTempCache } from './helpers.js';
 import { frameRgb, hasTool } from './media.js';
 
 interface CliResult {
@@ -69,7 +69,7 @@ describe.skipIf(!browserAvailable())('cursorcam check and record', () => {
   it('check stops at the first failure with its exit code, frame and step number', async () => {
     const steps = await writeSteps({
       url: site.url('/basics.html'),
-      timeout: 1_500,
+      timeout: FAIL_FAST_TIMEOUT_MS,
       steps: [{ click: "role=button[name='Get started']" }, { click: 'text=Nope' }, { pause: 10 }],
     });
     const result = await runCli(['check', steps, '--json'], work.path(), cache.env());

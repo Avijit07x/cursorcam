@@ -25,17 +25,18 @@ Browser tests use the pages in `test/fixtures/app/`, one page per hard case.
 | Launcher | Written atomically, rewritten when changed, skipped on Windows | ✅ |
 | Desktop launch | 2560×1600 frames, hover and fine pointer, brands present | ✅ |
 | Phone launch | 1170×2532 frames, no hover, coarse pointer, touch | ✅ |
-| Crash dumps | Every browser process has a core-dump limit of 0 | ✅ Linux |
+| Crash dumps | Every browser process has a core-dump limit of 1 byte | ✅ Linux |
 | Killed run | No browser left; the next run removes the old profile | ✅ |
 | Lifecycle and signals | Cleanup runs in reverse, once, even after errors | ✅ |
 | `doctor` | All checks pass on this machine | ✅ |
-| Forced crash writes no core dump | CI machines only | ⏳ first CI run |
+| Forced crash writes no core dump | CI machines only | ⏳ next CI run, after the 1-byte fix below |
 
 **Found and fixed**
 
 | Problem | Cause | Fix |
 |---|---|---|
 | A browser crash could write large core dumps | No core-dump limit on browser processes | The browser starts through a launcher that sets the limit to 0, checked in `/proc` for every process |
+| The first CI run still found a Chrome core dump | Ubuntu pipes core dumps to `systemd-coredump`, which ignores a limit of 0 | The launcher sets the limit to 1 byte with `prlimit`, the one value that stops piped dumps too |
 | A local crash test stopped another service on the machine | Crash dumps go to a host-wide handler | Crash tests run only on throwaway CI machines |
 | Browser brands were missing in tests | `about:blank` has no `userAgentData` | Tests load a real page from a local server |
 

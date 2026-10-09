@@ -54,6 +54,11 @@ jobs:
       - name: Build and check the package
         run: pnpm check:package
 
+      - name: Crash tests
+        run: pnpm test:crash
+        env:
+          CURSORCAM_CRASH_TESTS: '1'
+
       - name: Publish to npm with provenance
         run: |
           name="$(node -p "require('./package.json').name")"

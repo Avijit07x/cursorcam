@@ -1,10 +1,13 @@
 import type { BrowserContext, Page } from 'playwright-core';
 import { CursorCamError } from '../shared/errors.js';
 import { ExitCode } from '../shared/exit-codes.js';
+import { withTimeout } from '../shared/time.js';
 import { removeDir } from '../system/cleanup.js';
 import type { BrowserInstall } from './finder.js';
 import type { Identity } from './identity.js';
 import type { BrowserVersion } from './version.js';
+
+const CLOSE_TIMEOUT_MS = 10_000;
 
 interface SessionParts {
   readonly context: BrowserContext;
@@ -112,8 +115,10 @@ export class BrowserSession {
     for (const page of [...this.#detachers.keys()]) this.#untrack(page);
     this.#switchListeners.clear();
     this.#attachers.clear();
-    await this.context.close().catch(() => undefined);
-    await removeDir(this.profileDir);
+    await withTimeout(this.context.close(), CLOSE_TIMEOUT_MS, () => new Error('close')).catch(
+      () => undefined,
+    );
+    await removeDir(this.profileDir).catch(() => undefined);
   }
 
   #track(page: Page): void {

@@ -59,7 +59,7 @@ describe.skipIf(!browserAvailable() || !hasDisplay)('cursorcam login', () => {
     process.kill(await browserPid(login.child.pid ?? 0), 'SIGTERM');
 
     const saved = await login.finished;
-    expect(saved.code).toBe(ExitCode.Ok);
+    expect(saved.code, saved.stderr).toBe(ExitCode.Ok);
     expect(saved.stdout).toContain('Saved the login as "e2e"');
     const file = savedLoginFile(cache.paths(), 'e2e');
     expect((await stat(file)).mode & 0o777).toBe(0o600);
@@ -93,7 +93,7 @@ describe.skipIf(!browserAvailable() || !hasDisplay)('cursorcam login', () => {
     login.child.kill('SIGINT');
 
     const stopped = await login.finished;
-    expect(stopped.code).toBe(ExitCode.Interrupted);
+    expect(stopped.code, stopped.stderr).toBe(ExitCode.Interrupted);
     expect(stopped.stderr).toContain('Stopped before the login was saved.');
     await expect(access(savedLoginFile(cache.paths(), 'stopped'))).rejects.toThrow();
     expect(await processCommandLines()).not.toContain(`cursorcam-${login.child.pid}-`);

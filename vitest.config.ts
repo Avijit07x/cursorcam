@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitest/config';
 
-const BROWSER_TEST_TIMEOUT_MS = 60_000;
+const BROWSER_TEST_TIMEOUT_MS = process.env.CI ? 180_000 : 60_000;
 
 export default defineConfig({
   test: {

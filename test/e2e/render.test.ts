@@ -16,13 +16,14 @@ import { removeDir } from '../../src/system/cleanup.js';
 import { Lifecycle } from '../../src/system/lifecycle.js';
 import { useFixtureServer } from '../helpers/fixture-server.js';
 import { useTempDir } from '../helpers/temp-dir.js';
-import { browserAvailable, useTempCache } from './helpers.js';
+import { browserAvailable, CI_SLOWDOWN, useTempCache } from './helpers.js';
 import { decodeErrors, frameRgb, hasTool, probe, topLevelBoxes } from './media.js';
 import { FIXTURE_DIR } from './recorder-helpers.js';
 
 const COLOR_TOLERANCE = 6;
 const BANDS = ['ff0000', '00ff00', '0000ff', 'ffffff', '000000', '808080', '112233', '6366f1'];
 const QUIET_STYLE = { zoom: { enabled: false }, cursor: { show: false }, trimIdle: false };
+const RENDER_SPEED_LIMIT = 2 * CI_SLOWDOWN;
 
 interface Recorded {
   readonly run: RunFile;
@@ -128,7 +129,7 @@ describe.skipIf(!browserAvailable())('rendering', () => {
       height: 1080,
       frames: outcome.job.output.frameCount,
     });
-    expect(renderSeconds).toBeLessThan(outcome.facts.seconds * 2);
+    expect(renderSeconds).toBeLessThan(outcome.facts.seconds * RENDER_SPEED_LIMIT);
     expect(await topLevelBoxes(outcome.file)).toEqual(['ftyp', 'moov', 'free', 'mdat']);
     expect((await readFile(outcome.file)).includes('edts')).toBe(false);
     if (!ffmpeg) return;

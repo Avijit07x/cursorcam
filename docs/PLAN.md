@@ -450,7 +450,7 @@ The first run downloads these packages (tens of MB), and nothing else.
 ├── site/                  website (Next.js, light theme): app/ pages and MDX docs, components/, lib/ (reads presets.json and CHANGELOG.md), public/ (demo video, social image), demo/steps.json
 ├── pnpm-workspace.yaml    the CLI at the root plus site/
 ├── .github/
-│   ├── workflows/         ci.yml (3 OSes), npm-publish.yml (tag → checks → npm via trusted publishing → release notes from CHANGELOG), codeql.yml, zizmor.yml (workflow security), pr-title.yml
+│   ├── workflows/         ci.yml (3 OSes once public), npm-publish.yml (tag → checks → npm via trusted publishing → release notes from CHANGELOG), zizmor.yml (workflow security), pr-title.yml
 │   ├── ISSUE_TEMPLATE/    bug report, feature request; security reports go to private reporting
 │   ├── renovate.json      weekly grouped updates, 1-day minimum release age, pinned action commits
 │   ├── pull_request_template.md

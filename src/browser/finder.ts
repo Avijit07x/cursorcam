@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 import { homedir } from 'node:os';
-import { join, win32 } from 'node:path';
+import { posix, win32 } from 'node:path';
 import { CursorCamError } from '../shared/errors.js';
 import { ExitCode } from '../shared/exit-codes.js';
 
@@ -57,8 +57,10 @@ const WINDOWS_APPS: readonly (readonly [BrowserKind, string])[] = [
 const WINDOWS_ROOT_VARS = ['LOCALAPPDATA', 'PROGRAMFILES', 'PROGRAMFILES(X86)'] as const;
 
 function macCandidates(home: string): BrowserInstall[] {
-  const roots = ['/Applications', join(home, 'Applications')];
-  return MAC_APPS.flatMap(([kind, app]) => roots.map((root) => ({ kind, path: join(root, app) })));
+  const roots = ['/Applications', posix.join(home, 'Applications')];
+  return MAC_APPS.flatMap(([kind, app]) =>
+    roots.map((root) => ({ kind, path: posix.join(root, app) })),
+  );
 }
 
 function windowsCandidates(env: NodeJS.ProcessEnv): BrowserInstall[] {

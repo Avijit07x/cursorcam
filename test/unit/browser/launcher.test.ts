@@ -4,10 +4,23 @@ import { join } from 'node:path';
 import { promisify } from 'node:util';
 import { describe, expect, it } from 'vitest';
 import { prepareExecutable } from '../../../src/browser/launcher.js';
+import { BLOCKING_CORE_LIMIT_BYTES } from '../../../src/system/core-limit.js';
 import { useTempDir } from '../../helpers/temp-dir.js';
 
 const execFileAsync = promisify(execFile);
 const EXECUTABLE_BITS = 0o111;
+const FAKE_BROWSER = [
+  '#!/bin/sh',
+  'if [ -r /proc/self/limits ]; then',
+  '  core=$(awk \'/core file/ {print $5 ":" $6}\' /proc/self/limits)',
+  'else',
+  '  core=$(ulimit -c)',
+  'fi',
+  'echo "core=$core args=$*"',
+  '',
+].join('\n');
+const EXPECTED_CORE =
+  process.platform === 'linux' ? `${BLOCKING_CORE_LIMIT_BYTES}:${BLOCKING_CORE_LIMIT_BYTES}` : '0';
 
 describe('prepareExecutable', () => {
   const temp = useTempDir();
@@ -26,9 +39,7 @@ describe('prepareExecutable', () => {
     'starts the browser through a launcher with core dumps off',
     async () => {
       const fakeBrowser = join(temp.path(), 'fake-browser');
-      await writeFile(fakeBrowser, '#!/bin/sh\necho "core=$(ulimit -c) args=$*"\n', {
-        mode: 0o755,
-      });
+      await writeFile(fakeBrowser, FAKE_BROWSER, { mode: 0o755 });
       const launcherPath = join(temp.path(), 'bin', 'launcher.sh');
 
       const result = await prepareExecutable({ kind: 'custom', path: fakeBrowser }, launcherPath);
@@ -38,7 +49,27 @@ describe('prepareExecutable', () => {
 
       expect(result.executablePath).toBe(launcherPath);
       expect((await stat(launcherPath)).mode & EXECUTABLE_BITS).toBe(EXECUTABLE_BITS);
-      expect(stdout.trim()).toBe('core=0 args=--a b c');
+      expect(stdout.trim()).toBe(`core=${EXPECTED_CORE} args=--a b c`);
+    },
+  );
+
+  it.skipIf(process.platform !== 'linux')(
+    'still starts the browser when the core limit cannot be raised',
+    async () => {
+      const fakeBrowser = join(temp.path(), 'fake-browser');
+      await writeFile(fakeBrowser, FAKE_BROWSER, { mode: 0o755 });
+      const result = await prepareExecutable(
+        { kind: 'custom', path: fakeBrowser },
+        join(temp.path(), 'launcher.sh'),
+      );
+
+      const { stdout } = await execFileAsync(
+        'prlimit',
+        ['--core=0:0', '--', result.executablePath, '--a'],
+        { env: result.env },
+      );
+
+      expect(stdout.trim()).toBe('core=0:0 args=--a');
     },
   );
 

@@ -58,7 +58,7 @@ export function registerRender(program: Command): void {
           process.stdout.write(`${lines.join('\n')}\n`);
           return ExitCode.Ok;
         } catch (error) {
-          await reportFailure(outDir, status, error);
+          await reportFailure(outDir, status, error, lifecycle);
           throw error;
         }
       }),
