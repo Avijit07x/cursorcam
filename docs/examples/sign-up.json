@@ -1,0 +1,13 @@
+{
+  "name": "sign-up",
+  "url": "http://localhost:3000",
+  "steps": [
+    { "pause": 600 },
+    { "click": "role=link[name='Sign up']" },
+    { "type": "Alex Rivera", "into": "label=Name" },
+    { "type": "alex@example.com", "into": "label=Email" },
+    { "type": "$secret:PASSWORD", "into": "label=Password" },
+    { "click": "role=button[name='Create account']" },
+    { "waitFor": "text=Welcome", "pauseAfter": 1500 }
+  ]
+}

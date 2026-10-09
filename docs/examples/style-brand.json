@@ -1,0 +1,6 @@
+{
+  "background": { "from": "#4f46e5", "to": "#06b6d4", "angle": 135 },
+  "padding": 0.08,
+  "urlBar": "app.example.com",
+  "cursor": { "size": 1.2 }
+}

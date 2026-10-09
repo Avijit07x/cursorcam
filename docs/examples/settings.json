@@ -1,0 +1,13 @@
+{
+  "name": "settings",
+  "url": "http://localhost:3000/settings",
+  "colorScheme": "dark",
+  "steps": [
+    { "pause": 600 },
+    { "scroll": { "to": "text=Billing" } },
+    { "select": "Yearly", "in": "label=Plan", "showList": true },
+    { "click": "role=checkbox[name='Email me the invoice']" },
+    { "click": "role=button[name='Save']" },
+    { "waitFor": "text=Saved", "pauseAfter": 1500 }
+  ]
+}

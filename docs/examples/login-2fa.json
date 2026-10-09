@@ -1,0 +1,11 @@
+{
+  "name": "login-2fa",
+  "url": "http://localhost:3000/login",
+  "steps": [
+    { "type": "$secret:EMAIL", "into": "label=Email" },
+    { "type": "$secret:PASSWORD", "into": "label=Password" },
+    { "click": "role=button[name='Sign in']" },
+    { "ask": "2FA code", "into": "label=Code" },
+    { "waitFor": "text=Dashboard", "pauseAfter": 1200 }
+  ]
+}

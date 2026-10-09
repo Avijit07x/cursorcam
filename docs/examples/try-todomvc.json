@@ -1,0 +1,17 @@
+{
+  "name": "try-todomvc",
+  "url": "https://todomvc.com/examples/react/dist/",
+  "steps": [
+    { "pause": 600 },
+    { "type": "Write the demo script", "into": "testid=text-input" },
+    { "press": "Enter" },
+    { "type": "Record the launch video", "into": "testid=text-input" },
+    { "press": "Enter" },
+    { "type": "Post it on launch day", "into": "testid=text-input" },
+    { "press": "Enter" },
+    { "click": { "find": "testid=todo-item-toggle", "nth": 0 } },
+    { "waitFor": "text=2 items left" },
+    { "click": { "find": "role=link[name='Active']", "exact": true } },
+    { "waitFor": "text=Post it on launch day", "pauseAfter": 1500 }
+  ]
+}

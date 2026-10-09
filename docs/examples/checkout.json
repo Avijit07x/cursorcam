@@ -1,0 +1,15 @@
+{
+  "name": "checkout",
+  "url": "http://localhost:3000/cart",
+  "mask": [".user-email"],
+  "steps": [
+    { "pause": 600 },
+    { "click": "role=button[name='Checkout']" },
+    { "type": "4242 4242 4242 4242", "into": "label=Card number" },
+    { "type": "12 / 34", "into": "label=Expiry" },
+    { "type": "123", "into": "label=CVC" },
+    { "click": "role=button[name='Pay now']", "zoom": false },
+    { "waitFor": "text=Payment received" },
+    { "hover": "text=Payment received", "zoom": 1.5, "pauseAfter": 1500 }
+  ]
+}

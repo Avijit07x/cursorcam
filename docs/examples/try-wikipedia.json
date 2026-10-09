@@ -1,0 +1,11 @@
+{
+  "name": "try-wikipedia",
+  "url": "https://en.wikipedia.org/wiki/Main_Page",
+  "steps": [
+    { "pause": 600 },
+    { "type": "Alan Turing", "into": "placeholder=Search Wikipedia" },
+    { "press": "Enter" },
+    { "waitFor": { "find": "role=heading[name='Alan Turing']", "exact": true } },
+    { "scroll": { "to": "role=heading[name='Early life and education']" }, "pauseAfter": 1500 }
+  ]
+}

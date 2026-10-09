@@ -41,6 +41,7 @@ The git hooks in `.githooks/` format and lint staged files, check commit message
   - `app/icon.svg` must stay identical to `assets/favicon.svg`, the browser-tab icon. `public/og.png` is the share image.
   - `demo/` holds the sample app the README video records: `app/`, served by `pnpm demo:app`, with `readme-steps.json` and `style.json`.
 - `assets/`: the logo files, and the README video `demo.mp4` with its animated preview `demo.webp`. The logo is a tilted sticker with a white edge and a soft shadow, and the wordmark is lowercase Fredoka Bold, outlined to shapes. `favicon.svg` is an upright version without the shadow, for small sizes. `logo.html` shows every logo file where it is used.
+- `docs/`: the user guides, with steps and style files to copy in `examples/`, plus the design plan `PLAN.md` and `TEST-RESULTS.md`. The README links to the guides and stays short.
 
 ## Rules
 
@@ -49,6 +50,6 @@ The git hooks in `.githooks/` format and lint staged files, check commit message
 - Release every listener, timer, server, page and browser through one dispose path.
 - Every change comes with tests. New browser behavior gets a fixture page in `test/fixtures/app/`.
 - Never write a `$secret:` or `$env:` value, or an `ask` reply, to a file, a log or any output. Pass text that might hold one through `redact()`.
-- Keep the skill in step with the CLI. A new command, option, step action, style key or exit code goes into `plugin/skills/cursorcam/` in the same change, and the plugin unit tests check it.
+- Keep the skill in step with the CLI. A new command, option, step action, style key or exit code goes into `plugin/skills/cursorcam/` and the guides in `docs/` in the same change. The plugin unit tests check the skill.
 - Commit messages use `feat`, `fix`, `perf`, `chore`, `docs`, `refactor`, `test`, `ci`, `build` or `revert`. Anything users will notice gets a line under **Unreleased** in `CHANGELOG.md`.
 - Pin every GitHub Action to a full commit with its version note. Keep `zizmor .github/` and actionlint clean.

@@ -1,0 +1,11 @@
+{
+  "name": "try-hacker-news",
+  "url": "https://news.ycombinator.com",
+  "steps": [
+    { "pause": 600 },
+    { "click": { "find": "role=link[name='show']", "exact": true } },
+    { "waitFor": "text=Please read the Show HN rules" },
+    { "click": { "find": "role=link[name='jobs']", "exact": true } },
+    { "waitFor": "text=These are jobs at YC startups", "pauseAfter": 1500 }
+  ]
+}

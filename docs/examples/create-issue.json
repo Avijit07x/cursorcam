@@ -1,0 +1,25 @@
+{
+  "name": "create-issue",
+  "url": "http://localhost:3000",
+  "steps": [
+    { "pause": 600 },
+    { "click": "role=button[name='New issue']" },
+    { "type": "Add an onboarding checklist", "into": "role=textbox[name='Issue title']" },
+    {
+      "type": "Show new users the three steps to set up a project.",
+      "into": "role=textbox[name='Description']"
+    },
+    { "click": "role=button[name='Priority']" },
+    { "click": "role=menuitem[name='High']" },
+    { "click": "role=button[name='Assignee']" },
+    { "click": "role=menuitem[name='Maya Lin']" },
+    { "click": "role=button[name='Create issue']", "pauseAfter": 1200 },
+    { "click": "role=button[name='View issue']" },
+    {
+      "type": "Drafting the copy for each step today.",
+      "into": "role=textbox[name='Leave a comment']"
+    },
+    { "click": "role=button[name='Comment']" },
+    { "hover": "text=Drafting the copy for each step today.", "pauseAfter": 1800 }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "phone-menu",
+  "url": "http://localhost:3000",
+  "viewport": "phone",
+  "steps": [
+    { "pause": 600 },
+    { "click": "role=button[name='Menu']" },
+    { "click": "role=link[name='Pricing']" },
+    { "scroll": { "to": "text=Team plan" }, "pauseAfter": 1500 }
+  ]
+}

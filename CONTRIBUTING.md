@@ -109,6 +109,7 @@ Once the repository is public, CI runs every check again, the crash test, and th
 | `test/fixtures/app/` | One page per hard case, like covered buttons or slow fonts      |
 | `site/`              | The website, a Next.js app                                      |
 | `assets/`            | The logo files and the README video                             |
+| `docs/`              | User guides and examples, the plan and the test results         |
 
 ## Code style
 
