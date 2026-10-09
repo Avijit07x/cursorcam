@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Strict</title>
+  </head>
+  <body
+    style="
+      font:
+        16px system-ui,
+        sans-serif;
+      margin: 40px;
+    "
+  >
+    <section id="profile">
+      <h2>Profile</h2>
+      <input aria-label="Name" /><button onclick="out.textContent = 'profile saved'">Save</button>
+    </section>
+    <section id="billing" style="margin-top: 200px">
+      <h2>Billing</h2>
+      <input aria-label="Card" /><button onclick="out.textContent = 'billing saved'">Save</button>
+    </section>
+    <p id="out" style="position: fixed; top: 0; right: 20px"></p>
+  </body>
+</html>

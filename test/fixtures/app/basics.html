@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Basics</title>
+    <style>
+      body {
+        font:
+          16px system-ui,
+          sans-serif;
+        margin: 40px;
+      }
+      button,
+      input,
+      select {
+        font: inherit;
+        padding: 8px 12px;
+        margin: 6px 0;
+      }
+      .menu {
+        position: relative;
+        display: inline-block;
+      }
+      .menu-items {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: #eef;
+        padding: 8px;
+      }
+      .menu:hover .menu-items {
+        display: block;
+      }
+      #result {
+        margin-top: 20px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Basics</h1>
+    <button id="start">Get started</button>
+    <form
+      id="form"
+      onsubmit="
+        event.preventDefault();
+        document.querySelector('#result').textContent = 'Signed in as ' + email.value;
+      "
+    >
+      <label for="email">Email</label><br />
+      <input id="email" type="email" autocomplete="off" /><br />
+      <label for="password">Password</label><br />
+      <input id="password" type="password" /><br />
+      <label for="plan">Billing</label><br />
+      <select id="plan">
+        <option>Free</option>
+        <option>Monthly</option>
+        <option>Yearly</option></select
+      ><br />
+      <button type="submit">Sign in</button>
+    </form>
+    <div class="menu">
+      <button id="menu-button">Account</button>
+      <div class="menu-items"><a href="second.html">Settings</a></div>
+    </div>
+    <p id="result"></p>
+    <p><a href="second.html">Go to second page</a></p>
+    <script>
+      document.querySelector('#start').addEventListener('click', () => {
+        document.querySelector('#result').textContent = 'Started';
+      });
+    </script>
+  </body>
+</html>

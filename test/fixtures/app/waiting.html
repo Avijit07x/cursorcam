@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Waiting</title>
+    <style>
+      @font-face {
+        font-family: Late;
+        src: url('/slow-font') format('woff2');
+      }
+      body {
+        font:
+          16px Late,
+          system-ui,
+          sans-serif;
+        margin: 40px;
+      }
+      .skeleton {
+        width: 300px;
+        height: 20px;
+        background: #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="slow-page.html">Open report</a>
+    <div id="area"><div class="skeleton"></div></div>
+    <p id="polls">0</p>
+    <script>
+      let polls = 0;
+      setInterval(
+        () =>
+          fetch('/poll').then(() => {
+            polls += 1;
+            document.querySelector('#polls').textContent = String(polls);
+          }),
+        400,
+      );
+      const events = new EventSource('/events');
+      events.onmessage = () => undefined;
+      setTimeout(() => {
+        document.querySelector('#area').innerHTML =
+          '<button onclick="this.textContent = \'Loaded rows\'">Load rows</button>';
+      }, 1200);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,129 @@
+{
+  "name": "cursorcam",
+  "version": "1.0.0-beta.1",
+  "description": "Record polished click demo videos of web apps with Claude Code.",
+  "keywords": [
+    "demo video",
+    "click demo",
+    "product demo",
+    "walkthrough",
+    "screen recording",
+    "browser recording",
+    "auto zoom",
+    "mp4",
+    "claude code",
+    "cli"
+  ],
+  "homepage": "https://cursorcam.vercel.app",
+  "bugs": {
+    "url": "https://github.com/Avijit07x/cursorcam/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Avijit07x/cursorcam.git"
+  },
+  "license": "Apache-2.0",
+  "author": "Avijit Dey",
+  "type": "module",
+  "bin": {
+    "cursorcam": "./dist/cli/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22.13"
+  },
+  "packageManager": "pnpm@12.6.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+    "build": "pnpm clean && tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "knip": "knip",
+    "test": "vitest run --project unit --project e2e",
+    "test:unit": "vitest run --project unit",
+    "test:e2e": "vitest run --project e2e",
+    "test:crash": "vitest run --project crash",
+    "coverage": "vitest run --project unit --coverage",
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm knip && pnpm check:version && pnpm test",
+    "check:version": "node scripts/sync-version.mjs --check",
+    "sync-version": "node scripts/sync-version.mjs",
+    "version": "node scripts/sync-version.mjs && git add plugin",
+    "check:package": "pnpm build && publint",
+    "site:dev": "pnpm --filter cursorcam-site dev",
+    "check:site": "pnpm --filter cursorcam-site check",
+    "hooks:install": "git config core.hooksPath .githooks"
+  },
+  "lint-staged": {
+    "*.{ts,js,mjs,cjs}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.{json,yml,yaml}": "prettier --write"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ],
+    "rules": {
+      "type-enum": [
+        2,
+        "always",
+        [
+          "feat",
+          "fix",
+          "perf",
+          "chore",
+          "docs",
+          "refactor",
+          "test",
+          "ci",
+          "build",
+          "revert"
+        ]
+      ],
+      "subject-case": [
+        0
+      ],
+      "body-max-line-length": [
+        0
+      ],
+      "footer-max-line-length": [
+        0
+      ]
+    }
+  },
+  "dependencies": {
+    "commander": "^15.0.0",
+    "env-paths": "^4.0.0",
+    "mediabunny": "1.61.3",
+    "playwright-core": "1.64.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.3",
+    "@commitlint/config-conventional": "^21.2.3",
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^22.20.5",
+    "@vitest/coverage-v8": "^5.0.3",
+    "eslint": "^10.12.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.13.0",
+    "knip": "^6.40.0",
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.9.9",
+    "publint": "^0.3.25",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.71.1",
+    "vitest": "^5.0.3"
+  }
+}

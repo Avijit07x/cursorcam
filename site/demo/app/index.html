@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Issues · Acme</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=block"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="workspace">
+          <span class="workspace-logo" aria-hidden="true"></span>
+          <span class="workspace-name">Acme</span>
+          <svg class="icon muted" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="m4.5 6.5 3.5 3.5 3.5-3.5" />
+          </svg>
+        </div>
+        <div class="search">
+          <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
+            <circle cx="7" cy="7" r="4.25" />
+            <path d="m10.25 10.25 3 3" />
+          </svg>
+          <span>Search</span>
+          <kbd>⌘K</kbd>
+        </div>
+        <nav class="nav" aria-label="Workspace">
+          <a class="nav-item" href="#">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M2.5 9.5h3l1 1.5h3l1-1.5h3" />
+              <path d="M2.5 9.5 4 3.5h8l1.5 6v3h-11z" />
+            </svg>
+            Inbox
+            <span class="nav-count">3</span>
+          </a>
+          <a class="nav-item" href="#">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
+              <circle cx="8" cy="8" r="5.5" />
+              <circle cx="8" cy="8" r="2" />
+            </svg>
+            My issues
+          </a>
+          <a class="nav-item" href="#">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="m8 2.5 5.5 3-5.5 3-5.5-3z" />
+              <path d="m2.5 8.5 5.5 3 5.5-3" />
+              <path d="m2.5 11 5.5 3 5.5-3" />
+            </svg>
+            Projects
+          </a>
+          <a class="nav-item" href="#">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
+              <rect x="2.5" y="2.5" width="4.5" height="4.5" rx="1" />
+              <rect x="9" y="2.5" width="4.5" height="4.5" rx="1" />
+              <rect x="2.5" y="9" width="4.5" height="4.5" rx="1" />
+              <rect x="9" y="9" width="4.5" height="4.5" rx="1" />
+            </svg>
+            Views
+          </a>
+        </nav>
+        <p class="nav-title">Teams</p>
+        <nav class="nav" aria-label="Teams">
+          <a class="nav-item active" href="#" aria-current="page">
+            <span class="team-badge" style="--team: #4f46e5">W</span>
+            Web
+          </a>
+          <a class="nav-item" href="#">
+            <span class="team-badge" style="--team: #db2777">M</span>
+            Mobile
+          </a>
+          <a class="nav-item" href="#">
+            <span class="team-badge" style="--team: #059669">D</span>
+            Design
+          </a>
+        </nav>
+        <div class="sidebar-foot">
+          <span class="avatar" style="--avatar: #4f46e5">AK</span>
+          <span>Avery Kim</span>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div class="crumbs">
+            <span class="team-badge small" style="--team: #4f46e5">W</span>
+            <span class="muted">Web</span>
+            <span class="faint">/</span>
+            <strong>Issues</strong>
+          </div>
+          <div class="top-actions">
+            <button type="button" class="button ghost">
+              <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M2.5 4h11M4.5 8h7M6.5 12h3" />
+              </svg>
+              Filter
+            </button>
+            <button type="button" class="button ghost">
+              <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M2.5 5h11M2.5 11h11" />
+                <circle cx="6" cy="5" r="1.5" />
+                <circle cx="10" cy="11" r="1.5" />
+              </svg>
+              Display
+            </button>
+            <button type="button" class="button primary" id="new-issue">
+              <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M8 3.5v9M3.5 8h9" />
+              </svg>
+              New issue
+            </button>
+          </div>
+        </header>
+        <div class="tabs">
+          <span class="tab active">All issues</span>
+          <span class="tab">Active</span>
+          <span class="tab">Backlog</span>
+        </div>
+        <div id="groups" class="groups"></div>
+      </main>
+    </div>
+
+    <div class="overlay" id="overlay" hidden>
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-head">
+          <span class="team-badge small" style="--team: #4f46e5">W</span>
+          <span class="muted">Web</span>
+          <span class="faint">›</span>
+          <span id="modal-title">New issue</span>
+        </div>
+        <input
+          id="issue-title"
+          class="title-input"
+          aria-label="Issue title"
+          placeholder="Issue title"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <textarea
+          id="issue-description"
+          class="description-input"
+          aria-label="Description"
+          placeholder="Add a description…"
+          rows="3"
+          spellcheck="false"
+        ></textarea>
+        <div class="chips">
+          <span class="chip">
+            <svg class="status todo" viewBox="0 0 16 16" aria-hidden="true">
+              <circle cx="8" cy="8" r="5.5" />
+            </svg>
+            Todo
+          </span>
+          <div class="menu-anchor">
+            <button
+              type="button"
+              class="chip"
+              id="priority-button"
+              aria-haspopup="menu"
+              aria-expanded="false"
+            >
+              <span id="priority-icon" class="priority-slot"></span>
+              <span id="priority-label">Priority</span>
+            </button>
+            <div class="menu" id="priority-menu" role="menu" aria-label="Priority" hidden></div>
+          </div>
+          <div class="menu-anchor">
+            <button
+              type="button"
+              class="chip"
+              id="assignee-button"
+              aria-label="Assignee"
+              aria-haspopup="menu"
+              aria-expanded="false"
+            >
+              <span id="assignee-avatar" class="avatar tiny" style="--avatar: #4f46e5">AK</span>
+              <span id="assignee-label">Avery Kim</span>
+            </button>
+            <div class="menu" id="assignee-menu" role="menu" aria-label="Assignee" hidden></div>
+          </div>
+          <span class="chip">
+            <span class="label-dot" style="--label: #4f46e5"></span>
+            Feature
+          </span>
+        </div>
+        <div class="modal-foot">
+          <span class="faint">Press ⌘ Enter to create</span>
+          <div class="top-actions">
+            <button type="button" class="button ghost" id="cancel-issue">Cancel</button>
+            <button type="button" class="button primary" id="create-issue">Create issue</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" hidden>
+      <svg class="status done" viewBox="0 0 16 16" aria-hidden="true">
+        <circle cx="8" cy="8" r="6" />
+        <path d="m5.5 8.2 1.7 1.7 3.3-3.4" />
+      </svg>
+      <span id="toast-text"></span>
+      <button type="button" class="toast-link" id="view-issue">View issue</button>
+    </div>
+
+    <aside class="drawer" id="drawer" aria-label="Issue details" hidden></aside>
+
+    <script src="app.js"></script>
+  </body>
+</html>

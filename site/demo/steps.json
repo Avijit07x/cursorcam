@@ -1,0 +1,19 @@
+{
+  "url": "http://127.0.0.1:4310",
+  "name": "cursorcam-demo",
+  "steps": [
+    { "pause": 600 },
+    { "click": "role=button[name='New issue']" },
+    { "click": "role=textbox[name='Issue title']", "zoom": 1.5 },
+    {
+      "type": "Add an onboarding checklist",
+      "into": "role=textbox[name='Issue title']",
+      "zoom": 1.5
+    },
+    { "click": "role=button[name='Priority']" },
+    { "click": "role=menuitem[name='High']" },
+    { "click": "role=button[name='Create issue']", "pauseAfter": 700 },
+    { "click": "role=button[name='View issue']" },
+    { "hover": "role=heading[name='Add an onboarding checklist']", "pauseAfter": 1800 }
+  ]
+}

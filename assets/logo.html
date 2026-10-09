@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CursorCam Logo</title>
+    <link rel="icon" href="favicon.svg" />
+    <style>
+      :root {
+        --ink: #1e1b4b;
+        --muted: #64748b;
+        --line: #e7e5f5;
+        --page: #faf9ff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--page);
+        color: var(--ink);
+        font-family: system-ui, sans-serif;
+      }
+
+      main {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 40px 16px 72px;
+      }
+
+      h1 {
+        margin: 0 0 6px;
+        font-size: 28px;
+      }
+
+      .lead {
+        margin: 0 0 28px;
+        color: var(--muted);
+      }
+
+      h2 {
+        margin: 32px 0 12px;
+        font-size: 15px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 16px;
+      }
+
+      .panel {
+        display: grid;
+        place-items: center;
+        min-height: 180px;
+        padding: 28px 20px;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+      }
+
+      .light {
+        background: #fff;
+      }
+
+      .dark {
+        background: #0d1117;
+        border-color: #30363d;
+      }
+
+      .stage {
+        background:
+          radial-gradient(circle at 1px 1px, #e3e0fb 1px, transparent 0) 0 0 / 18px 18px,
+          linear-gradient(#fdfcff, #f3f2ff);
+      }
+
+      .wordmark {
+        height: 64px;
+      }
+
+      .big {
+        width: 220px;
+        height: 220px;
+      }
+
+      .sizes {
+        display: flex;
+        align-items: end;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+
+      .sizes figure {
+        display: grid;
+        justify-items: center;
+        gap: 6px;
+        margin: 0;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .tabs {
+        display: grid;
+        gap: 12px;
+        width: 100%;
+      }
+
+      .bar {
+        display: flex;
+        align-items: end;
+        gap: 6px;
+        padding: 8px 10px 0;
+        border-radius: 12px 12px 0 0;
+      }
+
+      .bar.light-bar {
+        background: #dee1e6;
+      }
+
+      .bar.dark-bar {
+        background: #202124;
+      }
+
+      .tab {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        border-radius: 10px 10px 0 0;
+        font-size: 12.5px;
+      }
+
+      .light-bar .tab {
+        background: #fff;
+        color: #1f1f1f;
+      }
+
+      .dark-bar .tab {
+        background: #35363a;
+        color: #e8eaed;
+      }
+
+      .tab img {
+        width: 16px;
+        height: 16px;
+      }
+
+      .readme {
+        width: 100%;
+        text-align: center;
+      }
+
+      .readme p {
+        margin: 14px 0 0;
+        font-size: 14px;
+      }
+
+      .light .readme p {
+        color: #1f2328;
+      }
+
+      .dark .readme p {
+        color: #e6edf3;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>CursorCam logo</h1>
+      <p class="lead">The logo files in this folder, shown where they are used.</p>
+
+      <h2>README header, light and dark GitHub</h2>
+      <div class="row">
+        <div class="panel light">
+          <div class="readme">
+            <img class="wordmark" src="logo-wordmark-light.svg" alt="CursorCam" />
+            <p><b>Ask Claude for a demo video.</b></p>
+          </div>
+        </div>
+        <div class="panel dark">
+          <div class="readme">
+            <img class="wordmark" src="logo-wordmark-dark.svg" alt="CursorCam" />
+            <p><b>Ask Claude for a demo video.</b></p>
+          </div>
+        </div>
+      </div>
+
+      <h2>The mark, large</h2>
+      <div class="row">
+        <div class="panel light"><img class="big" src="logo.svg" alt="CursorCam" /></div>
+        <div class="panel stage"><img class="big" src="logo.svg" alt="CursorCam" /></div>
+        <div class="panel dark"><img class="big" src="logo.svg" alt="CursorCam" /></div>
+      </div>
+
+      <h2 id="small">Browser tab and small sizes</h2>
+      <div class="row">
+        <div class="panel light">
+          <div class="tabs">
+            <div class="bar light-bar">
+              <span class="tab"><img src="favicon.svg" alt="" />CursorCam</span>
+            </div>
+            <div class="bar dark-bar">
+              <span class="tab"><img src="favicon.svg" alt="" />CursorCam</span>
+            </div>
+          </div>
+        </div>
+        <div class="panel light">
+          <div class="sizes">
+            <figure><img src="logo.svg" width="64" height="64" alt="" />64</figure>
+            <figure><img src="logo.svg" width="48" height="48" alt="" />48</figure>
+            <figure><img src="logo.svg" width="32" height="32" alt="" />32</figure>
+            <figure><img src="logo.svg" width="24" height="24" alt="" />24</figure>
+            <figure><img src="logo.svg" width="16" height="16" alt="" />16</figure>
+            <figure><img src="favicon.svg" width="32" height="32" alt="" />tab 32</figure>
+            <figure><img src="favicon.svg" width="16" height="16" alt="" />tab 16</figure>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

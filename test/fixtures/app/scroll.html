@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Scroll</title>
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font:
+          16px system-ui,
+          sans-serif;
+        margin: 40px;
+      }
+      .tall {
+        height: 2400px;
+        background: linear-gradient(#fff, #ccd);
+      }
+      #list {
+        height: 200px;
+        width: 300px;
+        overflow-y: auto;
+        border: 1px solid #999;
+      }
+      #list div {
+        height: 40px;
+        border-bottom: 1px solid #eee;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="list"></div>
+    <div class="tall"></div>
+    <h2 id="faq">FAQ</h2>
+    <button id="bottom" onclick="out.textContent = 'bottom clicked'">Contact sales</button>
+    <div style="height: 600px"></div>
+    <p id="out" style="position: fixed; top: 0; right: 20px"></p>
+    <script>
+      const list = document.querySelector('#list');
+      for (let index = 1; index <= 40; index += 1) {
+        const row = document.createElement('div');
+        row.textContent = 'Row ' + index;
+        if (index === 35) {
+          row.innerHTML =
+            '<button onclick="out.textContent = \'row clicked\'">Open row 35</button>';
+        }
+        list.append(row);
+      }
+    </script>
+  </body>
+</html>

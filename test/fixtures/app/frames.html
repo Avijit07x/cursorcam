@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Frames</title>
+  </head>
+  <body
+    style="
+      font:
+        16px system-ui,
+        sans-serif;
+      margin: 40px;
+    "
+  >
+    <h1>Checkout</h1>
+    <iframe
+      id="payment"
+      title="Payment"
+      style="width: 500px; height: 220px; border: 1px solid #ccc"
+    ></iframe>
+    <script>
+      const other = location.href
+        .replace('127.0.0.1', 'localhost')
+        .replace('frames.html', 'frame-form.html');
+      document.querySelector('#payment').src = other;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Card form</title>
+  </head>
+  <body
+    style="
+      font:
+        16px system-ui,
+        sans-serif;
+      margin: 16px;
+    "
+  >
+    <label for="card">Card number</label>
+    <input id="card" />
+    <button onclick="done.textContent = 'Paid with ' + card.value">Pay</button>
+    <p id="done"></p>
+  </body>
+</html>

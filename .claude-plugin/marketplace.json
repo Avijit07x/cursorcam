@@ -1,0 +1,13 @@
+{
+  "name": "cursorcam",
+  "owner": { "name": "Avijit Dey" },
+  "description": "CursorCam for Claude Code: ask Claude for a click demo video of your web app.",
+  "plugins": [
+    {
+      "name": "cursorcam",
+      "source": "./plugin",
+      "description": "Ask Claude for a demo video. Claude explores your web app, writes the steps, records them in a hidden browser and hands back a polished MP4.",
+      "category": "productivity"
+    }
+  ]
+}

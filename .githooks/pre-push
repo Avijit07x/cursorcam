@@ -1,0 +1,18 @@
+#!/bin/sh
+echo "› pre-push: checking formatting"
+pnpm format:check || {
+	echo "✗ Files are not formatted — push aborted. Run pnpm format, commit the changes, then push again."
+	exit 1
+}
+
+echo "› pre-push: running pnpm lint"
+pnpm lint || {
+	echo "✗ lint failed — push aborted. Fix the issues or bypass with --no-verify."
+	exit 1
+}
+
+echo "› pre-push: running pnpm typecheck"
+pnpm typecheck || {
+	echo "✗ typecheck failed — push aborted. Fix the errors or bypass with --no-verify."
+	exit 1
+}

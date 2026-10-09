@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Log in by hand</title>
+  </head>
+  <body
+    style="
+      font:
+        16px system-ui,
+        sans-serif;
+      margin: 40px;
+    "
+  >
+    <h1>Logging in</h1>
+    <script>
+      document.cookie = 'demo_session=abc123; path=/';
+      localStorage.setItem('demo-user', 'Robin');
+    </script>
+  </body>
+</html>

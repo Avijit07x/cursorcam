@@ -1,0 +1,39 @@
+name: Bug report
+description: Something does not work as documented
+labels: ['bug']
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the problem and what you expected instead. Attach failure.jpg or a still if it shows the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: How to reproduce
+      description: The command you ran and the smallest steps file that shows the problem. Replace passwords and private URLs.
+      render: json
+    validations:
+      required: true
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Output of `cursorcam doctor`
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: 'cursorcam 1.0.0-beta.1'
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Operating system, browser and Node.js version.
+      placeholder: 'macOS 26, Chrome 154, Node 24'

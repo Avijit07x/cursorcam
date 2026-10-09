@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Cover</title>
+    <style>
+      body {
+        font:
+          16px system-ui,
+          sans-serif;
+        margin: 0;
+      }
+      header {
+        position: sticky;
+        top: 0;
+        height: 90px;
+        background: #223;
+        color: white;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+      }
+      main {
+        padding: 20px 40px;
+      }
+      .spacer {
+        height: 1400px;
+      }
+      #cookies {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 160px;
+        background: #fed;
+        display: none;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header>Site header</header>
+    <main>
+      <div class="spacer"></div>
+      <button id="buy" onclick="out.textContent = 'bought'">Buy now</button>
+      <div class="spacer"></div>
+      <button
+        id="blocked"
+        style="position: fixed; bottom: 60px; left: 50%"
+        onclick="out.textContent = 'blocked clicked'"
+      >
+        Under banner
+      </button>
+      <p id="out" style="position: fixed; top: 100px; right: 20px"></p>
+    </main>
+    <div id="cookies">
+      We use cookies <button onclick="cookies.style.display = 'none'">Accept</button>
+    </div>
+    <script>
+      if (location.hash === '#cookies') document.querySelector('#cookies').style.display = 'flex';
+    </script>
+  </body>
+</html>

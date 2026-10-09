@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="128" height="128" role="img" aria-label="CursorCam">
+  <title>CursorCam</title>
+  <g transform="translate(32 32) scale(1.04) translate(-32 -32)">
+  <g fill="none" stroke="#FFFFFF" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"><path d="M10 23v-5a8 8 0 0 1 8-8h5" /><path d="M41 10h5a8 8 0 0 1 8 8v5" /><path d="M54 41v5a8 8 0 0 1-8 8h-5" /><path d="M23 54h-5a8 8 0 0 1-8-8v-5" /></g>
+  <path d="M24 21v21l5.9-5 3.8 8.3 3.2-1.5-3.8-8.2h7.8Z" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="9.5" stroke-linejoin="round" />
+  <circle cx="44.5" cy="21.5" r="7" fill="#FFFFFF" />
+  <g fill="none" stroke="#1E1B4B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 23v-5a8 8 0 0 1 8-8h5" /><path d="M41 10h5a8 8 0 0 1 8 8v5" /><path d="M54 41v5a8 8 0 0 1-8 8h-5" /><path d="M23 54h-5a8 8 0 0 1-8-8v-5" /></g>
+  <path d="M24 21v21l5.9-5 3.8 8.3 3.2-1.5-3.8-8.2h7.8Z" fill="#4F46E5" stroke="#4F46E5" stroke-width="4.4" stroke-linejoin="round" />
+  <circle cx="44.5" cy="21.5" r="4.3" fill="#EF4444" />
+  </g>
+</svg>

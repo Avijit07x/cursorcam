@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Files</title>
+  </head>
+  <body
+    style="
+      font:
+        16px system-ui,
+        sans-serif;
+      margin: 40px;
+    "
+  >
+    <a href="/download.txt">Download report</a>
+    <p>
+      <label
+        class="picker"
+        style="display: inline-block; padding: 8px 12px; background: #eef; cursor: pointer"
+      >
+        Choose resume
+        <input id="resume" type="file" style="display: none" />
+      </label>
+    </p>
+    <input id="plain" type="file" aria-label="Attachment" />
+    <p id="out"></p>
+    <script>
+      for (const input of document.querySelectorAll('input[type=file]')) {
+        input.addEventListener('change', () => {
+          document.querySelector('#out').textContent =
+            input.id + ': ' + [...input.files].map((file) => file.name).join(', ');
+        });
+      }
+    </script>
+  </body>
+</html>

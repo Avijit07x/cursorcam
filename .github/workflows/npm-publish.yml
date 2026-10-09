@@ -1,0 +1,77 @@
+name: Publish cursorcam
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: release
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          package-manager-cache: false
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check that the tag matches the package version
+        run: test "v$(node -p "require('./package.json').version")" = "$GITHUB_REF_NAME"
+
+      - name: Read the release notes from the changelog
+        env:
+          NOTES_FILE: ${{ runner.temp }}/release-notes.md
+        run: |
+          awk -v heading="## ${GITHUB_REF_NAME#v}" '$0 == heading { found = 1; next } found && /^## / { exit } found' CHANGELOG.md > "$NOTES_FILE"
+          grep -q '[^[:space:]]' "$NOTES_FILE"
+
+      - name: Formatting, lint, typecheck, unused code and tests
+        run: pnpm check
+
+      - name: Build and check the package
+        run: pnpm check:package
+
+      - name: Publish to npm with provenance
+        run: |
+          name="$(node -p "require('./package.json').name")"
+          version="${GITHUB_REF_NAME#v}"
+          if npm view "$name@$version" version > /dev/null 2>&1; then
+            echo "$name@$version is already on npm."
+            exit 0
+          fi
+          tag=latest
+          case "$version" in *-*) label="${version#*-}"; tag="${label%%.*}" ;; esac
+          case "$tag" in '' | *[!a-z]*) tag=next ;; esac
+          npm publish --provenance --access public --tag "$tag"
+
+      - name: Create the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NOTES_FILE: ${{ runner.temp }}/release-notes.md
+        run: |
+          prerelease=""
+          case "$GITHUB_REF_NAME" in *-*) prerelease="--prerelease" ;; esac
+          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --verify-tag --title "$GITHUB_REF_NAME" --notes-file "$NOTES_FILE" $prerelease

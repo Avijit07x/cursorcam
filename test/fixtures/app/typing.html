@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Typing</title>
+  </head>
+  <body
+    style="
+      font:
+        16px system-ui,
+        sans-serif;
+      margin: 40px;
+    "
+  >
+    <input aria-label="Message" style="width: 600px" />
+    <input aria-label="Code" maxlength="4" />
+    <input aria-label="Search" />
+    <input aria-label="Controlled" />
+    <textarea aria-label="Notes"></textarea>
+    <div
+      aria-label="Editor"
+      contenteditable="true"
+      style="border: 1px solid #999; min-height: 40px"
+    ></div>
+    <p id="searches"></p>
+    <script>
+      const search = document.querySelector('[aria-label=Search]');
+      let timer;
+      window.searchLog = [];
+      search.addEventListener('input', () => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          searchLog.push(search.value);
+        }, 250);
+      });
+      const controlled = document.querySelector('[aria-label=Controlled]');
+      let state = '';
+      controlled.addEventListener('input', (event) => {
+        state = event.target.value;
+        queueMicrotask(() => {
+          controlled.value = state;
+        });
+      });
+      window.controlledState = () => state;
+    </script>
+  </body>
+</html>

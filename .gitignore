@@ -1,0 +1,15 @@
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+*.tgz
+*.log
+.DS_Store
+.env
+cursorcam-output/
+CLAUDE.local.md
+.claude/
+.next/
+out/
+.vercel/
+next-env.d.ts

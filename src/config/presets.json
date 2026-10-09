@@ -1,0 +1,25 @@
+{
+  "checked": "2026-10-09",
+  "presets": {
+    "default": { "width": 1920, "height": 1080, "fps": 60, "bitrate": 8000000 },
+    "youtube": { "width": 1920, "height": 1080, "fps": 60, "bitrate": 12000000 },
+    "x": {
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "bitrate": 6000000,
+      "maxSeconds": 140,
+      "maxBytes": 512000000
+    },
+    "linkedin": {
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "bitrate": 6000000,
+      "minSeconds": 3,
+      "maxSeconds": 900,
+      "maxBytes": 5000000000
+    },
+    "discord": { "width": 1280, "height": 720, "fps": 30, "bitrate": 4000000, "maxBytes": 20000000 }
+  }
+}

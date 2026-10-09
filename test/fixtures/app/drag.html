@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Drag</title>
+    <style>
+      body {
+        font:
+          16px system-ui,
+          sans-serif;
+        margin: 40px;
+      }
+      .card {
+        width: 120px;
+        padding: 20px;
+        background: #def;
+        margin: 10px;
+      }
+      .zone {
+        width: 300px;
+        height: 150px;
+        border: 2px dashed #888;
+        margin-top: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card" draggable="true" id="card">Task A</div>
+    <div class="zone" id="done" aria-label="Done column">Done</div>
+    <p id="out"></p>
+    <script>
+      card.addEventListener('dragstart', (event) =>
+        event.dataTransfer.setData('text/plain', 'card'),
+      );
+      done.addEventListener('dragover', (event) => event.preventDefault());
+      done.addEventListener('drop', (event) => {
+        event.preventDefault();
+        done.append(card);
+        out.textContent = 'dropped';
+      });
+    </script>
+  </body>
+</html>

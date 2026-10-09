@@ -1,0 +1,69 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: var(--font-fredoka), ui-rounded, system-ui, sans-serif;
+  --color-ink: #1e1b4b;
+  --color-body: #4c4a73;
+  --color-muted: #7c7aa3;
+  --color-page: #faf9ff;
+  --color-brand: #4f46e5;
+  --color-brand-strong: #4338ca;
+  --color-brand-soft: #c7d2fe;
+  --color-brand-tint: #eef2ff;
+  --color-rec: #ef4444;
+  --color-rose: #fb7185;
+  --color-mint: #86efac;
+}
+
+html {
+  color-scheme: light;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-brand-soft) transparent;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 3px solid var(--color-page);
+  border-radius: 999px;
+  background: var(--color-brand-soft);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a5b4fc;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: var(--color-brand);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+::selection {
+  background: var(--color-brand-soft);
+  color: var(--color-ink);
+}
+
+.sticker-shadow {
+  filter: drop-shadow(0 1.5px 0 rgb(30 27 75 / 0.06)) drop-shadow(0 8px 14px rgb(30 27 75 / 0.18));
+}
+
+.sticker-text {
+  -webkit-text-stroke: 0.16em #fff;
+  paint-order: stroke fill;
+  filter: drop-shadow(0 2px 0 rgb(30 27 75 / 0.06)) drop-shadow(0 12px 18px rgb(30 27 75 / 0.16));
+}

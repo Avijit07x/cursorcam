@@ -1,0 +1,11 @@
+dist
+coverage
+node_modules
+pnpm-lock.yaml
+*.md
+.next
+out
+.vercel
+next-env.d.ts
+*.mdx
+site/public

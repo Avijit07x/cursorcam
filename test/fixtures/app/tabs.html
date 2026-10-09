@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Tabs</title>
+  </head>
+  <body
+    style="
+      font:
+        16px system-ui,
+        sans-serif;
+      margin: 40px;
+    "
+  >
+    <a href="popup.html" target="_blank">Open help</a>
+    <button onclick="window.open('popup.html', 'helper', 'width=400,height=400')">
+      Open popup
+    </button>
+    <p id="out">opener</p>
+    <script>
+      addEventListener('storage', (event) => {
+        if (event.key === 'help') document.querySelector('#out').textContent = 'done';
+      });
+    </script>
+  </body>
+</html>

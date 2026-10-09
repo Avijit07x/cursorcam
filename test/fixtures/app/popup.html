@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Popup</title>
+  </head>
+  <body
+    style="
+      font:
+        16px system-ui,
+        sans-serif;
+      margin: 40px;
+    "
+  >
+    <h1>Help center</h1>
+    <button
+      onclick="
+        localStorage.setItem('help', String(Date.now()));
+        window.close();
+      "
+    >
+      Done
+    </button>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Shadow</title>
+  </head>
+  <body
+    style="
+      font:
+        16px system-ui,
+        sans-serif;
+      margin: 40px;
+    "
+  >
+    <fancy-panel></fancy-panel>
+    <p id="out"></p>
+    <script>
+      customElements.define(
+        'fancy-panel',
+        class extends HTMLElement {
+          connectedCallback() {
+            const root = this.attachShadow({ mode: 'open' });
+            root.innerHTML = '<style>button { padding: 10px 20px; }</style><button>Launch</button>';
+            root.querySelector('button').addEventListener('click', () => {
+              document.querySelector('#out').textContent = 'launched';
+            });
+          }
+        },
+      );
+    </script>
+  </body>
+</html>

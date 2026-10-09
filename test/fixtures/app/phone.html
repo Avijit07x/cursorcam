@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Phone</title>
+    <style>
+      body {
+        font:
+          16px system-ui,
+          sans-serif;
+        margin: 16px;
+      }
+      nav a {
+        display: none;
+      }
+      @media (hover: hover) {
+        #hover-note::after {
+          content: 'hover';
+        }
+      }
+      .open nav a {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <button aria-label="Menu" onclick="document.body.classList.toggle('open')">☰</button>
+    <nav><a href="second.html">Pricing</a></nav>
+    <p id="hover-note"></p>
+    <div style="height: 1600px"></div>
+    <button onclick="this.textContent = 'tapped'">Bottom action</button>
+  </body>
+</html>

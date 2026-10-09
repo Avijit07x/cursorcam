@@ -1,0 +1,6 @@
+#!/bin/sh
+if [ ! -x node_modules/.bin/commitlint ]; then
+	echo "› commit-msg: commitlint is not installed, skipping. Run pnpm install."
+	exit 0
+fi
+pnpm exec commitlint --edit "$1"

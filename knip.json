@@ -1,0 +1,15 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "ignoreExportsUsedInFile": true,
+  "workspaces": {
+    ".": {
+      "entry": ["src/cli/index.ts", "src/render/page/main.ts", "src/render/page/render-worker.ts"],
+      "project": ["src/**/*.ts", "test/**/*.ts"],
+      "ignoreDependencies": ["@commitlint/cli", "lint-staged"]
+    },
+    "site": {
+      "ignore": ["demo/**"],
+      "ignoreDependencies": ["@animateicons/react"]
+    }
+  }
+}

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dialogs</title>
+  </head>
+  <body
+    style="
+      font:
+        16px system-ui,
+        sans-serif;
+      margin: 40px;
+    "
+  >
+    <button
+      id="alert"
+      onclick="
+        alert('Saved!');
+        out.textContent = 'alert closed';
+      "
+    >
+      Alert
+    </button>
+    <button id="confirm" onclick="out.textContent = 'confirm ' + confirm('Delete it?')">
+      Confirm
+    </button>
+    <button id="prompt" onclick="out.textContent = 'prompt ' + prompt('Your name?', 'guest')">
+      Prompt
+    </button>
+    <button
+      id="guard"
+      onclick="
+        addEventListener('beforeunload', (e) => {
+          e.preventDefault();
+          e.returnValue = '';
+        });
+        out.textContent = 'guarded';
+      "
+    >
+      Guard leaving
+    </button>
+    <a href="second.html">Leave</a>
+    <p id="out"></p>
+  </body>
+</html>

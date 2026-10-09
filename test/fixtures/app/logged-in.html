@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Account</title>
+  </head>
+  <body
+    style="
+      font:
+        16px system-ui,
+        sans-serif;
+      margin: 40px;
+    "
+  >
+    <h1 id="who">Signed out</h1>
+    <script>
+      const session = document.cookie.includes('demo_session=abc123');
+      const user = localStorage.getItem('demo-user');
+      if (session && user) document.getElementById('who').textContent = `Signed in as ${user}`;
+    </script>
+  </body>
+</html>
