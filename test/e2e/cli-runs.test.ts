@@ -191,7 +191,8 @@ describe.skipIf(!browserAvailable())('cursorcam check and record', () => {
     const { run } = JSON.parse(started.stdout) as { run: string; pid: number };
 
     const waited = await runCli(['wait', run, '--timeout', '50'], work.path(), cache.env());
-    expect(waited.code).toBe(ExitCode.Ok);
+    const runLog = await readFile(join(run, 'log.txt'), 'utf8').catch(() => '');
+    expect(waited.code, `${waited.stdout}\n${runLog}`).toBe(ExitCode.Ok);
     expect(waited.stdout).toContain(`Done. Video: ${join(run, 'video.mp4')}`);
     expect(waited.stdout).toContain(`Poster: ${join(run, 'poster.jpg')}`);
     expect(jpegSize(await readFile(join(run, 'poster.jpg')))).toEqual({

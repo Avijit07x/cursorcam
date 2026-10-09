@@ -16,6 +16,7 @@ export interface LoginRequest {
   readonly lifecycle: Lifecycle;
   readonly startFrom?: string | undefined;
   readonly timeoutMs?: number;
+  readonly onOpen?: () => void;
 }
 
 export const LOGIN_TIMEOUT_MS = 9 * 60_000;
@@ -42,6 +43,7 @@ export async function captureLogin(request: LoginRequest): Promise<LoginState> {
     await openLoginPage(session.page, request.url);
     await snapshots.take();
     snapshots.start();
+    request.onOpen?.();
     await withTimeout(
       windowClosed(session.context, () => snapshots.take()),
       timeoutMs,

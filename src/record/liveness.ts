@@ -5,7 +5,7 @@ import { withTimeout } from '../shared/time.js';
 
 const CHECK_EVERY_MS = 2_000;
 const QUIET_AFTER_MS = 3_000;
-const PING_TIMEOUT_MS = 10_000;
+const PING_TIMEOUT_MS = 20_000;
 
 class PingTimeout extends Error {}
 

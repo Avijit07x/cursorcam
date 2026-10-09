@@ -52,10 +52,11 @@ export function registerLogin(program: Command): void {
         const existing = (await hasSavedLogin(paths, name))
           ? savedLoginFile(paths, name)
           : undefined;
-        process.stderr.write(
-          `A browser window is open. Log in there, then close the window to save the login. It waits up to ${LOGIN_TIMEOUT_MS / MS_PER_MINUTE} minutes.\n`,
-        );
-        const state = await captureLogin({ url, paths, lifecycle, startFrom: existing });
+        const onOpen = () =>
+          process.stderr.write(
+            `A browser window is open. Log in there, then close the window to save the login. It waits up to ${LOGIN_TIMEOUT_MS / MS_PER_MINUTE} minutes.\n`,
+          );
+        const state = await captureLogin({ url, paths, lifecycle, startFrom: existing, onOpen });
         const file = await saveLogin(paths, name, state);
         process.stdout.write(
           `Saved the login as "${name}" in ${file}\nUse it with: --profile ${name}\n`,
