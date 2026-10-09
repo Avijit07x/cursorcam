@@ -1,4 +1,4 @@
-import { readdir, readFile } from 'node:fs/promises';
+import { cp, readdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { parseSteps } from '../../src/config/load-steps.js';
@@ -7,7 +7,7 @@ import { parseStyle } from '../../src/config/style.js';
 import { recordSteps } from '../../src/record/recorder.js';
 import { computeLayout } from '../../src/render/layout.js';
 import { renderStills, renderVideo, type RenderOutcome } from '../../src/render/renderer.js';
-import { createRunDirs, type RunFile } from '../../src/runs/dirs.js';
+import { createRunDirs, META_FILE, type RunFile } from '../../src/runs/dirs.js';
 import { StatusFile } from '../../src/runs/status.js';
 import { CursorCamError } from '../../src/shared/errors.js';
 import { ExitCode } from '../../src/shared/exit-codes.js';
@@ -98,6 +98,17 @@ describe.skipIf(!browserAvailable())('rendering', () => {
     return error as CursorCamError;
   };
 
+  const cutShort = async (name: string, copy: string): Promise<void> => {
+    const recorded = runs.get(name);
+    if (!recorded) throw new Error(`No recording named ${name}`);
+    const cacheDir = `${recorded.run.cacheDir}-${copy}`;
+    await cp(recorded.run.cacheDir, cacheDir, { recursive: true });
+    const metaFile = join(cacheDir, META_FILE);
+    const meta = JSON.parse(await readFile(metaFile, 'utf8')) as object;
+    await writeFile(metaFile, JSON.stringify({ ...meta, durationMs: 0 }));
+    runs.set(copy, { ...recorded, run: { ...recorded.run, cacheDir } });
+  };
+
   beforeAll(async () => {
     ffmpeg = (await hasTool('ffprobe')) && (await hasTool('ffmpeg'));
     await record('flow', {
@@ -186,7 +197,8 @@ describe.skipIf(!browserAvailable())('rendering', () => {
     const tight = await render('flow', {}, { maxBytes: 600_000 });
     expect(tight.facts.bytes).toBeLessThanOrEqual(600_000);
 
-    const short = await renderFails('colors', {}, 'linkedin');
+    await cutShort('colors', 'short');
+    const short = await renderFails('short', {}, 'linkedin');
     expect(short).toMatchObject({
       exitCode: ExitCode.BadInput,
       message: expect.stringContaining('needs at least 3 s') as string,
