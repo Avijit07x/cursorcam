@@ -31,9 +31,9 @@
 
 ## Setup
 
-You need [Claude Code](https://claude.com/claude-code), Node.js 22.13 or newer, and Google Chrome, Microsoft Edge, Chromium or Brave, version 120 or newer. CursorCam records with the browser you already have, in a hidden window. Nothing else is downloaded.
+**You need** [Claude Code](https://claude.com/claude-code), Node.js 22.13+ and Chrome, Edge, Chromium or Brave 120+. CursorCam uses the browser you already have and downloads nothing.
 
-**1. Install the plugin.** Run these in Claude Code:
+**1. Install the plugin** in Claude Code:
 
 ```
 /plugin marketplace add Avijit07x/cursorcam
@@ -41,21 +41,21 @@ You need [Claude Code](https://claude.com/claude-code), Node.js 22.13 or newer, 
 /reload-plugins
 ```
 
-**2. Ask for a video.** Give the URL and what to show:
+**2. Ask for a video:**
 
 ```
-/cursorcam http://localhost:3000 — sign up, create a project, invite a teammate
+/cursorcam http://localhost:3000 sign up and create a project
 ```
 
-You can also ask in your own words, like "make a 20 second demo of the checkout flow for LinkedIn".
+Or ask in your own words: "Make a demo of the checkout flow for LinkedIn."
 
-**3. Get the video.** Claude hands back `video.mp4` (1920×1080, 60 fps), a `poster.jpg` thumbnail and the steps file, in `cursorcam-output/`. Add that folder to your `.gitignore`.
+**3. Get the video.** You get `video.mp4` (1080p, 60 fps) and a `poster.jpg` thumbnail in `cursorcam-output/`. Add that folder to `.gitignore`.
 
 ## How it works
 
-Claude starts your dev server if needed, explores the app, writes the steps and checks them. Then it records in a hidden browser, reviews stills of its own video, fixes what looks wrong and hands back the MP4.
+Claude explores your app, writes the steps and records them in a hidden browser. Then it checks the video and fixes anything that looks wrong.
 
-When it needs something only you have, like a login or a 2FA code, it asks. A login you give is used for that run only and never saved.
+If it needs a login or a 2FA code, it asks you. What you type is used for that run only and never saved.
 
 ## Use the CLI
 
