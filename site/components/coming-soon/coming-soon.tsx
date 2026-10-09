@@ -5,7 +5,7 @@ import { Backdrop } from '@/components/ui/backdrop';
 import { SiteFooter } from '@/components/ui/site-footer';
 import { FADE_UP, SOFT } from '@/lib/motion';
 import { BouncyWordmark } from './bouncy-wordmark';
-import { FloatingStickers } from './floating-stickers';
+import { FloatingStickers, PhoneStickers } from './floating-stickers';
 import { HeroSticker } from './hero-sticker';
 import { MINI_DEMO_MAX_HEIGHT, MiniDemo } from './mini-demo';
 import { SparkleBadge } from './sparkle-badge';
@@ -19,7 +19,10 @@ export function ComingSoon() {
       <Backdrop />
       <FloatingStickers />
       <main className="relative z-10 mx-auto flex min-h-0 w-full max-w-5xl flex-1 flex-col items-center justify-center px-4 pt-8 text-center sm:pt-10">
-        <HeroSticker />
+        <div className="relative">
+          <HeroSticker />
+          <PhoneStickers />
+        </div>
         <div className="mt-2">
           <BouncyWordmark />
         </div>

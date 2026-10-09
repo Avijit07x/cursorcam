@@ -71,7 +71,13 @@ The colors are tokens in `app/globals.css`. Pick from these. Only small illustra
 ## Coming soon label
 
 - Plain `brand` text between two twinkling sparkles, with no box around it. It lives in `components/coming-soon/sparkle-badge.tsx`.
+- It says "Website coming soon". CursorCam itself is out on npm, and only the full website is still to come.
 - The old white pill with a pulsing red dot was turned down.
+
+## Floating stickers
+
+- Sticker art floats around the page and can be dragged. It lives in `components/coming-soon/floating-stickers.tsx`.
+- On phones, only the heart and the REC sticker show, one on each side of the logo. They hang off the logo, not the page, so they never crowd the viewfinder labels at the top.
 
 ## Motion
 

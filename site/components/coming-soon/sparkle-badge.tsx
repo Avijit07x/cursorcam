@@ -29,7 +29,7 @@ export function SparkleBadge({ delay }: { delay: number }) {
       className="inline-flex items-center gap-2 text-base font-semibold text-brand sm:text-lg"
     >
       <Sparkle delay={0} />
-      Coming soon
+      Website coming soon
       <Sparkle delay={TWINKLE_SECONDS / 2} />
     </motion.p>
   );

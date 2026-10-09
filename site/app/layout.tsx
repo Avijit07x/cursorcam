@@ -32,7 +32,9 @@ export const metadata: Metadata = {
     title: SITE.title,
     description: SITE.description,
     locale: 'en_US',
-    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'CursorCam is coming soon' }],
+    images: [
+      { url: '/og.png', width: 1200, height: 630, alt: 'CursorCam: ask Claude for a demo video' },
+    ],
   },
   twitter: {
     card: 'summary_large_image',

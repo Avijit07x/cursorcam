@@ -22,25 +22,32 @@ interface StickerSpot {
   readonly seconds: number;
 }
 
-const STICKERS: readonly StickerSpot[] = [
-  {
-    name: 'heart',
-    Art: HeartArt,
-    place: 'top-[9%] left-[6%] sm:top-[16%] sm:left-[9%]',
-    size: 'size-12 sm:size-16',
-    tilt: -14,
-    lift: 12,
-    seconds: 5.2,
-  },
-  {
-    name: 'rec',
-    Art: RecArt,
-    place: 'top-[7%] right-[5%] sm:top-[15%] sm:right-[10%]',
-    size: '',
-    tilt: 8,
-    lift: 10,
-    seconds: 4.6,
-  },
+const HEART: Omit<StickerSpot, 'place'> = {
+  name: 'heart',
+  Art: HeartArt,
+  size: 'size-12 sm:size-16',
+  tilt: -14,
+  lift: 12,
+  seconds: 5.2,
+};
+
+const REC: Omit<StickerSpot, 'place'> = {
+  name: 'rec',
+  Art: RecArt,
+  size: '',
+  tilt: 8,
+  lift: 10,
+  seconds: 4.6,
+};
+
+const PHONE_STICKERS: readonly StickerSpot[] = [
+  { ...HEART, place: 'top-[15%] -left-20' },
+  { ...REC, place: 'top-[40%] -right-26' },
+];
+
+const PAGE_STICKERS: readonly StickerSpot[] = [
+  { ...HEART, place: 'hidden sm:block sm:top-[16%] sm:left-[9%]' },
+  { ...REC, place: 'hidden sm:block sm:top-[15%] sm:right-[10%]' },
   {
     name: 'sparkle',
     Art: SparkleArt,
@@ -82,10 +89,15 @@ const STICKERS: readonly StickerSpot[] = [
 const ENTER_DELAY = 1.1;
 const ENTER_STAGGER = 0.12;
 
-export function FloatingStickers() {
+interface StickerLayerProps {
+  readonly spots: readonly StickerSpot[];
+  readonly className: string;
+}
+
+function StickerLayer({ spots, className }: StickerLayerProps) {
   return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-20">
-      {STICKERS.map(({ name, Art, place, size, tilt, lift, seconds }, index) => (
+    <div aria-hidden="true" className={`pointer-events-none absolute inset-0 ${className}`}>
+      {spots.map(({ name, Art, place, size, tilt, lift, seconds }, index) => (
         <motion.div
           key={name}
           className={`sticker-shadow pointer-events-auto absolute cursor-grab touch-none active:cursor-grabbing ${place}`}
@@ -109,4 +121,12 @@ export function FloatingStickers() {
       ))}
     </div>
   );
+}
+
+export function FloatingStickers() {
+  return <StickerLayer spots={PAGE_STICKERS} className="z-20" />;
+}
+
+export function PhoneStickers() {
+  return <StickerLayer spots={PHONE_STICKERS} className="sm:hidden" />;
 }
