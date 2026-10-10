@@ -10,6 +10,7 @@ const page = (top: number, maxTop: number): ScrollerInfo => ({
   maxLeft: 0,
   maxTop,
   isDocument: true,
+  pinned: false,
 });
 const measure = (element: ScrollMeasure['element'], scrollers: ScrollerInfo[]): ScrollMeasure => ({
   element,
@@ -54,6 +55,7 @@ describe('planScroll', () => {
       maxLeft: 0,
       maxTop: 1400,
       isDocument: false,
+      pinned: false,
     };
     const inList = planScroll(
       measure({ x: 40, y: 1500, width: 300, height: 40 }, [list, page(0, 3000)]),
@@ -68,6 +70,36 @@ describe('planScroll', () => {
       'reveal',
     );
     expect(outer?.index).toBe(1);
+  });
+
+  it('leaves a pinned target alone at the edge, and still scrolls a pinned one off screen', () => {
+    const header = { x: 900, y: 20, width: 60, height: 30 };
+    expect(planScroll(measure(header, [{ ...page(3000, 3000), pinned: true }]), 'reveal')).toBe(
+      undefined,
+    );
+    expect(planScroll(measure(header, [page(3000, 3000)]), 'reveal')?.delta.y).toBe(-365);
+
+    const offscreen = { ...header, y: -40 };
+    expect(
+      planScroll(measure(offscreen, [{ ...page(3000, 3000), pinned: true }]), 'reveal'),
+    ).toBeDefined();
+  });
+
+  it('scrolls the page for a target that is pinned only inside its list', () => {
+    const list: ScrollerInfo = {
+      rect: { x: 40, y: 700, width: 300, height: 200 },
+      left: 0,
+      top: 600,
+      maxLeft: 0,
+      maxTop: 1400,
+      isDocument: false,
+      pinned: true,
+    };
+    const plan = planScroll(
+      measure({ x: 40, y: 710, width: 300, height: 40 }, [list, page(0, 3000)]),
+      'reveal',
+    );
+    expect(plan?.index).toBe(1);
   });
 
   it('centers on request even when the target is visible', () => {
