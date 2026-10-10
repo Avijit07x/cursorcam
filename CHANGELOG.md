@@ -1,6 +1,8 @@
 # cursorcam
 
-## Unreleased
+## 1.0.0-beta.2
+
+### Minor Changes
 
 - New scene backgrounds: `"background": { "scene": "glow", "colors": "indigo" }`. Pick from 14 scenes, like `mesh`, `glow`, `dunes` and `glass`, and color them with one of 9 palettes or any two hex colors. Each scene fits every video shape and window size.
 
