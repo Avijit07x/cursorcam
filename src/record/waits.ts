@@ -115,11 +115,16 @@ export class NavigationWatch {
   }
 }
 
+export const PAGE_TIMEOUT_MS = 30_000;
+
 export async function openUrl(page: Page, url: string, timeoutMs: number): Promise<void> {
   const shown = redactUrl(url);
   let response: Response | null;
   try {
-    response = await page.goto(url, { waitUntil: 'load', timeout: timeoutMs });
+    response = await page.goto(url, {
+      waitUntil: 'load',
+      timeout: Math.max(timeoutMs, PAGE_TIMEOUT_MS),
+    });
   } catch (error) {
     throw new CursorCamError(`Could not open ${shown}.`, {
       exitCode: ExitCode.PageLoadFailed,

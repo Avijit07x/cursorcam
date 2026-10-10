@@ -24,6 +24,16 @@ describe.skipIf(!browserAvailable())('recording safety', () => {
     expect(error.message).toContain('HTTP 404');
   });
 
+  it('gives a slow page the full page time to open, even with a short step timeout', async () => {
+    const run = await recorder.record({
+      url: site.url('/slow-page.html'),
+      timeout: 1_000,
+      steps: [{ pause: 10 }],
+    });
+
+    expect(await run.recording.session.page.locator('h1').textContent()).toBe('Report');
+  });
+
   it('never hangs on a target that never shows up', async () => {
     const started = performance.now();
     const error = await recorder.fail({
