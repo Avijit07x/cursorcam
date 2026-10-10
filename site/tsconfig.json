@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@cursorcam/scenes": ["../src/config/scenes.ts"]
     },
     "allowJs": true
   },
