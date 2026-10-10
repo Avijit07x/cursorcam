@@ -1,7 +1,7 @@
 {
   "name": "cursorcam",
   "displayName": "CursorCam",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "Ask Claude for a demo video. Claude explores your web app, writes the steps, records them in a hidden browser and hands back a polished MP4 with auto-zoom, a smooth cursor and click ripples.",
   "author": { "name": "Avijit Dey" },
   "homepage": "https://cursorcam.vercel.app",

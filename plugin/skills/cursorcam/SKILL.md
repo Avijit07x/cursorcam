@@ -2,7 +2,7 @@
 name: cursorcam
 description: Records a polished click demo video (MP4) of a web app or website. Claude explores the app, writes the steps, records them in a hidden browser and renders a video with auto-zoom, a smooth cursor and click ripples, then checks stills of the result and hands back the file. Use when the user asks for a demo video, walkthrough, product tour, screen recording or click-through video of a site or a local app, for a README, docs, X, LinkedIn, YouTube or Discord. Not for promo or launch videos with motion graphics, voice-over or music.
 argument-hint: <url> — what to show
-allowed-tools: Bash(npx -y cursorcam@1.0.0-beta.3 *)
+allowed-tools: Bash(npx -y cursorcam@1.0.0-beta.4 *)
 ---
 
 # CursorCam
@@ -11,7 +11,7 @@ Make a click demo video of a web app with the `cursorcam` CLI. You do the whole 
 
 ## Run the CLI
 
-- Always run it as `npx -y cursorcam@1.0.0-beta.3 <command>`. Below, `cursorcam` is short for that.
+- Always run it as `npx -y cursorcam@1.0.0-beta.4 <command>`. Below, `cursorcam` is short for that.
 - Quote every file and folder path.
 - Before the first recording in a session, run `cursorcam doctor`. If a line starts with ✗, show the user that line and its `Fix:` line, then stop.
 - It needs Node.js 22.13+ and Chrome, Edge, Chromium or Brave on this machine. It downloads nothing else.
