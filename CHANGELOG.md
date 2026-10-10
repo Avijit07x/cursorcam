@@ -1,5 +1,9 @@
 # cursorcam
 
+## Unreleased
+
+- `npm i cursorcam` and `npx cursorcam` now get the newest beta. Until the first stable release, each beta becomes npm's `latest` as well as `beta`, so a plain install no longer falls back to the first beta.
+
 ## 1.0.0-beta.3
 
 ### Patch Changes
