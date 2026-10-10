@@ -60,6 +60,9 @@ jobs:
         env:
           CURSORCAM_CRASH_TESTS: '1'
 
+      - name: Update npm for trusted publishing and dist-tags
+        run: npm install -g npm@11.21.0
+
       - name: Publish to npm with provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -74,6 +77,25 @@ jobs:
           case "$version" in *-*) label="${version#*-}"; tag="${label%%.*}" ;; esac
           case "$tag" in '' | *[!a-z]*) tag=next ;; esac
           npm publish --provenance --access public --tag "$tag"
+
+      - name: Point latest at the pre-release until there is a stable release
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          name="$(node -p "require('./package.json').name")"
+          version="${GITHUB_REF_NAME#v}"
+          case "$version" in *-*) ;; *) exit 0 ;; esac
+          latest="$(npm view "$name" dist-tags.latest --prefer-online)"
+          case "$latest" in *-*) ;; *) exit 0 ;; esac
+          if [ "$latest" = "$version" ] || npm view "$name@>$version" version --prefer-online > /dev/null 2>&1; then
+            exit 0
+          fi
+          for attempt in 1 2 3 4 5; do
+            npm dist-tag add "$name@$version" latest && exit 0
+            echo "Attempt $attempt failed, trying again in 30 s."
+            sleep 30
+          done
+          exit 1
 
       - name: Create the GitHub release
         env:
