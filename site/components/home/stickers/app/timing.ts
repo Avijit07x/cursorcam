@@ -1,0 +1,28 @@
+export const TIMING = {
+  newIssue: { travel: 900 },
+  home: { travel: 700 },
+  zoom: { start: 250, travel: 1000, linger: 450, drift: 600, hold: 900, back: 1000, toRow: 900 },
+  cursor: { pause: 200, travel: 850 },
+  logins: {
+    overlay: 240,
+    open: 450,
+    toField: 800,
+    perDot: 110,
+    typed: 350,
+    toButton: 650,
+    close: 260,
+  },
+  hide: { start: 250, travel: 850, squish: 420, read: 900 },
+  twofa: {
+    overlay: 240,
+    open: 500,
+    ask: 1300,
+    perDigit: 140,
+    entered: 300,
+    toButton: 750,
+    close: 260,
+  },
+  dark: { start: 300, settle: 700 },
+  url: { start: 300, squish: 460, settle: 700 },
+  ff: { travel: 850, slow: 1600, fast: 380, close: 200 },
+} as const;

@@ -1,6 +1,8 @@
 'use client';
 
 import { motion, type Transition } from 'motion/react';
+import { ADDRESS_PILL, BrowserWindow, WINDOW_FRAME } from '@/components/ui/browser-window';
+import { ISSUE_ROWS, MOCK_APP } from '@/lib/mock-app';
 import { SOFT } from '@/lib/motion';
 
 const LOOP_SECONDS = 6;
@@ -14,13 +16,7 @@ const loop = (times: number[]): Transition => ({
   ease: EASE,
 });
 
-const ROWS = [
-  { top: '30%', dot: '#F59E0B', width: '58%', avatar: '#DB2777' },
-  { top: '47%', dot: '#4F46E5', width: '42%', avatar: '#0891B2' },
-  { top: '64%', dot: '#10B981', width: '50%', avatar: '#EA580C' },
-];
-
-const WINDOW_DOTS = ['#FCA5A5', '#FCD34D', '#86EFAC'];
+const ROW_TOPS = ['30%', '47%', '64%'];
 const MAX_WIDTH = '30rem';
 const FRAME_HEIGHT = '3rem';
 const FRAME_SIDES = '0.75rem';
@@ -58,23 +54,14 @@ export function MiniDemo() {
   return (
     <motion.figure
       aria-label="A tiny demo: a cursor clicks New issue, the view zooms in on the click, and the new issue appears"
-      className="sticker-shadow m-0 rounded-[1.75rem] bg-white p-1.5"
+      className={`${WINDOW_FRAME} m-0`}
       style={{ width: WIDTH_TO_FIT_BOX }}
       initial={{ opacity: 0, y: 40, rotate: 3 }}
       animate={{ opacity: 1, y: 0, rotate: -1.5 }}
       transition={{ ...SOFT, delay: 0.9 }}
       whileHover={{ rotate: 0, scale: 1.02 }}
     >
-      <div className="overflow-hidden rounded-[1.4rem] ring-1 ring-ink/10">
-        <div className="flex h-9 items-center gap-1.5 bg-[#f4f3ff] px-3.5">
-          {WINDOW_DOTS.map((color) => (
-            <span key={color} className="size-2.5 rounded-full" style={{ background: color }} />
-          ))}
-          <span className="mx-auto rounded-full bg-white px-3 py-0.5 text-[11px] text-muted">
-            your-app.com
-          </span>
-          <span className="w-10" />
-        </div>
+      <BrowserWindow address={<span className={ADDRESS_PILL}>your-app.com</span>}>
         <div className="relative aspect-video overflow-hidden bg-[#fcfcff]">
           <motion.div
             className="absolute inset-0"
@@ -83,14 +70,14 @@ export function MiniDemo() {
             transition={loop([0, 0.1, 0.27, 0.4, 0.55, 1])}
           >
             <span className="absolute top-[9%] left-[6%] text-[13px] font-semibold text-ink">
-              Issues
+              {MOCK_APP.heading}
             </span>
             <motion.span
               className="absolute top-[7%] right-[5%] rounded-full bg-brand px-3 py-1 text-[11px] font-semibold whitespace-nowrap text-white"
               animate={{ scale: [1, 1, 0.9, 1.06, 1, 1] }}
               transition={loop([0, 0.29, 0.31, 0.34, 0.38, 1])}
             >
-              + New issue
+              {MOCK_APP.newIssue}
             </motion.span>
             <motion.span
               className="absolute top-[12%] left-[84%] size-7 rounded-full border-2 border-brand"
@@ -98,11 +85,11 @@ export function MiniDemo() {
               animate={{ scale: [0.3, 0.3, 0.3, 2.4, 2.4], opacity: [0, 0, 0.8, 0, 0] }}
               transition={loop([0, 0.299, 0.3, 0.42, 1])}
             />
-            {ROWS.map((row) => (
+            {ISSUE_ROWS.map((row, index) => (
               <div
-                key={row.top}
+                key={row.dot}
                 className="absolute right-[6%] left-[6%] flex h-[13%] items-center gap-2 rounded-xl bg-white px-3 ring-1 ring-ink/8"
-                style={{ top: row.top }}
+                style={{ top: ROW_TOPS[index] }}
               >
                 <Row dot={row.dot} width={row.width} avatar={row.avatar} />
               </div>
@@ -118,26 +105,27 @@ export function MiniDemo() {
             >
               <span className="size-2 shrink-0 rounded-full bg-rose" />
               <span className="truncate text-[11px] font-medium text-ink">
-                Add an onboarding checklist
+                {MOCK_APP.newIssueTitle}
               </span>
               <span className="ml-auto size-4 shrink-0 rounded-full bg-brand" />
             </motion.div>
             <motion.div
-              className="absolute"
-              style={{ x: '-21%', y: '-15%' }}
+              className="pointer-events-none absolute inset-0"
               animate={{
-                left: ['45%', '45%', '84%', '84%', '40%', '40%', '45%'],
-                top: ['58%', '58%', '12%', '12%', '86%', '86%', '58%'],
+                x: ['45%', '45%', '84%', '84%', '40%', '40%', '45%'],
+                y: ['58%', '58%', '12%', '12%', '86%', '86%', '58%'],
               }}
               transition={loop([0, 0.08, 0.26, 0.36, 0.58, 0.78, 1])}
             >
-              <motion.div
-                style={{ originX: 0.2, originY: 0.15 }}
-                animate={{ scale: [1, 1, 0.78, 1.08, 1, 1] }}
-                transition={loop([0, 0.28, 0.3, 0.33, 0.36, 1])}
-              >
-                <Cursor />
-              </motion.div>
+              <div className="absolute top-0 left-0 -translate-x-[21%] -translate-y-[15%]">
+                <motion.div
+                  style={{ originX: 0.2, originY: 0.15 }}
+                  animate={{ scale: [1, 1, 0.78, 1.08, 1, 1] }}
+                  transition={loop([0, 0.28, 0.3, 0.33, 0.36, 1])}
+                >
+                  <Cursor />
+                </motion.div>
+              </div>
             </motion.div>
           </motion.div>
           <motion.div
@@ -149,10 +137,10 @@ export function MiniDemo() {
             <span className="grid size-3.5 place-items-center rounded-full bg-emerald-500 text-[9px] text-white">
               ✓
             </span>
-            Issue created
+            {MOCK_APP.issueCreated}
           </motion.div>
         </div>
-      </div>
+      </BrowserWindow>
     </motion.figure>
   );
 }
