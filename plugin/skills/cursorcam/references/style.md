@@ -50,6 +50,7 @@ Pass a JSON file, or inline JSON: `--style '{"background":"sunset","padding":0.0
 - A hex color, like `"#0f172a"`.
 - A custom gradient: `{ "from": "#4f46e5", "to": "#06b6d4", "angle": 135 }`.
 - An image: `{ "image": "brand/bg.png" }`, a PNG, JPEG or WebP file. A relative path starts from the style file's folder, or from the current folder for inline JSON. The image covers the frame.
+- A scene drawn from two colors: `{ "scene": "glow", "colors": "indigo" }`. The scene is one of `mesh`, `glow`, `split`, `dunes`, `aurora`, `glass`, `ripple`, `contours`, `grid`, `ribbons`, `beams`, `shapes`, `halftone` or `cursor`. `colors` is a palette, `indigo`, `iris`, `ocean`, `teal`, `plum`, `sunset`, `graphite`, `peach` or `paper`, `indigo` by default, or two hex colors, deep then light: `["#1e3a8a", "#38bdf8"]`.
 
 ## Fixes from stills
 

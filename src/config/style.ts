@@ -3,6 +3,7 @@ import { dirname, extname, resolve } from 'node:path';
 import { z } from 'zod';
 import { messageOf, CursorCamError } from '../shared/errors.js';
 import { ExitCode } from '../shared/exit-codes.js';
+import { DEFAULT_PALETTE, PALETTE_NAMES, SCENES } from './scenes.js';
 
 const HEX_COLOR = /^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i;
 const IMAGE_EXTENSIONS: ReadonlySet<string> = new Set(['.png', '.jpg', '.jpeg', '.webp']);
@@ -27,6 +28,10 @@ const Background = z.union([
   Color,
   z.strictObject({ from: Color, to: Color, angle: z.number().default(DEFAULT_GRADIENT_ANGLE) }),
   z.strictObject({ image: z.string().min(1) }),
+  z.strictObject({
+    scene: z.enum(SCENES),
+    colors: z.union([z.enum(PALETTE_NAMES), z.tuple([Color, Color])]).default(DEFAULT_PALETTE),
+  }),
 ]);
 
 export const StyleSchema = z.strictObject({

@@ -15,6 +15,8 @@ import { roundTo, type Point, type Size } from '../shared/geometry.js';
 import type { DrawFrame, JobBackground, RenderJob } from './job.js';
 import { computeLayout } from './layout.js';
 import { pickMoments, type Moments } from './moments.js';
+import { sceneSvg } from './scene/index.js';
+import { type Frame as SceneFrame, frameOf } from './scene/svg.js';
 import {
   buildTimeMap,
   correctFrameTimes,
@@ -111,6 +113,7 @@ export function planJob(request: JobRequest): PlannedJob {
     frames.push(draw);
   }
 
+  const layout = computeLayout(size, meta.viewport, style);
   const job: RenderJob = {
     output: {
       width: size.width,
@@ -121,8 +124,8 @@ export function planJob(request: JobRequest): PlannedJob {
       keyFrameSeconds: KEY_FRAME_SECONDS,
     },
     source: { width: meta.viewport.width, height: meta.viewport.height, scale: meta.scale },
-    layout: computeLayout(size, meta.viewport, style),
-    background: jobBackground(style.background, request.backgroundUrl),
+    layout,
+    background: jobBackground(style.background, request.backgroundUrl, frameOf(size, layout)),
     cursor: style.cursor.show ? { kind: touch ? 'touch' : 'arrow', size: style.cursor.size } : null,
     dialogs: events.flatMap((event) =>
       event.type === 'dialog' ? [{ kind: event.kind, message: event.message }] : [],
@@ -201,7 +204,11 @@ function dialogState(dialog: number | undefined): Pick<DrawFrame, 'dialog'> {
   return dialog === undefined ? {} : { dialog };
 }
 
-function jobBackground(background: BackgroundSpec, imageUrl: string | undefined): JobBackground {
+function jobBackground(
+  background: BackgroundSpec,
+  imageUrl: string | undefined,
+  frame: SceneFrame,
+): JobBackground {
   if (typeof background === 'string') {
     if (background.startsWith('#')) return { kind: 'solid', color: background };
     const [from, to] = GRADIENTS[background as keyof typeof GRADIENTS];
@@ -210,6 +217,9 @@ function jobBackground(background: BackgroundSpec, imageUrl: string | undefined)
   if ('image' in background) {
     if (!imageUrl) throw new Error('An image background needs its served address.');
     return { kind: 'image', url: imageUrl };
+  }
+  if ('scene' in background) {
+    return { kind: 'scene', svg: sceneSvg(background.scene, background.colors, frame) };
   }
   return { kind: 'gradient', from: background.from, to: background.to, angle: background.angle };
 }
