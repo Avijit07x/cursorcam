@@ -127,6 +127,7 @@ All animation uses Motion (`motion/react`). Reuse the springs in `lib/motion.ts`
 - The page title uses sticker text. Tables sit in white rounded cards, and on phones each row stacks into a small card with a label above each value, so nothing scrolls sideways. Every code block, from a request to Claude to a terminal command or a JSON file, sits in the same `ink` card in Fredoka, with a copy button, and long lines wrap.
 - Numbered lists show each number in a round `brand` sticker.
 - Each guide shows its group as a sparkle label above the title, like the home sections, and ends with links to the guide before and after it.
+- **Backgrounds** is a page for the website only, from `content/backgrounds.md`. It shows how to use a scene background, then every scene in a grid. A sticky row of palette pills recolors every preview, and each preview has a copy button for its style. Each preview shows the scene behind a white window, where the app sits in a real video. The scene names and looks come from the table in `docs/style.md`, and the palettes from the package. The Look and size guide links to it from its Scenes part.
 
 ## Footer and links
 

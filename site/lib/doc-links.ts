@@ -5,6 +5,7 @@ const EXTERNAL = /^[a-z][a-z+.-]*:/i;
 
 export const DOCS_HOME = '/docs';
 export const INSTALL_GUIDE = 'getting-started';
+export const BACKGROUNDS_GUIDE = 'backgrounds';
 
 export const guidePath = (slug: string) => `${DOCS_HOME}/${slug}`;
 

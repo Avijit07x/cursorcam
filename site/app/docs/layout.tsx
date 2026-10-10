@@ -5,11 +5,11 @@ import { ButtonLink } from '@/components/ui/button-link';
 import { SiteFooter } from '@/components/ui/site-footer';
 import { SiteHeader } from '@/components/ui/site-header';
 import { guidePath, INSTALL_GUIDE } from '@/lib/doc-links';
-import { getDocsIndex } from '@/lib/docs';
+import { getDocsNav } from '@/lib/docs';
 import { CONTAINER } from '@/lib/layout';
 
 export default async function DocsLayout({ children }: { readonly children: ReactNode }) {
-  const { groups } = await getDocsIndex();
+  const groups = await getDocsNav();
   return (
     <div className="relative isolate overflow-x-clip">
       <Backdrop />

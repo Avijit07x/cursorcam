@@ -4,7 +4,7 @@ import { PAGE_TITLE, SECTION_TITLE } from '@/components/docs/styles';
 import { SetupSteps } from '@/components/home/setup/setup-steps';
 import { SparkleLabel } from '@/components/ui/sparkle-label';
 import { guidePath } from '@/lib/doc-links';
-import { type Guide, getDocsIndex } from '@/lib/docs';
+import { type Guide, getDocsIndex, getDocsNav } from '@/lib/docs';
 
 export async function generateMetadata(): Promise<Metadata> {
   const { title, lede } = await getDocsIndex();
@@ -39,7 +39,7 @@ function GuideCard({ guide, number }: { readonly guide: Guide; readonly number: 
 }
 
 export default async function DocsPage() {
-  const { title, lede, groups } = await getDocsIndex();
+  const [{ title, lede }, groups] = await Promise.all([getDocsIndex(), getDocsNav()]);
   const firsts = groups.map((_, index) =>
     groups.slice(0, index).reduce((count, group) => count + group.guides.length, 1),
   );
