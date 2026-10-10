@@ -1,9 +1,6 @@
-'use client';
-
-import { motion } from 'motion/react';
 import { useId } from 'react';
 
-const CORNERS = [
+export const LOGO_CORNERS = [
   'M10 23v-5a8 8 0 0 1 8-8h5',
   'M41 10h5a8 8 0 0 1 8 8v5',
   'M54 41v5a8 8 0 0 1-8 8h-5',
@@ -16,8 +13,7 @@ const INK = '#1E1B4B';
 const BLUE = '#4F46E5';
 const RED = '#EF4444';
 const WHITE = '#FFFFFF';
-const TAP_SECONDS = 2.8;
-const PULSE_SECONDS = 1.4;
+const FILL_BOX = '[transform-box:fill-box]';
 
 interface CornersProps {
   readonly stroke: string;
@@ -27,7 +23,7 @@ interface CornersProps {
 function Corners({ stroke, width }: CornersProps) {
   return (
     <g fill="none" stroke={stroke} strokeWidth={width} strokeLinecap="round" strokeLinejoin="round">
-      {CORNERS.map((d) => (
+      {LOGO_CORNERS.map((d) => (
         <path key={d} d={d} />
       ))}
     </g>
@@ -60,46 +56,29 @@ export function StickerMark({ className }: StickerMarkProps) {
           <path d={CURSOR} fill={WHITE} stroke={WHITE} strokeWidth={10.5} strokeLinejoin="round" />
           <circle cx={DOT.x} cy={DOT.y} r={7.5} fill={WHITE} />
           <Corners stroke={INK} width={5.4} />
-          <motion.circle
+          <circle
             cx={TIP.x}
             cy={TIP.y}
             r={7}
             fill="none"
             stroke={BLUE}
             strokeWidth={2}
-            style={{ transformBox: 'fill-box', originX: 0.5, originY: 0.5 }}
-            initial={{ scale: 0.2, opacity: 0 }}
-            animate={{ scale: [0.2, 0.2, 2.1], opacity: [0, 0.7, 0] }}
-            transition={{
-              duration: TAP_SECONDS,
-              times: [0, 0.62, 0.95],
-              repeat: Infinity,
-              ease: 'easeOut',
-            }}
+            className={`${FILL_BOX} origin-center opacity-0 motion-safe:animate-tap-ring`}
           />
-          <motion.path
+          <path
             d={CURSOR}
             fill={BLUE}
             stroke={BLUE}
             strokeWidth={4.2}
             strokeLinejoin="round"
-            style={{ transformBox: 'fill-box', originX: 0, originY: 0 }}
-            animate={{ scale: [1, 1, 0.84, 1.05, 1] }}
-            transition={{
-              duration: TAP_SECONDS,
-              times: [0, 0.55, 0.62, 0.72, 0.8],
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
+            className={`${FILL_BOX} origin-top-left motion-safe:animate-tap`}
           />
-          <motion.circle
+          <circle
             cx={DOT.x}
             cy={DOT.y}
             r={4}
             fill={RED}
-            style={{ transformBox: 'fill-box', originX: 0.5, originY: 0.5 }}
-            animate={{ scale: [1, 0.72, 1], opacity: [1, 0.7, 1] }}
-            transition={{ duration: PULSE_SECONDS, repeat: Infinity, ease: 'easeInOut' }}
+            className={`${FILL_BOX} origin-center motion-safe:animate-logo-dot`}
           />
         </g>
       </g>

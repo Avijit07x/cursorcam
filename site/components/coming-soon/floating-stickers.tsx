@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'motion/react';
-import type { ComponentType } from 'react';
+import type { ComponentType, CSSProperties } from 'react';
 import {
   BuddyCursorArt,
   HeartArt,
@@ -10,7 +10,7 @@ import {
   SparkleArt,
   StarArt,
 } from '@/components/brand/sticker-art';
-import { FLOAT, POP } from '@/lib/motion';
+import { POP } from '@/lib/motion';
 
 interface StickerSpot {
   readonly name: string;
@@ -88,6 +88,15 @@ const PAGE_STICKERS: readonly StickerSpot[] = [
 
 const ENTER_DELAY = 1.1;
 const ENTER_STAGGER = 0.12;
+const FLOAT_TURN = '6deg';
+
+type FloatStyle = CSSProperties & Record<`--${string}`, string>;
+
+const floatStyle = (lift: number, seconds: number): FloatStyle => ({
+  '--float-lift': `${-lift}px`,
+  '--float-turn': FLOAT_TURN,
+  animationDuration: `${seconds}s`,
+});
 
 interface StickerLayerProps {
   readonly spots: readonly StickerSpot[];
@@ -110,13 +119,9 @@ function StickerLayer({ spots, className }: StickerLayerProps) {
           whileHover={{ scale: 1.15 }}
           whileDrag={{ scale: 1.2, rotate: 0 }}
         >
-          <motion.div
-            className={size}
-            animate={{ y: [0, -lift, 0], rotate: [0, 6, 0] }}
-            transition={{ ...FLOAT, duration: seconds }}
-          >
+          <div className={`${size} motion-safe:animate-float`} style={floatStyle(lift, seconds)}>
             <Art />
-          </motion.div>
+          </div>
         </motion.div>
       ))}
     </div>
