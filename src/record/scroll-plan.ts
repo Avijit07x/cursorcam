@@ -1,5 +1,5 @@
 import { clamp, easeInOutCubic, intersect, type Point, type Rect } from '../shared/geometry.js';
-import type { ScrollMeasure } from './page-scripts.js';
+import type { ScrollerInfo, ScrollMeasure } from './page-scripts.js';
 
 export type ScrollMode = 'reveal' | 'center';
 
@@ -21,7 +21,7 @@ export function planScroll(measure: ScrollMeasure, mode: ScrollMode): ScrollPlan
   let target: Rect = measure.element;
   for (const [index, scroller] of measure.scrollers.entries()) {
     const area = intersect(scroller.rect, view);
-    if (area) {
+    if (area && !stuckInView(scroller, area, target)) {
       const delta = {
         x: worthScrolling(
           clamp(
@@ -43,6 +43,16 @@ export function planScroll(measure: ScrollMeasure, mode: ScrollMode): ScrollPlan
     target = intersect(target, scroller.rect) ?? scroller.rect;
   }
   return undefined;
+}
+
+function stuckInView(scroller: ScrollerInfo, area: Rect, target: Rect): boolean {
+  return (
+    scroller.pinned &&
+    target.x >= area.x &&
+    target.y >= area.y &&
+    target.x + target.width <= area.x + area.width &&
+    target.y + target.height <= area.y + area.height
+  );
 }
 
 function worthScrolling(value: number): number {

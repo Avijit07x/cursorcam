@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Pinned</title>
+    <style>
+      body {
+        font:
+          16px system-ui,
+          sans-serif;
+        margin: 0;
+      }
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 16px;
+        padding: 0 24px;
+        background: #111;
+        color: #fff;
+      }
+      .tall {
+        height: 1200px;
+        background: linear-gradient(#fff, #ccd);
+      }
+      #bar {
+        position: sticky;
+        top: 56px;
+        padding: 12px 24px;
+        background: #eef;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <p id="out"></p>
+      <button onclick="out.textContent = 'header clicked'">Header action</button>
+    </header>
+    <div class="tall"></div>
+    <div id="bar">
+      <button onclick="out.textContent = 'sticky clicked'">Sticky action</button>
+    </div>
+    <div class="tall"></div>
+    <div class="tall"></div>
+  </body>
+</html>

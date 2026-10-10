@@ -8,6 +8,7 @@ export interface ScrollerInfo {
   readonly maxLeft: number;
   readonly maxTop: number;
   readonly isDocument: boolean;
+  readonly pinned: boolean;
 }
 
 export interface ScrollMeasure {
@@ -79,6 +80,22 @@ export function installPageHelpers(): void {
   };
   const chainOf = (element: Element, self: boolean): Element[] =>
     scrollersOf(self ? element : parentOf(element));
+  const pinsOf = (element: Element, chain: readonly Element[]): boolean[] => {
+    const pins: boolean[] = [];
+    let fixed = false;
+    let sticky = false;
+    for (let node: Element | null = element; node; node = parentOf(node)) {
+      if (node === chain[pins.length]) {
+        pins.push(fixed || sticky);
+        sticky = false;
+      }
+      const { position } = getComputedStyle(node);
+      if (position === 'fixed') fixed = true;
+      if (position === 'sticky') sticky = true;
+    }
+    pins.push(fixed || sticky);
+    return pins;
+  };
   const describe = (element: Element): string => {
     const id = element.id ? `#${element.id}` : '';
     const classes = [...element.classList]
@@ -129,7 +146,9 @@ export function installPageHelpers(): void {
       return describe(hit);
     },
     measureScrollers(element, self) {
-      const scrollers: ScrollerInfo[] = chainOf(element, self).map((node) => {
+      const chain = chainOf(element, self);
+      const pins = pinsOf(element, chain);
+      const scrollers: ScrollerInfo[] = chain.map((node, index) => {
         const box = node.getBoundingClientRect();
         return {
           rect: {
@@ -143,6 +162,7 @@ export function installPageHelpers(): void {
           maxLeft: Math.max(node.scrollWidth - node.clientWidth, 0),
           maxTop: Math.max(node.scrollHeight - node.clientHeight, 0),
           isDocument: false,
+          pinned: pins[index] ?? false,
         };
       });
       const root = documentScroller();
@@ -153,6 +173,7 @@ export function installPageHelpers(): void {
         maxLeft: Math.max(root.scrollWidth - window.innerWidth, 0),
         maxTop: Math.max(root.scrollHeight - window.innerHeight, 0),
         isDocument: true,
+        pinned: pins[chain.length] ?? false,
       });
       const box = element.getBoundingClientRect();
       return {

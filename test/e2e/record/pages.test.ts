@@ -131,6 +131,22 @@ describe.skipIf(!browserAvailable())('recording real pages', () => {
     expect(Math.max(...steps)).toBeLessThan(400 * CI_SLOWDOWN);
   });
 
+  it('clicks in a fixed header and a sticky bar without scrolling the page', async () => {
+    const run = await recorder.record({
+      url: site.url('/pinned.html'),
+      steps: [
+        { scroll: { to: 'bottom' } },
+        { click: "role=button[name='Header action']" },
+        { waitFor: 'text=header clicked' },
+        { click: "role=button[name='Sticky action']" },
+        { waitFor: 'text=sticky clicked' },
+      ],
+    });
+
+    expect(eventsOf(run.events, 'scroll')).toHaveLength(2);
+    expect(eventsOf(run.events, 'jump')).toEqual([]);
+  });
+
   it('taps on a phone and ends with exit 10 on a challenge page', async () => {
     const run = await recorder.record({
       url: site.url('/phone.html'),
