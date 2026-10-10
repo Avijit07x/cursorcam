@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { Backdrop } from '@/components/ui/backdrop';
 import { SiteFooter } from '@/components/ui/site-footer';
 import { FADE_UP, SOFT } from '@/lib/motion';
+import { SITE } from '@/lib/site';
 import { BouncyWordmark } from './bouncy-wordmark';
 import { FloatingStickers, PhoneStickers } from './floating-stickers';
 import { HeroSticker } from './hero-sticker';
@@ -34,7 +35,7 @@ export function ComingSoon() {
           transition={{ ...SOFT, delay: TAGLINE_DELAY }}
           className="mt-4 text-[clamp(1.25rem,2.4vw,1.625rem)] leading-snug font-semibold tracking-tight text-ink"
         >
-          Ask Claude for a demo video.
+          {SITE.tagline}
         </motion.h2>
         <div
           className="@container-size mt-6 mb-4 flex min-h-0 w-full flex-1 items-center justify-center short:hidden"

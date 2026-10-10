@@ -15,6 +15,178 @@
   --color-rec: #ef4444;
   --color-rose: #fb7185;
   --color-mint: #86efac;
+  --color-shade: rgb(30 27 75 / 0.32);
+
+  --animate-twinkle: twinkle 1.8s ease-in-out infinite;
+  --animate-wiggle: wiggle 4.2s ease-in-out 1.6s infinite;
+  --animate-blink: blink 1.2s linear infinite;
+  --animate-pulse-ring: pulse-ring 1.4s ease-out infinite;
+  --animate-bob: bob 3.6s ease-in-out infinite;
+  --animate-breathe: breathe 2.4s ease-in-out infinite;
+  --animate-float: float 3.6s ease-in-out infinite;
+  --animate-wave: wave 4.6s ease-out infinite;
+  --animate-tap-ring: tap-ring 2.8s ease-out infinite;
+  --animate-tap: tap 2.8s ease-in-out infinite;
+  --animate-logo-dot: logo-dot 1.4s ease-in-out infinite;
+  --animate-nudge: nudge 1.4s ease-in-out infinite;
+
+  @keyframes twinkle {
+    0%,
+    100% {
+      scale: 0.6;
+      rotate: 0deg;
+      opacity: 0.5;
+    }
+    50% {
+      scale: 1.1;
+      rotate: 45deg;
+      opacity: 1;
+    }
+  }
+
+  @keyframes wiggle {
+    0%,
+    82%,
+    100% {
+      rotate: -4deg;
+    }
+    86% {
+      rotate: -11deg;
+    }
+    90% {
+      rotate: 3deg;
+    }
+    94% {
+      rotate: -8deg;
+    }
+  }
+
+  @keyframes blink {
+    0%,
+    49.9% {
+      opacity: 1;
+    }
+    50%,
+    100% {
+      opacity: 0.15;
+    }
+  }
+
+  @keyframes pulse-ring {
+    from {
+      scale: 1;
+      opacity: 0.5;
+    }
+    to {
+      scale: 2.2;
+      opacity: 0;
+    }
+  }
+
+  @keyframes bob {
+    0%,
+    100% {
+      translate: 0 0;
+    }
+    50% {
+      translate: 0 -3px;
+    }
+  }
+
+  @keyframes breathe {
+    0%,
+    100% {
+      scale: 1;
+    }
+    50% {
+      scale: 1.08;
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      translate: 0 0;
+      rotate: 0deg;
+    }
+    50% {
+      translate: 0 var(--float-lift, -10px);
+      rotate: var(--float-turn, 0deg);
+    }
+  }
+
+  @keyframes wave {
+    0%,
+    13%,
+    100% {
+      translate: 0 0;
+    }
+    6.5% {
+      translate: 0 -12px;
+    }
+  }
+
+  @keyframes tap-ring {
+    0% {
+      scale: 0.2;
+      opacity: 0;
+    }
+    62% {
+      scale: 0.2;
+      opacity: 0.7;
+    }
+    95%,
+    100% {
+      scale: 2.1;
+      opacity: 0;
+    }
+  }
+
+  @keyframes tap {
+    0%,
+    55%,
+    80%,
+    100% {
+      scale: 1;
+    }
+    62% {
+      scale: 0.84;
+    }
+    72% {
+      scale: 1.05;
+    }
+  }
+
+  @keyframes nudge {
+    0%,
+    100% {
+      translate: 0 0;
+    }
+    50% {
+      translate: 6px 0;
+    }
+  }
+
+  @keyframes logo-dot {
+    0%,
+    100% {
+      scale: 1;
+      opacity: 1;
+    }
+    50% {
+      scale: 0.72;
+      opacity: 0.7;
+    }
+  }
+}
+
+@utility focus-ring {
+  outline: none;
+
+  &:focus-visible {
+    outline: 4px solid var(--color-brand-soft);
+    outline-offset: 2px;
+  }
 }
 
 html {
@@ -62,6 +234,12 @@ html {
 
 .sticker-shadow {
   filter: drop-shadow(0 1.5px 0 rgb(30 27 75 / 0.06)) drop-shadow(0 8px 14px rgb(30 27 75 / 0.18));
+}
+
+.sticker-box {
+  box-shadow:
+    0 1.5px 0 rgb(30 27 75 / 0.06),
+    0 8px 14px rgb(30 27 75 / 0.18);
 }
 
 .sticker-text {

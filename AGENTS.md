@@ -33,15 +33,18 @@ The git hooks in `.githooks/` format and lint staged files, check commit message
 - `plugin/`: the Claude Code plugin. `skills/cursorcam/SKILL.md` and its `references/` teach Claude the whole flow, and `hooks/env-guard.sh` blocks commands that print every environment variable. `.claude-plugin/marketplace.json` at the root lists the plugin.
 - `scripts/sync-version.mjs`: keeps the plugin and skill on the package version.
 - `test/unit/` mirrors `src/`. `test/e2e/` holds browser tests. `test/fixtures/app/` has one page per hard case.
-- `site/`: the website, a Next.js app in its own pnpm package. It shows a coming-soon page for now. Light theme only.
+- `site/`: the website, a Next.js app in its own pnpm package. The home page has the hero, the demo video, a toy camera that plays a mock demo drawn with code, a sticker sheet of features, the setup steps and a "That's a wrap!" footer with movie credits. `/docs` shows the guides from `docs/`. The old coming-soon page lives on at `/coming-soon`. Light theme only.
   - `DESIGN.md` holds the look: font, colors, logo, background and motion. Read it before you change how the site looks, and update it when a design decision changes.
   - `app/globals.css` holds the colors, the Fredoka font, the scrollbar, and the sticker shadow and sticker text classes.
   - Animations use Motion (`motion/react`). `lib/motion.ts` holds the shared springs, and `MotionProvider` calms motion for people who ask for less.
-  - `components/brand/` has the animated sticker logo and the sticker art, `components/ui/` the shared background, button and footer, and `components/coming-soon/` the coming-soon page. New pages reuse `brand/` and `ui/`, and the full home page replaces `ComingSoon` in `app/page.tsx`.
+  - `components/brand/` has the animated sticker logo, the wordmark, the sticker art and the confetti burst. `components/ui/` has the shared background, section, heading, buttons, copy button, command pill and footer. `components/mock-app/` is the little mock app and the stage that acts out its scenes, shared by the toy camera and the sticker sheet. `components/home/` is the home page, one folder per section, `components/docs/` the docs pages and `components/coming-soon/` the coming-soon page. New pages reuse `brand/` and `ui/`.
+  - `lib/` holds the shared springs, site links, section ids, the page container, the demo video details and the docs loader. `lib/docs.ts` reads `../docs` at build time, and its guide list comes from `docs/README.md`, where each `##` heading is a group with a table of guides, so a guide added there shows up on the site in that group. `hooks/` holds the shared hooks. Buttons that move within the page use `useScrollToSection`, never `#` links.
   - `app/icon.svg` must stay identical to `assets/favicon.svg`, the browser-tab icon. `public/og.png` is the share image, a 1200×630 export of `assets/banner.svg`.
+  - `public/backgrounds/dunes-indigo.svg` is the background behind the toy camera's mock app, the same one as the demo video.
+  - `public/video/` holds the web copies of `assets/demo.mp4`: the MP4 with fast start, a WebM for browsers without H.264, like the VS Code preview, and `poster.jpg`. Export them again when the README video changes.
   - `demo/` holds the sample app the README video records: `app/`, served by `pnpm demo:app`, with `readme-steps.json` and `style.json`.
 - `assets/`: the logo files, and the README video `demo.mp4` with its animated preview `demo.webp`. The logo is a tilted sticker with a white edge and a soft shadow, and the wordmark is lowercase Fredoka Bold, outlined to shapes. `favicon.svg` is an upright version without the shadow, for small sizes. `logo.html` shows every logo file where it is used. `banner.svg` is the 1200×630 banner for posts and the share image.
-- `docs/`: the user guides, with steps and style files to copy in `examples/`, plus the design plan `PLAN.md` and `TEST-RESULTS.md`. The README links to the guides and stays short.
+- `docs/`: the user guides, with steps and style files to copy in `examples/`, and the project notes in `project/`: the design plan `PLAN.md` and `TEST-RESULTS.md`. The README links to the guides and stays short. The website renders these guides, so keep their tables and heading names in the same form.
 
 ## Rules
 

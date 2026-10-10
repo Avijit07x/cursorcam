@@ -1,7 +1,3 @@
-'use client';
-
-import { motion } from 'motion/react';
-
 const OUTLINE = {
   stroke: '#fff',
   strokeWidth: 3,
@@ -93,17 +89,48 @@ export function BuddyCursorArt() {
   );
 }
 
+export function PhotoArt() {
+  return (
+    <svg viewBox="0 0 24 24" className="size-full" aria-hidden="true">
+      <rect x="3" y="5" width="18" height="14" rx="3.5" fill="#38BDF8" {...OUTLINE} />
+      <circle cx="15.8" cy="9.6" r="1.8" fill="#FCD34D" />
+      <path d="M4.5 17.5l4.5-5 3.5 3.5 2.2-2.2 4.8 3.7Z" fill="#fff" />
+    </svg>
+  );
+}
+
+export function SmileArt() {
+  return (
+    <svg viewBox="0 0 32 32" className="size-full" aria-hidden="true">
+      <circle cx="16" cy="16" r="13" fill="#4F46E5" {...OUTLINE} />
+      <ellipse cx="12" cy="14.5" rx="1.7" ry="2.3" fill="#fff" />
+      <ellipse cx="20" cy="14.5" rx="1.7" ry="2.3" fill="#fff" />
+      <ellipse cx="9" cy="19" rx="2.1" ry="1.3" fill={BLUSH} opacity="0.85" />
+      <ellipse cx="23" cy="19" rx="2.1" ry="1.3" fill={BLUSH} opacity="0.85" />
+      <path
+        d="M13.8 19.6q2.2 2 4.4 0"
+        fill="none"
+        stroke="#fff"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+export function PulseDot({ className }: { readonly className: string }) {
+  return (
+    <span className={`relative flex rounded-full ${className}`}>
+      <span className="absolute inset-0 rounded-full bg-rec motion-safe:animate-pulse-ring" />
+      <span className="relative size-full rounded-full bg-rec" />
+    </span>
+  );
+}
+
 export function RecArt() {
   return (
     <span className="flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-sm font-bold tracking-wide text-ink ring-2 ring-white">
-      <span className="relative flex size-2.5">
-        <motion.span
-          className="absolute inset-0 rounded-full bg-rec"
-          animate={{ scale: [1, 2.2], opacity: [0.5, 0] }}
-          transition={{ duration: 1.4, repeat: Infinity, ease: 'easeOut' }}
-        />
-        <span className="relative size-2.5 rounded-full bg-rec" />
-      </span>
+      <PulseDot className="size-2.5" />
       REC
     </span>
   );
