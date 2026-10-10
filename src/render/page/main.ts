@@ -37,8 +37,23 @@ async function loadImage(url: string): Promise<ImageBitmap> {
   return createImageBitmap(await response.blob());
 }
 
+async function loadSvg(svg: string): Promise<ImageBitmap> {
+  const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
+  try {
+    const image = new Image();
+    image.src = url;
+    await image.decode();
+    return await createImageBitmap(image);
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+}
+
 async function backgroundOf(job: RenderJob): Promise<ImageBitmap | undefined> {
-  return job.background.kind === 'image' ? loadImage(job.background.url) : undefined;
+  const background = job.background;
+  if (background.kind === 'image') return loadImage(background.url);
+  if (background.kind === 'scene') return loadSvg(background.svg);
+  return undefined;
 }
 
 async function openCompositor(job: RenderJob): Promise<Compositor> {

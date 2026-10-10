@@ -148,7 +148,7 @@ function drawBase(context: Context, job: RenderJob, image: ImageBitmap | undefin
   const { width, height } = job.output;
   const { layout } = job;
   const background = job.background;
-  if (background.kind === 'image' && image) {
+  if (image) {
     const cover = Math.max(width / image.width, height / image.height);
     const drawWidth = image.width * cover;
     const drawHeight = image.height * cover;

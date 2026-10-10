@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { PRESET_NAMES } from '../../../src/config/presets.js';
 import { ACTION_NAMES, StepsFileSchema } from '../../../src/config/steps.js';
+import { PALETTE_NAMES, SCENES } from '../../../src/config/scenes.js';
 import { GRADIENTS, StyleSchema } from '../../../src/config/style.js';
 import { ExitCode } from '../../../src/shared/exit-codes.js';
 
@@ -98,7 +99,8 @@ describe('the Claude Code plugin', () => {
     const troubleshooting = await read(join(SKILL, 'references', 'troubleshooting.md'));
     const styleKeys = Object.keys(StyleSchema.shape).filter((key) => key !== 'format');
     const presets = PRESET_NAMES.filter((name) => name !== 'default');
-    for (const name of [...styleKeys, ...Object.keys(GRADIENTS), ...presets]) {
+    const backgrounds = [...Object.keys(GRADIENTS), ...SCENES, ...PALETTE_NAMES];
+    for (const name of [...styleKeys, ...backgrounds, ...presets]) {
       expect(style).toContain(`\`${name}\``);
     }
     expect(style).toContain('`--format <format>`');

@@ -88,6 +88,14 @@ describe('planJob', () => {
     expect(job.urls).toEqual(['app.example']);
   });
 
+  it('draws a scene background as an SVG at the output size', () => {
+    const { job } = plan({ background: { scene: 'glass', colors: 'ocean' } });
+
+    if (job.background.kind !== 'scene') throw new Error('expected a scene background');
+    expect(job.background.svg).toMatch(/^<svg [^>]*width="1920" height="1080"/);
+    expect(job.background.svg).toContain('#38bdf8');
+  });
+
   it('picks stills at step ends and one close-up per step', () => {
     const { moments } = plan();
 

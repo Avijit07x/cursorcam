@@ -61,6 +61,7 @@
     "check:package": "pnpm build && publint",
     "site:dev": "pnpm --filter cursorcam-site dev",
     "check:site": "pnpm --filter cursorcam-site check",
+    "site:backgrounds": "pnpm build && node scripts/export-backgrounds.mjs",
     "hooks:install": "git config core.hooksPath .githooks"
   },
   "lint-staged": {
