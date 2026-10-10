@@ -53,6 +53,30 @@ npx cursorcam@beta run steps.json --style '{"background":"midnight","padding":0.
 - A hex color, like `"#0f172a"`.
 - A custom gradient: `{ "from": "#4f46e5", "to": "#06b6d4", "angle": 135 }`.
 - An image: `{ "image": "brand/bg.png" }`, a PNG, JPEG or WebP file that covers the frame. A relative path starts from the style file's folder.
+- A scene drawn from two colors: `{ "scene": "glow", "colors": "indigo" }`.
+
+#### Scenes
+
+Each scene fits every video shape and window size.
+
+| Scene | Look |
+| --- | --- |
+| `mesh` | Soft blended clouds of both colors |
+| `glow` | A dark base with light glowing out from behind the window |
+| `split` | Two tones split by one smooth curve |
+| `dunes` | Layered soft waves, from light to deep |
+| `aurora` | Soft light streaks on a dark sky |
+| `glass` | Soft shapes behind a frosted glass frame around the window |
+| `ripple` | Rings spreading out from the window |
+| `contours` | Thin map lines |
+| `grid` | A fine grid that fades out, with a glow behind the window |
+| `ribbons` | Wide bands flowing across |
+| `beams` | Light rays from the top corner |
+| `shapes` | Big flat circles and a pill on a light base |
+| `halftone` | Print-style dots in two corners |
+| `cursor` | A giant, faint cursor with click rings |
+
+`colors` is a palette, `indigo`, `iris`, `ocean`, `teal`, `plum`, `sunset`, `graphite`, `peach` or `paper`, `indigo` by default. Or give two hex colors, deep then light: `{ "scene": "dunes", "colors": ["#1e3a8a", "#38bdf8"] }`.
 
 ### Zoom
 

@@ -69,6 +69,24 @@ describe('style', () => {
     );
   });
 
+  it('takes a scene with a palette name or two colors, and indigo by default', () => {
+    expect(parseStyle({ background: { scene: 'glow' } }, 'x').background).toEqual({
+      scene: 'glow',
+      colors: 'indigo',
+    });
+    expect(
+      parseStyle({ background: { scene: 'dunes', colors: ['#1e3a8a', '#38bdf8'] } }, 'x')
+        .background,
+    ).toEqual({ scene: 'dunes', colors: ['#1e3a8a', '#38bdf8'] });
+    expect(() => parseStyle({ background: { scene: 'stars' } }, 'x')).toThrow('background');
+    expect(() => parseStyle({ background: { scene: 'mesh', colors: ['#ffffff'] } }, 'x')).toThrow(
+      'background',
+    );
+    expect(() => parseStyle({ background: { scene: 'mesh', colors: 'neon' } }, 'x')).toThrow(
+      'background',
+    );
+  });
+
   it('explains bad styles', async () => {
     expect(() => parseStyle({ background: 'neon' }, 'x')).toThrow('The style from x has errors');
     expect(() => parseStyle({ zoom: { max: 9 } }, 'x')).toThrow('zoom');

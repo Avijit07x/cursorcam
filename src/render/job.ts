@@ -13,7 +13,8 @@ export type JobBackground =
       readonly to: string;
       readonly angle: number;
     }
-  | { readonly kind: 'image'; readonly url: string };
+  | { readonly kind: 'image'; readonly url: string }
+  | { readonly kind: 'scene'; readonly svg: string };
 
 export interface JobLayout {
   readonly window: Box;

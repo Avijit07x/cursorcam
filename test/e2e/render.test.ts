@@ -6,6 +6,7 @@ import { findPreset } from '../../src/config/presets.js';
 import { parseStyle } from '../../src/config/style.js';
 import { recordSteps } from '../../src/record/recorder.js';
 import { computeLayout } from '../../src/render/layout.js';
+import { shade } from '../../src/render/scene/svg.js';
 import { renderStills, renderVideo, type RenderOutcome } from '../../src/render/renderer.js';
 import { createRunDirs, META_FILE, type RunFile } from '../../src/runs/dirs.js';
 import { StatusFile } from '../../src/runs/status.js';
@@ -183,6 +184,26 @@ describe.skipIf(!browserAvailable())('rendering', () => {
     });
 
     expect(misses).toEqual([]);
+  });
+
+  it('draws a scene background from two colors', async () => {
+    const deep = '#3366cc';
+    const outcome = await render('colors', {
+      ...QUIET_STYLE,
+      background: { scene: 'glow', colors: [deep, '#ffffff'] },
+    });
+    expect(outcome.job.background.kind).toBe('scene');
+    if (!ffmpeg) return;
+    const { width, height } = outcome.job.output;
+    const pixels = await frameRgb(outcome.file, outcome.facts.seconds / 2);
+    const offset = ((height - 4) * width + 4) * 3;
+    const corner = shade(deep, 0.62);
+    const expected = [1, 3, 5].map((start) => Number.parseInt(corner.slice(start, start + 2), 16));
+    const actual = [...pixels.subarray(offset, offset + 3)];
+    const worst = Math.max(
+      ...expected.map((value, channel) => Math.abs(value - (actual[channel] ?? 0))),
+    );
+    expect(worst).toBeLessThanOrEqual(COLOR_TOLERANCE);
   });
 
   it('meets every preset rule', async () => {
