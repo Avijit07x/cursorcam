@@ -1,6 +1,7 @@
 import type { BrowserContext, Page } from 'playwright-core';
 import { LOGIN_IDENTITY } from '../browser/identity.js';
 import { launchBrowser } from '../browser/launch.js';
+import { PAGE_TIMEOUT_MS } from '../record/waits.js';
 import { CursorCamError } from '../shared/errors.js';
 import { ExitCode } from '../shared/exit-codes.js';
 import { redactUrl } from '../shared/redact.js';
@@ -21,7 +22,6 @@ export interface LoginRequest {
 
 export const LOGIN_TIMEOUT_MS = 9 * 60_000;
 const SNAPSHOT_INTERVAL_MS = 1_000;
-const PAGE_TIMEOUT_MS = 30_000;
 const LAST_SNAPSHOT_TIMEOUT_MS = 2_000;
 const MS_PER_MINUTE = 60_000;
 

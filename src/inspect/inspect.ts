@@ -10,7 +10,7 @@ import { isLocalUrl } from '../config/urls.js';
 import { candidatesFor } from '../record/locate.js';
 import { NetworkTracker } from '../record/network.js';
 import { captureFirstFrame } from '../record/screencast.js';
-import { openUrl } from '../record/waits.js';
+import { openUrl, PAGE_TIMEOUT_MS } from '../record/waits.js';
 import { centerOf, distance, type Rect, type Size } from '../shared/geometry.js';
 import { redact } from '../shared/redact.js';
 import type { Lifecycle } from '../system/lifecycle.js';
@@ -51,7 +51,6 @@ interface FoundTarget {
 }
 
 const FRAME_FILE = 'frame.jpg';
-const PAGE_TIMEOUT_MS = 30_000;
 const IN_VIEW = 'in view';
 const MAX_TEXT_LOCATOR = 40;
 const SAME_SPOT_PX = 3;

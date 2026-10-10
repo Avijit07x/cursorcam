@@ -48,7 +48,7 @@ More are in [examples](examples/).
 | `ignoreHTTPSErrors` | on for local hosts | Accept self-signed certificates |
 | `allowOrigins` | none | Other origins `goto` may open, like `["https://auth.example.com"]` |
 | `mask` | none | CSS selectors to blur in every frame, like `[".user-email"]` |
-| `timeout` | `15000` | Time limit per step in ms, 1000 to 120000 |
+| `timeout` | `15000` | Time limit per step in ms, 1000 to 120000. Opening a page always gets at least 30000 |
 
 ## Actions
 
