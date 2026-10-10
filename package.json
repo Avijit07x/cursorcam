@@ -1,6 +1,6 @@
 {
   "name": "cursorcam",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "Ask Claude for a demo video. Claude clicks through your web app and hands back a polished MP4 that zooms in on each click.",
   "keywords": [
     "demo video",
