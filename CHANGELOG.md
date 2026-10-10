@@ -1,6 +1,8 @@
 # cursorcam
 
-## Unreleased
+## 1.0.0-beta.3
+
+### Patch Changes
 
 - Clicking something in a fixed header or a sticky bar no longer scrolls the page first. The recorder used to scroll again and again to move it away from the screen edge, which showed in the video as a slow scroll before the click.
 
