@@ -24,7 +24,7 @@ Text sizes grow with the window between a phone and a laptop size. Keep each lev
 | Level               | Size                                 | Weight   | Color                                              |
 | ------------------- | ------------------------------------ | -------- | -------------------------------------------------- |
 | Hero title          | 42 to 76 px                          | Bold     | `ink`, with "demo video." in `brand`, sticker text |
-| Wordmark            | 28 px in the header, 44 to 72 px big | Bold     | `ink`, with "cam" in `brand`                       |
+| Wordmark            | 28 px in the header, 44 to 72 px big | Bold     | `ink`, with "cam" in `brand`, sticker text         |
 | Section title       | 30 to 44 px                          | Bold     | `ink`, sticker text                                |
 | Card title          | 18 to 22 px                          | Semibold | `ink`                                              |
 | Coming-soon tagline | 20 to 26 px                          | Semibold | `ink`                                              |
@@ -96,7 +96,7 @@ All animation uses Motion (`motion/react`). Reuse the springs in `lib/motion.ts`
 | `POP`    | Things that pop in, and replies to hover and tap |
 | `BOUNCE` | The wordmark letters                             |
 | `SOFT`   | Text and cards that fade up                      |
-| `DETENT` | A knob settling into its notch, firm and calm   |
+| `DETENT` | A knob settling into its notch, firm and calm    |
 
 - `MotionProvider` calms motion for people who ask for less.
 - Endless decorative loops, like the sparkles, the tag wiggle, the REC blink, the logo, the cursor bob and the floating stickers, are CSS keyframes in `app/globals.css`, used as `motion-safe:animate-*`. They run off the main thread and stop for people who ask for less motion. Motion handles entrances, gestures, drags and the scripted demos.

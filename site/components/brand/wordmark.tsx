@@ -15,7 +15,7 @@ export function Wordmark() {
   return (
     <span
       aria-hidden="true"
-      className="inline-flex text-[28px] leading-none font-bold tracking-[-0.01em] text-ink select-none"
+      className="sticker-text inline-flex text-[28px] leading-none font-bold tracking-[-0.01em] text-ink select-none"
     >
       {WORDMARK_LETTERS.map((letter, index) => (
         <motion.span
