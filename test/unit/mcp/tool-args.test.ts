@@ -82,7 +82,7 @@ describe('outDir', () => {
 
   it('resolves a folder the agent asks for against the work folder', async () => {
     expect(await outDir(dir.path(), 'videos')).toBe(join(dir.path(), 'videos'));
-    expect(await outDir(dir.path(), '/tmp/videos')).toBe(resolve('/tmp/videos'));
+    expect(await outDir(dir.path(), '/tmp/videos')).toBe(resolve(dir.path(), '/tmp/videos'));
   });
 
   it.skipIf(process.platform === 'win32' || process.getuid?.() === 0)(
