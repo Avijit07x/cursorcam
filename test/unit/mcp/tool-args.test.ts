@@ -1,6 +1,6 @@
 import { mkdir, readFile } from 'node:fs/promises';
 import { homedir } from 'node:os';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
 import {
   flags,
@@ -82,7 +82,7 @@ describe('outDir', () => {
 
   it('resolves a folder the agent asks for against the work folder', async () => {
     expect(await outDir(dir.path(), 'videos')).toBe(join(dir.path(), 'videos'));
-    expect(await outDir(dir.path(), '/tmp/videos')).toBe('/tmp/videos');
+    expect(await outDir(dir.path(), '/tmp/videos')).toBe(resolve('/tmp/videos'));
   });
 
   it.skipIf(process.platform === 'win32' || process.getuid?.() === 0)(
@@ -101,7 +101,7 @@ describe('stepsFile', () => {
 
   it('resolves a path against the work folder', async () => {
     expect(await stepsFile('flows/sign-up.json', '/work/app', dir.path())).toBe(
-      join('/work/app', 'flows', 'sign-up.json'),
+      resolve('/work/app', 'flows', 'sign-up.json'),
     );
   });
 

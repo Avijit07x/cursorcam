@@ -1,3 +1,4 @@
+import { resolve } from 'node:path';
 import { createInterface } from 'node:readline';
 import { PassThrough } from 'node:stream';
 import { afterEach, describe, expect, it } from 'vitest';
@@ -115,7 +116,7 @@ describe('firstFolder', () => {
 
     expect(
       firstFolder({ roots: [{ uri: 'https://example.com' }, { uri: folder, name: 'app' }] }),
-    ).toBe('/work/my app');
+    ).toBe(resolve('/work/my app'));
   });
 
   it('is undefined without a file root or with a bad reply', () => {
@@ -159,7 +160,7 @@ describe('serveMcp', () => {
     server.write(request(2, 'tools/call', { name: 'where' }));
 
     expect((await server.next()).result).toEqual({
-      content: [{ type: 'text', text: '/work/app' }],
+      content: [{ type: 'text', text: resolve('/work/app') }],
     });
   });
 
