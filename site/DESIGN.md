@@ -6,7 +6,7 @@ This is how the CursorCam website looks and moves. Read it before you change how
 
 - Cute, soft and friendly: rounded shapes, sticker edges and playful motion. Nothing harsh, sharp or loud.
 - Light theme only.
-- The site leads with Claude. The headline is "Ask Claude for a demo video."
+- The site is for any AI agent, not only Claude. The headline is "Ask your AI agent for a demo video." Claude Code shows up as one way in, never as the only one.
 
 ## Font
 
@@ -23,7 +23,7 @@ Text sizes grow with the window between a phone and a laptop size. Keep each lev
 
 | Level               | Size                                 | Weight   | Color                                              |
 | ------------------- | ------------------------------------ | -------- | -------------------------------------------------- |
-| Hero title          | 42 to 76 px                          | Bold     | `ink`, with "demo video." in `brand`, sticker text |
+| Hero title          | 42 to 68 px                          | Bold     | `ink`, with "demo video." in `brand`, sticker text |
 | Wordmark            | 28 px in the header, 44 to 72 px big | Bold     | `ink`, with "cam" in `brand`, sticker text         |
 | Section title       | 30 to 44 px                          | Bold     | `ink`, sticker text                                |
 | Card title          | 18 to 22 px                          | Semibold | `ink`                                              |
@@ -60,19 +60,22 @@ The colors are tokens in `app/globals.css`. Pick from these. Only small illustra
 - The wordmark is lowercase "cursorcam" in Fredoka Bold, with "cursor" in `ink` and "cam" in `brand`.
 - `app/icon.svg` must stay a copy of `assets/favicon.svg`.
 - On the page, `StickerMark` is the animated logo and `BouncyWordmark` is the animated name.
+- In the header, the logo sticker lifts and tilts a little on hover, with a small overshoot.
 
 ## Sticker style
 
 - Text that should look like a sticker uses `.sticker-text`: a thick white edge and a soft shadow. The hero title and section titles use it.
 - Cards, pills and buttons are white or `brand`, fully rounded, with `.sticker-shadow`. Cards that hold steps tilt by less than 1°.
+- Buttons open like scissors. A lighter blade, `brand-soft`, sits behind each button, hinged near its left end. On hover they open a little: the button tips down 1.2° and the blade up 3°, with the `ease-pop` overshoot. A press shuts them and squishes the button, and a click or a tap snips twice, so touch screens get it too. It lives in `components/ui/button-base.tsx`, and every `Button`, `ButtonLink`, `ScrollButton` and one-click install link uses it. No emoji: any extra charm is drawn shapes.
 - Big boxes, like the toy camera, its card and the mock app windows, use `.sticker-box`: the same shadow as a box shadow, which costs less than a filter around anything that moves inside.
-- **Sticker tag**: a small `brand` label with white bold text, a 3 px white edge, 14 px corners and `.sticker-shadow`. It tilts by -4° and wiggles every few seconds. It marks the hero as "Beta". It lives in `components/ui/sticker-tag.tsx`.
+- Shadows stay subtle, for a premium feel: a tight 1 px contact shadow plus a short, light blur, never a big grey haze. `.sticker-box` adds one wider, faint layer so big boxes lift a little more. A dragged sticker gets a deeper shadow while it is lifted. The shadows inside the mock app and scene previews copy the real video's window shadow, so they stay as they are.
+- **Sticker tag**: a small `brand` label with white bold text, a 3 px white edge, 14 px corners and `.sticker-shadow`. It tilts by -4° and wiggles every few seconds. In the hero it shows the package version, like `v1.0.0-beta.4`, read from the root `package.json`, and links to the changelog. It lives in `components/ui/sticker-tag.tsx`.
 - Commands sit in purple chat-bubble pills with a round white copy button, from `components/ui/command-pill.tsx`.
 
 ## Background
 
 - The page is plain `page` color inside a camera viewfinder: rounded corners in `brand-soft`, a blinking REC at the top left, a running timer at the top right, "1080p · 60 fps" at the bottom left and a battery at the bottom right. It lives in `components/ui/backdrop.tsx`.
-- The frame stays in place while the page scrolls, and it never catches clicks. On phones, the two bottom labels are hidden.
+- The frame stays in place while the page scrolls, and it never catches clicks. Below 1280 px wide, all four labels are hidden and only the corners show, because the page margins are too narrow and the labels would sit on the content while scrolling.
 - No patterns, like dots, plus signs, grids, hearts or confetti. No gradients and no glow blobs. These were all tried and turned down.
 - No focus box that jumps around the text.
 
@@ -106,14 +109,17 @@ All animation uses Motion (`motion/react`). Reuse the springs in `lib/motion.ts`
 ## Layout
 
 - The home page runs top to bottom: the header, the hero, the demo video, the toy camera, the sticker sheet, the setup steps and the footer. Each section lives in its own folder in `components/home/`.
-- The hero puts the title on the left and the line and buttons on the right, and stacks them on phones.
+- The header shows the logo, the nav links and the action button. On phones the nav links hide, so the header stays one row; the footer links cover them.
+- The hero puts the version tag and the title on the left, and the lede and buttons on the right, with their bottoms on the same line: the buttons sit level with the last line of the title. On phones they stack. Buddy, the stunt cursor, pops in after the title and taps its full stop, with a `rose` click ring.
 - The demo video section plays the real README video in an `ink` frame with a white sticker edge, viewfinder corners and a bar with play, REC, the timecode and "1080p · 60 fps".
-- The toy camera's screen plays a mock demo drawn with code, not a video. The mock app sits on the indigo `dunes` scene background, like the demo video. It opens New issue, types a title and creates the issue, and the camera zooms in on each step. Its dial, shape switch and zoom knob are the real settings: the knob sets how close the zoom goes, Square shrinks the window and Tall switches to a phone layout. The shutter says "Ask Claude" and hands out the request to copy.
-- The sticker sheet shows the features. Dragging or tapping a sticker sticks it on a little app window, which acts the feature out. It does not repeat what the camera shows, like the platform sizes.
-- The setup has its title and what you need on the left, and three tilted cards with numbered stickers on the right, joined by a short line.
+- The toy camera's screen plays a mock demo drawn with code, not a video. The mock app sits on the indigo `dunes` scene background, like the demo video. It opens New issue, types a title and creates the issue, and the camera zooms in on each step. Its dial, shape switch and zoom knob are the real settings: the knob sets how close the zoom goes, Square shrinks the window and Tall switches to a phone layout. The shutter says "Ask your AI" and hands out the request to copy.
+- The sticker sheet shows the features. Dragging or tapping a sticker sticks it on a little app window, which acts the feature out. It does not repeat what the camera shows, like the platform sizes. Before any sticker is stuck, the line under the window says "No stickers yet. This is your app as it is."
+- The mock app's issue rows show short titles, not grey bars, so the demos look like a real app.
+- The setup has its title, "Set it up in 3 steps.", and what you need on the left, and three tilted cards with numbered stickers on the right, joined by a short line. Each card, from `components/home/setup/setup-step.tsx`, has a sticker cue word in its color, the step, one pill and one short line, so the three stay even, and its drawing on a tinted tile at the right. Lights. (`brand`, a stage light) shows the one MCP line and a "Pick your agent" link to the Your AI agent guide, which lists every agent. Camera. (`rose`, a camera) shows a short request. Action! (`ink` on `mint`, a clapperboard) shows the video and poster files. The setup shows one install only, so it never breaks. On hover of a card the light flickers, the camera flashes and the clapper snaps shut. The drawings are `LightArt`, `CameraArt` and `ClapperArt` in `components/brand/sticker-art.tsx`.
 - Every home section keeps the same gap between its heading and its content, `SECTION_BODY` in `lib/layout.ts`.
 - Buttons that move within the page, like "Install" and "Watch the demo", scroll smoothly to the section and move keyboard focus there, without changing the address. With reduced motion the jump is instant. They use `ScrollButton`, never `#` links.
 - Every focusable element uses the `focus-ring` class from `app/globals.css`: no outline, and a 4 px `brand-soft` ring for keyboard focus.
+- The 404 page shows the logo and "oops!", with Buddy bobbing beside it, then "Buddy looked everywhere. This page is out of frame." and a button home.
 - The coming-soon page, at `/coming-soon`, fits in one window with no scrolling. The logo sits above the name, and the mini demo takes the height that is left, shrinking on short screens.
 - On windows under 608 px tall, like phones turned sideways or laptops with a short browser window, the mini demo hides so the rest still fits. The `short:` variant in `app/globals.css` marks these windows.
 - On phones, keep a 16 px side gutter and no sideways scrolling.
@@ -124,15 +130,16 @@ All animation uses Motion (`motion/react`). Reuse the springs in `lib/motion.ts`
 - Each guide is its markdown file in `docs/`, rendered at build time, so the website and GitHub always say the same thing. The guides, their groups and their order come from `docs/README.md`: each `##` heading is a group, with a table of its guides. The groups are Start here, Make great videos and Reference. Links between guides stay on the site, and links to `examples/` open GitHub.
 - The overview opens with the title and one line, then one part per group. Start here shows the same three setup steps as the home page, then the Getting started card. Each group lists its guides as white sticker cards that tilt a little, each with a round number, a title and one line. The numbers run on across the groups.
 - A sidebar lists the guides as round pills under small uppercase group labels. The open one is a solid `brand` pill with white text and no shadow. It stays below the viewfinder labels while the page scrolls, and on phones it folds into a menu above the page.
-- The page title uses sticker text. Tables sit in white rounded cards, and on phones each row stacks into a small card with a label above each value, so nothing scrolls sideways. Every code block, from a request to Claude to a terminal command or a JSON file, sits in the same `ink` card in Fredoka, with a copy button, and long lines wrap.
+- The page title uses sticker text. Tables sit in white rounded cards, and on phones each row stacks into a small card with a label above each value, so nothing scrolls sideways. Every code block, from a request to an AI agent to a terminal command or a JSON file, sits in the same `ink` card in Fredoka, with a copy button, and long lines wrap.
 - Numbered lists show each number in a round `brand` sticker.
 - Each guide shows its group as a sparkle label above the title, like the home sections, and ends with links to the guide before and after it.
 - **Backgrounds** is a page for the website only, from `content/backgrounds.md`. It shows how to use a scene background, then every scene in a grid. A sticky row of palette pills recolors every preview, and each preview has a copy button for its style. Each preview shows the scene behind a white window, where the app sits in a real video. The scene names and looks come from the table in `docs/style.md`, and the palettes from the package. The Look and size guide links to it from its Scenes part.
 
 ## Footer and links
 
-- On the home page, the footer opens with an end card that says "That's a wrap!" next to a clapperboard sticker with a face. The board claps shut with confetti when it scrolls into view, and again on each click. Under it, movie credits pop in as small tilted stickers: Starring your web app, Directed by Claude in `brand`, Camera CursorCam, and Stunt cursor Buddy with the buddy cursor. It lives in `components/home/wrap/`. The coming-soon page keeps the plain footer, so it still fits one window.
-- The footer then says "Designed & built by @avijit07x", linked to the GitHub profile, then "Follow on GitHub" with the GitHub logo.
+- On the home page, the footer opens with an end card that says "That's a wrap!" next to a clapperboard sticker with a face. The board claps shut with confetti when it scrolls into view, and again on each click. Under it, movie credits pop in as small tilted stickers: Starring your web app, Directed by Your AI in `brand`, Camera CursorCam, and Stunt cursor Buddy with the buddy cursor. It lives in `components/home/wrap/`. The coming-soon page keeps the plain footer, so it still fits one window.
+- The footer then has a row of links: Docs, Changelog, npm, Report an issue and License. The coming-soon page leaves them out so it still fits one window.
+- Under them it says "Designed & built by @avijit07x", linked to the GitHub profile, then "Follow on GitHub" with the GitHub logo.
 - Links are plain text, with no badge or pill around them and no separator dot between them.
 
 ## Scrollbar

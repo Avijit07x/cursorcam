@@ -17,6 +17,8 @@
   --color-mint: #86efac;
   --color-shade: rgb(30 27 75 / 0.32);
 
+  --ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1);
+
   --animate-twinkle: twinkle 1.8s ease-in-out infinite;
   --animate-wiggle: wiggle 4.2s ease-in-out 1.6s infinite;
   --animate-blink: blink 1.2s linear infinite;
@@ -29,6 +31,8 @@
   --animate-tap: tap 2.8s ease-in-out infinite;
   --animate-logo-dot: logo-dot 1.4s ease-in-out infinite;
   --animate-nudge: nudge 1.4s ease-in-out infinite;
+  --animate-flicker: flicker 0.9s steps(2, end);
+  --animate-flash: flash 0.6s ease-out;
 
   @keyframes twinkle {
     0%,
@@ -157,6 +161,29 @@
     }
   }
 
+  @keyframes flicker {
+    0%,
+    40% {
+      opacity: 0.2;
+    }
+    20%,
+    60%,
+    100% {
+      opacity: 0.9;
+    }
+  }
+
+  @keyframes flash {
+    0% {
+      opacity: 1;
+      scale: 0.2;
+    }
+    100% {
+      opacity: 0;
+      scale: 1.6;
+    }
+  }
+
   @keyframes nudge {
     0%,
     100% {
@@ -233,17 +260,18 @@ html {
 }
 
 .sticker-shadow {
-  filter: drop-shadow(0 1.5px 0 rgb(30 27 75 / 0.06)) drop-shadow(0 8px 14px rgb(30 27 75 / 0.18));
+  filter: drop-shadow(0 1px 1px rgb(30 27 75 / 0.06)) drop-shadow(0 4px 8px rgb(30 27 75 / 0.07));
 }
 
 .sticker-box {
   box-shadow:
-    0 1.5px 0 rgb(30 27 75 / 0.06),
-    0 8px 14px rgb(30 27 75 / 0.18);
+    0 1px 1px rgb(30 27 75 / 0.05),
+    0 4px 8px rgb(30 27 75 / 0.05),
+    0 16px 32px -12px rgb(30 27 75 / 0.12);
 }
 
 .sticker-text {
   -webkit-text-stroke: 0.16em #fff;
   paint-order: stroke fill;
-  filter: drop-shadow(0 2px 0 rgb(30 27 75 / 0.06)) drop-shadow(0 12px 18px rgb(30 27 75 / 0.16));
+  filter: drop-shadow(0 1px 0 rgb(30 27 75 / 0.06)) drop-shadow(0 3px 6px rgb(30 27 75 / 0.07));
 }

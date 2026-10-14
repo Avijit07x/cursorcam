@@ -46,7 +46,7 @@ export interface RecordedRun {
 }
 
 const STEPS_COPY = 'steps.json';
-const CHECK_NAME_PREFIX = 'check-';
+export const CHECK_NAME_PREFIX = 'check-';
 
 export async function recordRun(
   stepsPath: string,

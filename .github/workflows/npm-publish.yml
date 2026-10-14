@@ -105,3 +105,11 @@ jobs:
           prerelease=""
           case "$GITHUB_REF_NAME" in *-*) prerelease="--prerelease" ;; esac
           gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --verify-tag --title "$GITHUB_REF_NAME" --notes-file "$NOTES_FILE" $prerelease
+
+      - name: Build the Claude Desktop extension and the Gemini CLI archives
+        run: node scripts/build-release-assets.mjs
+
+      - name: Attach them to the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$GITHUB_REF_NAME" release/* --repo "$GITHUB_REPOSITORY" --clobber

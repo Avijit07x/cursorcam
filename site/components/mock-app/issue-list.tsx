@@ -12,11 +12,9 @@ export function IssueList() {
       {ISSUE_ROWS.map((row, index) => (
         <motion.div key={row.dot} {...part(`row-${index}`)} variants={THEME.row} className={ROW}>
           <span className={ROW_DOT} style={{ background: row.dot }} />
-          <motion.span
-            variants={THEME.rowBar}
-            className="h-[2cqh] rounded-full"
-            style={{ width: row.width }}
-          />
+          <motion.span variants={THEME.text} className="min-w-0 truncate text-[4cqh] font-medium">
+            {row.title}
+          </motion.span>
           <span className={ROW_AVATAR} style={{ background: row.avatar }} />
         </motion.div>
       ))}

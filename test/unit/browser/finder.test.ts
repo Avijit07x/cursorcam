@@ -38,6 +38,13 @@ describe('findBrowser', () => {
     expect(found).toEqual({ kind: 'chrome', path });
   });
 
+  it('looks under the standard Windows folders when their variables are missing', () => {
+    const path = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
+    const found = findBrowser(environment('win32', [path], {}));
+
+    expect(found).toEqual({ kind: 'edge', path });
+  });
+
   it('uses the override when the file exists', () => {
     const found = findBrowser(
       environment('linux', ['/custom/chrome', '/opt/google/chrome/chrome'], {

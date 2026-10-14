@@ -29,10 +29,6 @@ export const THEME = {
     { backgroundColor: WHITE, boxShadow: INK_LINE },
     { backgroundColor: 'rgb(255 255 255 / 0.07)', boxShadow: WHITE_LINE },
   ),
-  rowBar: tone(
-    { backgroundColor: 'rgb(30 27 75 / 0.1)' },
-    { backgroundColor: 'rgb(255 255 255 / 0.18)' },
-  ),
   newRow: tone(
     { backgroundColor: 'var(--color-brand-tint)', boxShadow: '0 0 0 1px rgb(79 70 229 / 0.3)' },
     { backgroundColor: 'rgb(79 70 229 / 0.45)', boxShadow: WHITE_LINE },

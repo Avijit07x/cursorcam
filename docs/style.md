@@ -3,25 +3,26 @@
 `run` records and renders. `render` renders a recording again, with a new size or look, in seconds and without recording again.
 
 ```bash
-npx cursorcam@beta render cursorcam-output/<run> --for x --style '{"background":"sunset"}'
+npx cursorcam render cursorcam-output/<run> --for x --style '{"background":"sunset"}'
 ```
 
 Raw frames are kept for 7 days, so you can render again. `--clean` deletes them at once.
 
 ## Where it will be posted
 
-| `--for` | Size | fps | Limit |
-| --- | --- | --- | --- |
-| (default) | 1920×1080 | 60 | 8 Mbps |
-| `youtube` | 1920×1080 | 60 | 12 Mbps |
-| `x` | 1920×1080 | 30 | up to 140 s |
-| `linkedin` | 1920×1080 | 30 | 3 s to 15 min |
-| `discord` | 1280×720 | 30 | under 20 MB |
+| `--for` | Size | fps | Bitrate | Limit |
+| --- | --- | --- | --- | --- |
+| (default) | 1920×1080 | 60 | 8 Mbps | none |
+| `youtube` | 1920×1080 | 60 | 12 Mbps | none |
+| `x` | 1920×1080 | 30 | 6 Mbps | up to 140 s and 512 MB |
+| `linkedin` | 1920×1080 | 30 | 6 Mbps | 3 s to 15 min |
+| `discord` | 1280×720 | 30 | 4 Mbps | under 20 MB |
 
-- `--max-size 10MB` keeps the file under any size. Use it for a README or docs.
+- `--max-size 10MB` keeps the file under that size. Use it for a README or docs.
 - `--format square` makes a 1080×1080 video from any recording.
 - `--format vertical` makes a 1080×1920 video. It needs a phone recording, with `"viewport": "phone"` in the steps.
-- A video too long for its preset fails. Shorten the steps, or use the default.
+- A video too long for its preset fails with exit code 2. Shorten the steps, or use the default.
+- A LinkedIn video under 3 s fails too. Add a `pause` at the end.
 
 Each render writes a video and a poster, its first frame, named after the preset and format, like `video-x.mp4` and `poster-x.jpg`.
 
@@ -30,8 +31,8 @@ Each render writes a video and a poster, its first frame, named after the preset
 Pass a JSON file, or inline JSON:
 
 ```bash
-npx cursorcam@beta run steps.json --style brand.json
-npx cursorcam@beta run steps.json --style '{"background":"midnight","padding":0.08}'
+npx cursorcam run steps.json --style brand.json
+npx cursorcam run steps.json --style '{"background":"midnight","padding":0.08}'
 ```
 
 | Key | Default | Value |
@@ -51,7 +52,7 @@ npx cursorcam@beta run steps.json --style '{"background":"midnight","padding":0.
 
 - A gradient name: `aurora`, `sunset`, `ocean`, `forest`, `midnight` or `paper`.
 - A hex color, like `"#0f172a"`.
-- A custom gradient: `{ "from": "#4f46e5", "to": "#06b6d4", "angle": 135 }`.
+- A custom gradient: `{ "from": "#7c3aed", "to": "#ec4899", "angle": 135 }`.
 - An image: `{ "image": "brand/bg.png" }`, a PNG, JPEG or WebP file that covers the frame. A relative path starts from the style file's folder.
 - A scene drawn from two colors: `{ "scene": "glow", "colors": "indigo" }`.
 

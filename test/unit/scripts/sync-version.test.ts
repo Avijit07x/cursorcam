@@ -6,6 +6,14 @@ import { useTempDir } from '../../helpers/temp-dir.js';
 
 const ROOT = join(import.meta.dirname, '..', '..', '..');
 const SCRIPT = join(ROOT, 'scripts', 'sync-version.mjs');
+const SKILL = `---
+name: cursorcam
+argument-hint: <url>
+allowed-tools: Bash(npx -y cursorcam@1.0.0 *)
+---
+
+Run \`npx -y cursorcam@1.0.0 doctor\`.
+`;
 const MANIFEST = `{
   "name": "cursorcam",
   "version": "1.0.0",
@@ -27,7 +35,7 @@ describe('sync-version', () => {
     await mkdir(join(skill, 'references'), { recursive: true });
     await writeFile(join(root, 'package.json'), JSON.stringify({ version: '2.3.4' }));
     await writeFile(join(root, 'plugin', '.claude-plugin', 'plugin.json'), MANIFEST);
-    await writeFile(join(skill, 'SKILL.md'), 'Run `npx -y cursorcam@1.0.0 doctor`.\n');
+    await writeFile(join(skill, 'SKILL.md'), SKILL);
     await writeFile(join(skill, 'references', 'steps.md'), 'Use cursorcam@1.0.0-beta.1 here.\n');
     return { root, skill };
   };
@@ -49,7 +57,7 @@ describe('sync-version', () => {
       MANIFEST.replace('1.0.0', '2.3.4'),
     );
     expect(await readFile(join(skill, 'SKILL.md'), 'utf8')).toBe(
-      'Run `npx -y cursorcam@2.3.4 doctor`.\n',
+      SKILL.replaceAll('1.0.0', '2.3.4'),
     );
     expect(await readFile(join(skill, 'references', 'steps.md'), 'utf8')).toBe(
       'Use cursorcam@2.3.4 here.\n',
@@ -57,9 +65,30 @@ describe('sync-version', () => {
     expect(sync(root, '--check').status).toBe(0);
   });
 
+  it('copies the skill into the open-standard plugin without the Claude-only fields', async () => {
+    const { root } = await setUp();
+    const copy = join(root, 'agent-plugin', 'skills', 'cursorcam');
+    await mkdir(copy, { recursive: true });
+    await writeFile(join(copy, 'old.md'), 'gone\n');
+
+    expect(sync(root, '--check').stderr).toContain(
+      join('agent-plugin', 'skills', 'cursorcam', 'SKILL.md'),
+    );
+    expect(sync(root).status).toBe(0);
+
+    expect(await readFile(join(copy, 'SKILL.md'), 'utf8')).toBe(
+      '---\nname: cursorcam\n---\n\nRun `npx -y cursorcam@2.3.4 doctor`.\n',
+    );
+    expect(await readFile(join(copy, 'references', 'steps.md'), 'utf8')).toBe(
+      'Use cursorcam@2.3.4 here.\n',
+    );
+    await expect(readFile(join(copy, 'old.md'), 'utf8')).rejects.toThrow();
+    expect(sync(root, '--check').status).toBe(0);
+  });
+
   it('passes on this repository', () => {
     const result = sync(ROOT, '--check');
     expect(result.status).toBe(0);
-    expect(result.stdout).toMatch(/^The plugin matches version \d+\.\d+\.\d+(?:-[0-9a-z.]+)?\.$/m);
+    expect(result.stdout).toMatch(/^The plugins match version \d+\.\d+\.\d+(?:-[0-9a-z.]+)?\.$/m);
   });
 });

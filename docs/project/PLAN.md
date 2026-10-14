@@ -451,7 +451,7 @@ The first run downloads these packages (tens of MB), and nothing else.
 ├── pnpm-workspace.yaml    the CLI at the root plus site/
 ├── .github/
 │   ├── workflows/         ci.yml (3 OSes once public), npm-publish.yml (tag → checks → npm via trusted publishing → release notes from CHANGELOG), zizmor.yml (workflow security), pr-title.yml
-│   ├── ISSUE_TEMPLATE/    bug report, feature request; security reports go to private reporting
+│   ├── ISSUE_TEMPLATE/    bug report, feature request, question; security reports go to private reporting
 │   ├── renovate.json      weekly grouped updates, 1-day minimum release age, pinned action commits
 │   ├── pull_request_template.md
 │   ├── CODEOWNERS
@@ -534,7 +534,7 @@ The first run downloads these packages (tens of MB), and nothing else.
 
 1. **Package name:** `cursorcam` ✅
 2. **Publishing:** npm package + Claude plugin marketplace ✅
-3. **Claude Desktop chat (MCP)** after v1? Recommended: yes.
+3. **MCP server** for Claude Desktop and every other MCP app: ✅ `cursorcam mcp`, shipped with 1.0.0
 4. **Visible browser:** hidden by default, with `--headed`? Recommended: yes.
 5. **Vertical:** phone recording rather than cropping? Recommended: yes.
 6. **Default fps:** 60, with presets at 30? Recommended: yes.

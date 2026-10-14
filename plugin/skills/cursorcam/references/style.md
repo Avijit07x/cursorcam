@@ -12,13 +12,13 @@
 | `--style <file or JSON>` | The look, see below |
 | `--clean` | Deletes the raw frames after rendering |
 
-| Preset | Size | fps | Limit |
-| --- | --- | --- | --- |
-| (default) | 1920×1080 | 60 | 8 Mbps |
-| `youtube` | 1920×1080 | 60 | 12 Mbps |
-| `x` | 1920×1080 | 30 | up to 140 s and 512 MB |
-| `linkedin` | 1920×1080 | 30 | 3 s to 15 min |
-| `discord` | 1280×720 | 30 | under 20 MB |
+| Preset | Size | fps | Bitrate | Limit |
+| --- | --- | --- | --- | --- |
+| (default) | 1920×1080 | 60 | 8 Mbps | none |
+| `youtube` | 1920×1080 | 60 | 12 Mbps | none |
+| `x` | 1920×1080 | 30 | 6 Mbps | up to 140 s and 512 MB |
+| `linkedin` | 1920×1080 | 30 | 6 Mbps | 3 s to 15 min |
+| `discord` | 1280×720 | 30 | 4 Mbps | under 20 MB |
 
 - `square` is 1080×1080 and works from any recording.
 - `vertical` is 1080×1920 and needs a phone recording: `"viewport": "phone"` in the steps.
@@ -48,7 +48,7 @@ Pass a JSON file, or inline JSON: `--style '{"background":"sunset","padding":0.0
 
 - A gradient name: `aurora`, `sunset`, `ocean`, `forest`, `midnight` or `paper`.
 - A hex color, like `"#0f172a"`.
-- A custom gradient: `{ "from": "#4f46e5", "to": "#06b6d4", "angle": 135 }`.
+- A custom gradient: `{ "from": "#7c3aed", "to": "#ec4899", "angle": 135 }`.
 - An image: `{ "image": "brand/bg.png" }`, a PNG, JPEG or WebP file. A relative path starts from the style file's folder, or from the current folder for inline JSON. The image covers the frame.
 - A scene drawn from two colors: `{ "scene": "glow", "colors": "indigo" }`. The scene is one of `mesh`, `glow`, `split`, `dunes`, `aurora`, `glass`, `ripple`, `contours`, `grid`, `ribbons`, `beams`, `shapes`, `halftone` or `cursor`. `colors` is a palette, `indigo`, `iris`, `ocean`, `teal`, `plum`, `sunset`, `graphite`, `peach` or `paper`, `indigo` by default, or two hex colors, deep then light: `["#1e3a8a", "#38bdf8"]`.
 

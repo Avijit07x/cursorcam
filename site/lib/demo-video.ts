@@ -8,5 +8,5 @@ export const DEMO_VIDEO = {
   steps: 13,
   stepsUrl: 'https://github.com/Avijit07x/cursorcam/blob/main/site/demo/readme-steps.json',
   label:
-    'Demo video. Claude creates an issue in a sample issue tracker with a title, description, priority and assignee, opens it and posts a comment.',
+    'Demo video made with CursorCam. In a sample issue tracker it creates an issue with a title, description, priority and assignee, opens it and posts a comment.',
 } as const;

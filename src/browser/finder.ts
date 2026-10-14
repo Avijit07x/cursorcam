@@ -54,7 +54,12 @@ const WINDOWS_APPS: readonly (readonly [BrowserKind, string])[] = [
   ['brave', 'BraveSoftware\\Brave-Browser\\Application\\brave.exe'],
 ];
 
-const WINDOWS_ROOT_VARS = ['LOCALAPPDATA', 'PROGRAMFILES', 'PROGRAMFILES(X86)'] as const;
+// Launchers that pass only a few variables, like Gemini CLI, still find the standard folders.
+const WINDOWS_ROOTS: readonly (readonly [string, (home: string) => string])[] = [
+  ['LOCALAPPDATA', (home) => win32.join(home, 'AppData', 'Local')],
+  ['PROGRAMFILES', () => 'C:\\Program Files'],
+  ['PROGRAMFILES(X86)', () => 'C:\\Program Files (x86)'],
+];
 
 function macCandidates(home: string): BrowserInstall[] {
   const roots = ['/Applications', posix.join(home, 'Applications')];
@@ -63,10 +68,8 @@ function macCandidates(home: string): BrowserInstall[] {
   );
 }
 
-function windowsCandidates(env: NodeJS.ProcessEnv): BrowserInstall[] {
-  const roots = WINDOWS_ROOT_VARS.map((name) => env[name]).filter(
-    (root): root is string => root !== undefined,
-  );
+function windowsCandidates(env: NodeJS.ProcessEnv, home: string): BrowserInstall[] {
+  const roots = WINDOWS_ROOTS.map(([name, fallback]) => env[name] ?? fallback(home));
   return WINDOWS_APPS.flatMap(([kind, app]) =>
     roots.map((root) => ({ kind, path: win32.join(root, app) })),
   );
@@ -77,7 +80,7 @@ function candidatesFor({ platform, env, home }: FinderEnvironment): BrowserInsta
     case 'darwin':
       return macCandidates(home);
     case 'win32':
-      return windowsCandidates(env);
+      return windowsCandidates(env, home);
     default:
       return [...LINUX_CANDIDATES];
   }

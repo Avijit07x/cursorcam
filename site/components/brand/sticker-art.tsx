@@ -135,3 +135,72 @@ export function RecArt() {
     </span>
   );
 }
+
+// The film-set drawings on the setup cards. Each one acts on hover of its card, the `group`.
+const SET_OUTLINE = { ...OUTLINE, strokeWidth: 4 } as const;
+
+export function LightArt() {
+  return (
+    <svg viewBox="0 0 110 110" className="size-full overflow-visible" aria-hidden="true">
+      <path
+        d="M38 40 104 96 58 108Z"
+        fill="#FDE68A"
+        className="opacity-60 group-hover:opacity-90 motion-safe:group-hover:animate-flicker"
+      />
+      <path d="M24 60 17 97M24 60l8 37" stroke={INK} strokeWidth={4} strokeLinecap="round" />
+      <rect
+        x="14"
+        y="26"
+        width="34"
+        height="26"
+        rx="8"
+        transform="rotate(35 31 39)"
+        fill="#4F46E5"
+        {...SET_OUTLINE}
+      />
+      <circle cx="44" cy="50" r="5" fill="#FEF3C7" />
+    </svg>
+  );
+}
+
+export function CameraArt() {
+  return (
+    <svg viewBox="0 0 110 110" className="size-full overflow-visible" aria-hidden="true">
+      <circle
+        cx="78"
+        cy="30"
+        r="22"
+        fill="#fff"
+        className="origin-[78px_30px] opacity-0 motion-safe:group-hover:animate-flash"
+      />
+      <rect x="64" y="24" width="18" height="12" rx="4" fill={INK} />
+      <rect x="14" y="34" width="82" height="56" rx="14" fill={BLUSH} {...SET_OUTLINE} />
+      <circle cx="55" cy="62" r="18" fill={INK} stroke="#fff" strokeWidth={4} />
+      <circle cx="55" cy="62" r="8" fill="#4F46E5" />
+      <circle cx="51" cy="58" r="2.5" fill="#fff" />
+      <circle cx="28" cy="46" r="4" fill="#FDE68A" />
+    </svg>
+  );
+}
+
+export function ClapperArt() {
+  return (
+    <svg viewBox="0 0 110 110" className="size-full overflow-visible" aria-hidden="true">
+      <rect x="16" y="50" width="78" height="46" rx="8" fill={INK} {...SET_OUTLINE} />
+      <path d="M28 66h54M28 78h38" stroke="#86EFAC" strokeWidth={4} strokeLinecap="round" />
+      <g className="origin-[18px_46px] -rotate-18 ease-pop group-hover:rotate-0 motion-safe:transition-[rotate] motion-safe:duration-300">
+        <rect
+          x="16"
+          y="34"
+          width="78"
+          height="14"
+          rx="5"
+          fill="#fff"
+          stroke={INK}
+          strokeWidth={3}
+        />
+        <path d="M30 35 24 47M46 35 40 47M62 35 56 47M78 35 72 47" stroke={INK} strokeWidth={5} />
+      </g>
+    </svg>
+  );
+}

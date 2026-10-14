@@ -8,7 +8,7 @@ interface ButtonLinkProps extends ButtonLookProps {
 
 export function ButtonLink({ href, children, variant, size }: ButtonLinkProps) {
   return (
-    <ButtonMotion>
+    <ButtonMotion variant={variant}>
       <Link href={href} className={buttonClass(variant, size)}>
         {children}
       </Link>

@@ -21,15 +21,12 @@ export function SiteHeader({ action }: { readonly action: ReactNode }) {
       <Link
         href="/"
         aria-label={`${SITE.name} home`}
-        className="inline-flex items-center gap-2.5 rounded-2xl focus-ring"
+        className="group inline-flex items-center gap-2.5 rounded-2xl focus-ring"
       >
-        <StickerMark className="size-11" />
+        <StickerMark className="size-11 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-hover:-rotate-8 motion-safe:transition-transform motion-safe:duration-300" />
         <Wordmark />
       </Link>
-      <nav
-        aria-label="Main"
-        className="order-last flex basis-full gap-5.5 font-semibold md:order-none md:ml-auto md:basis-auto"
-      >
+      <nav aria-label="Main" className="hidden gap-5.5 font-semibold md:ml-auto md:flex">
         {NAV.map((item) => (
           <SiteLink
             key={item.label}

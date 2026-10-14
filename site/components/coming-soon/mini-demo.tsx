@@ -129,7 +129,7 @@ export function MiniDemo() {
             </motion.div>
           </motion.div>
           <motion.div
-            className="absolute top-[5%] left-1/2 flex items-center gap-1.5 rounded-full bg-white px-3 py-1 text-[11px] font-semibold whitespace-nowrap text-ink shadow-[0_6px_16px_-6px_rgb(30_27_75/0.3)] ring-1 ring-ink/8"
+            className="absolute top-[5%] left-1/2 flex items-center gap-1.5 rounded-full bg-white px-3 py-1 text-[11px] font-semibold whitespace-nowrap text-ink shadow-[0_4px_12px_-4px_rgb(30_27_75/0.18)] ring-1 ring-ink/8"
             style={{ x: '-50%' }}
             animate={{ opacity: [0, 0, 1, 1, 0, 0], y: [-10, -10, 0, 0, -10, -10] }}
             transition={loop([0, 0.34, 0.39, 0.82, 0.88, 1])}

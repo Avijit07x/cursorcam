@@ -84,7 +84,7 @@ export const SHAPE_KEYS = Object.keys(SHAPES) as ShapeKey[];
 
 export const ZOOM = { min: 13, max: 25, start: 20, marks: [13, 20, 25] } as const;
 
-export const TIPS = ['Try the knobs!', 'Now press Ask Claude!', 'Snap! Copy it below.'] as const;
+export const TIPS = ['Try the knobs!', 'Now press Ask your AI!', 'Snap! Copy it below.'] as const;
 export const TIP_TOUCHED = 1;
 export const TIP_SNAPPED = 2;
 

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "cursorcam",
+  "version": "1.0.0-beta.4",
+  "description": "Ask your AI agent for a demo video. It explores your web app, writes the steps, records them in a hidden browser and hands back a polished MP4 with auto-zoom, a smooth cursor and click ripples.",
+  "author": {
+    "name": "Avijit Dey",
+    "url": "https://github.com/avijit07x"
+  },
+  "homepage": "https://cursorcam.vercel.app",
+  "repository": "https://github.com/Avijit07x/cursorcam",
+  "license": "Apache-2.0",
+  "keywords": [
+    "demo video",
+    "click demo",
+    "walkthrough",
+    "screen recording",
+    "product demo",
+    "mp4",
+    "mcp"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "CursorCam",
+        "shortDescription": "Ask your AI agent for a click demo video of your web app.",
+        "longDescription": "Ask your AI agent for a demo video. It explores your web app, writes the steps, records them in a hidden browser and hands back a polished MP4 with auto-zoom, a smooth cursor and click ripples.",
+        "developerName": "Avijit Dey",
+        "category": "Productivity",
+        "websiteURL": "https://cursorcam.vercel.app",
+        "defaultPrompt": [
+          "Make a 20 second demo of http://localhost:3000: sign up and create a project."
+        ],
+        "brandColor": "#4F46E5",
+        "logo": "./assets/logo.png"
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+description = "Record a polished click demo video of a web app"
+prompt = """
+Make a click demo video with CursorCam. Follow the cursorcam skill and use the CursorCam MCP tools.
+
+What to record: {{args}}
+"""

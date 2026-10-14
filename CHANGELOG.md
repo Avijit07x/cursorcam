@@ -1,5 +1,20 @@
 # cursorcam
 
+## Unreleased
+
+- New `cursorcam mcp` command: an MCP server, so Cursor, VS Code, Codex, Gemini CLI, Windsurf, Claude Desktop and any other MCP app can make videos. Add it with `npx -y cursorcam mcp`. Its tools match the CLI commands. Recordings run in the background and the agent follows them with `wait`, so no call times out. `inspect`, `stills` and failed runs return their frames as images, so the agent can see its own video. Secrets passed to `check`, `record` and `run` never reach a file, a log or the tool output.
+- Native installs for every major AI agent. Most add the MCP server and the skill that teaches the whole flow:
+  - Codex: `codex plugin marketplace add Avijit07x/cursorcam`, then `codex plugin add cursorcam@cursorcam`.
+  - VS Code and GitHub Copilot: add `Avijit07x/cursorcam` to `chat.plugins.marketplaces`, then install it from `@agentPlugins`.
+  - Gemini CLI: `gemini extensions install https://github.com/Avijit07x/cursorcam`, which also adds a `/cursorcam` command.
+  - Cursor: a one-click MCP install link.
+  - Claude Desktop: a one-click extension, `cursorcam.mcpb`, attached to each release. It brings its own Node.js.
+  - Claude Code keeps its plugin.
+- The MCP server works in the project you have open: it asks the app for its folders, so videos, steps files and relative paths land in your project, even when a plugin starts it from its own folder.
+- The skill works with the MCP tools or the CLI, whichever the agent has.
+- On Windows, CursorCam finds the browser even when the app that starts it passes only a few environment variables.
+- The README and the docs now cover any AI agent, not only Claude Code, and every command uses `npx cursorcam` without `@beta`.
+
 ## 1.0.0-beta.4
 
 ### Patch Changes

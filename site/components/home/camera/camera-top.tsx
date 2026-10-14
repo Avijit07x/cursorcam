@@ -82,7 +82,7 @@ export function CameraTop({ lensRef, shutterRef, onShutter, burst, hint }: Camer
           <span className="size-5 sm:size-6">
             <BuddyCursorArt />
           </span>
-          Ask Claude
+          Ask your AI
         </motion.button>
         <ClickHint visible={hint} />
         {burst}

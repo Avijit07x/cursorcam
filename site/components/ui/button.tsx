@@ -9,7 +9,7 @@ interface ButtonProps extends ButtonLookProps {
 
 export function Button({ onClick, children, variant, size }: ButtonProps) {
   return (
-    <ButtonMotion>
+    <ButtonMotion variant={variant}>
       <button type="button" onClick={onClick} className={buttonClass(variant, size)}>
         {children}
       </button>

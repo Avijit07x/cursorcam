@@ -44,7 +44,7 @@ export function ComingSoon() {
           <MiniDemo />
         </div>
       </main>
-      <SiteFooter />
+      <SiteFooter links={false} />
     </div>
   );
 }

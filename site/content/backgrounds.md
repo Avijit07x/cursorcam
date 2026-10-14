@@ -4,10 +4,10 @@ CursorCam can draw a scene behind the app window from two colors. Every scene fi
 
 ## How to use them
 
-Name the scene and the palette when you ask Claude:
+Name the scene and the palette when you ask your agent:
 
 ```
-/cursorcam http://localhost:3000 — sign up and create a project, on the dunes background in ocean
+Make a demo of http://localhost:3000: sign up and create a project, on the dunes background in ocean.
 ```
 
 Or put it in a style file:
@@ -19,13 +19,13 @@ Or put it in a style file:
 ```
 
 ```bash
-npx cursorcam@beta run steps.json --style style.json
+npx cursorcam run steps.json --style style.json
 ```
 
 To try another one on a video you already made, render it again. It takes seconds and records nothing new:
 
 ```bash
-npx cursorcam@beta render cursorcam-output/<run> --style '{"background":{"scene":"glow","colors":"plum"}}'
+npx cursorcam render cursorcam-output/<run> --style '{"background":{"scene":"glow","colors":"plum"}}'
 ```
 
 - Leave out `colors` to get `indigo`.

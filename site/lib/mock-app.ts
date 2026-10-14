@@ -1,7 +1,7 @@
 export const ISSUE_ROWS = [
-  { dot: '#F59E0B', width: '58%', avatar: '#DB2777' },
-  { dot: '#4F46E5', width: '42%', avatar: '#0891B2' },
-  { dot: '#10B981', width: '50%', avatar: '#EA580C' },
+  { dot: '#F59E0B', width: '58%', avatar: '#DB2777', title: 'Fix the login redirect' },
+  { dot: '#4F46E5', width: '42%', avatar: '#0891B2', title: 'Dark mode for settings' },
+  { dot: '#10B981', width: '50%', avatar: '#EA580C', title: 'Faster search results' },
 ] as const;
 
 export const MOCK_APP = {

@@ -37,10 +37,12 @@ jobs:
         run: pnpm typecheck
       - name: Unused files, exports and dependencies
         run: pnpm knip
-      - name: Plugin version matches the package
+      - name: Plugins and extensions match the package version
         run: pnpm check:version
       - name: Package contents
         run: pnpm check:package
+      - name: Release files for Claude Desktop and Gemini CLI
+        run: node scripts/build-release-assets.mjs
       - name: Unit test coverage
         run: pnpm coverage
 
