@@ -1,0 +1,17 @@
+{
+  "name": "cursorcam",
+  "owner": {
+    "name": "Avijit Dey"
+  },
+  "metadata": {
+    "description": "Ask your AI agent for a click demo video of your web app.",
+    "version": "1.0.0-beta.4"
+  },
+  "plugins": [
+    {
+      "name": "cursorcam",
+      "source": "./agent-plugin",
+      "description": "Ask your AI agent for a demo video. It explores your web app, writes the steps, records them in a hidden browser and hands back a polished MP4 with auto-zoom, a smooth cursor and click ripples."
+    }
+  ]
+}

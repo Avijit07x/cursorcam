@@ -1,6 +1,6 @@
 # Steps file
 
-Claude writes the steps for you. Read this to edit them by hand, or to run the [CLI](cli.md) yourself.
+Your AI agent writes the steps for you. Read this to edit them by hand, or to run the [CLI](cli.md) yourself.
 
 A steps file is JSON. It names the first page and the steps to play, in order:
 
@@ -122,4 +122,4 @@ Text matching ignores case and matches part of the text. When more than one elem
 | `frame` | CSS selector of the iframe to look in |
 | `exact` | `true` matches the whole text, case included |
 
-`npx cursorcam@beta inspect <url>` lists targets that match exactly one element on a page.
+`npx cursorcam inspect <url>` lists targets that match exactly one element on a page.

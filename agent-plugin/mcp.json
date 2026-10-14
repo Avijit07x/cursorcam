@@ -1,0 +1,13 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "cursorcam": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "cursorcam@1.0.0-beta.4", "mcp"],
+      "env": {
+        "CURSORCAM_MCP_IN_PLUGIN": "1"
+      }
+    }
+  }
+}

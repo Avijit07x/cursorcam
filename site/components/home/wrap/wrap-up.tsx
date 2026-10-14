@@ -15,7 +15,7 @@ interface Credit {
 
 const CREDITS: readonly Credit[] = [
   { role: 'Starring', name: 'Your web app', tilt: -3 },
-  { role: 'Directed by', name: 'Claude', tilt: 2, lead: true },
+  { role: 'Directed by', name: 'Your AI', tilt: 2, lead: true },
   { role: 'Camera', name: 'CursorCam', tilt: -2 },
   { role: 'Stunt cursor', name: 'Buddy', tilt: 3, buddy: true },
 ];

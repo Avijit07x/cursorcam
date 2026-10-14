@@ -7,6 +7,7 @@ import { registerCheck } from './commands/check.js';
 import { registerDoctor } from './commands/doctor.js';
 import { registerInspect } from './commands/inspect.js';
 import { registerLogin } from './commands/login.js';
+import { registerMcp } from './commands/mcp.js';
 import { registerRecord } from './commands/record.js';
 import { registerRender } from './commands/render.js';
 import { registerRun } from './commands/run.js';
@@ -36,5 +37,6 @@ registerStills(program);
 registerWait(program);
 registerLogin(program);
 registerAnswer(program);
+registerMcp(program, version);
 
 await program.parseAsync(process.argv);

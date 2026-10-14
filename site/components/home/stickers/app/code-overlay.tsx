@@ -31,7 +31,7 @@ export function CodeOverlay({ digits }: { readonly digits: number }) {
         <span className="size-[6cqh] shrink-0">
           <SmileArt />
         </span>
-        Claude asks you for the code
+        Your agent asks for the code
       </div>
     </Overlay>
   );

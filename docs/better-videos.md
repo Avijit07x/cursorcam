@@ -1,6 +1,6 @@
 # Better videos
 
-Claude does the whole job, but a clear request gets a better video on the first try.
+Your AI agent does the whole job, but a clear request gets a better video on the first try.
 
 ## Say what to show
 
@@ -13,7 +13,7 @@ A good request names:
 - **What to hide**, like an email address in the header.
 
 ```
-/cursorcam http://localhost:3000 — create an issue called "Add onboarding",
+Make a demo of http://localhost:3000: create an issue called "Add onboarding",
 set it to high priority, assign it to Maya, and end on the new issue.
 About 25 seconds, for X.
 ```
@@ -44,15 +44,15 @@ Record the settings page on a phone, as a vertical video for Instagram.
 ## Prepare the app
 
 - **Use realistic demo data.** An empty list looks dull, and real customer data must never be in a video.
-- **Use a demo account.** Claude asks for a login when it needs one, and never saves it. See [Logins and secrets](logins.md).
-- **Remove things that cover the page,** like cookie banners, chat widgets and framework dev overlays. They show up in the video. You can also ask Claude to close them first.
+- **Use a demo account.** Your agent asks for a login when it needs one, and never saves it. See [Logins and secrets](logins.md).
+- **Remove things that cover the page,** like cookie banners, chat widgets and framework dev overlays. They show up in the video. You can also ask your agent to close them first.
 - **Say the window you want:** "on a phone" records the phone layout, and "in dark mode" switches the color scheme.
 
 ## Zoom and pacing
 
 The camera zooms in for each click and typing. It stays zoomed while the next actions are in the same area, and zooms out when the flow moves somewhere else. Ask for something else in plain words:
 
-| Ask | What Claude changes |
+| Ask | What your agent changes |
 | --- | --- |
 | "No zoom" | Turns zoom off for the whole video |
 | "Stay zoomed after clicks" | Holds the zoom for a moment after each action |
@@ -78,20 +78,20 @@ All the options are in [Look and size](style.md).
 
 ## Record again after the app changes
 
-Claude saves the steps in `cursorcam-output/`. After the app changes, ask:
+Your agent saves the steps in `cursorcam-output/`. After the app changes, ask:
 
 ```
 Record cursorcam-output/create-issue.json again.
 ```
 
-If a button was renamed, Claude finds the new one and updates the steps.
+If a button was renamed, your agent finds the new one and updates the steps.
 
 ## Check before you post
 
-Claude looks at stills of its own video before it hands it back. To look yourself, ask for the stills, or run:
+Your agent looks at stills of its own video before it hands it back. To look yourself, ask for the stills, or run:
 
 ```bash
-npx cursorcam@beta stills cursorcam-output/<run>
+npx cursorcam stills cursorcam-output/<run>
 ```
 
 It saves key moments and a close-up of each step in the run folder's `stills/` folder.

@@ -1,0 +1,13 @@
+name: Question
+description: Ask how to do something with CursorCam
+labels: ['question']
+body:
+  - type: markdown
+    attributes:
+      value: The [docs](https://cursorcam.vercel.app/docs) may already have the answer.
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+    validations:
+      required: true

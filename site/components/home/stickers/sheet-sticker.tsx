@@ -18,7 +18,7 @@ const RETURN_FROM = { scale: 0.6, opacity: 0.4 };
 const PEELED =
   'cursor-pointer border-[2.5px] border-dashed border-brand-soft bg-transparent text-transparent *:opacity-0';
 const LIFTED =
-  'z-30 cursor-grabbing [filter:drop-shadow(0_1.5px_0_rgb(30_27_75/0.06))_drop-shadow(0_22px_26px_rgb(30_27_75/0.26))]';
+  'z-30 cursor-grabbing [filter:drop-shadow(0_1.5px_0_rgb(30_27_75/0.06))_drop-shadow(0_14px_20px_rgb(30_27_75/0.16))]';
 
 export const stickerButtonId = (sticker: Sticker) => `sticker-${sticker.key}`;
 

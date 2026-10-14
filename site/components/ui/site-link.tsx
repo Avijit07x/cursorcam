@@ -2,6 +2,8 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { isInternal } from '@/lib/doc-links';
 
+const WEB_LINK = /^https?:/i;
+
 interface SiteLinkProps {
   readonly href: string;
   readonly className: string;
@@ -14,6 +16,14 @@ export function SiteLink({ href, className, children }: SiteLinkProps) {
       <Link href={href} className={className}>
         {children}
       </Link>
+    );
+  }
+  // App links, like Cursor's install link, open the app; a new tab would stay empty.
+  if (!WEB_LINK.test(href)) {
+    return (
+      <a href={href} className={className}>
+        {children}
+      </a>
     );
   }
   return (

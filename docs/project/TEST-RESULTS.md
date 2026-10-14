@@ -322,6 +322,33 @@ Browser tests use the pages in `test/fixtures/app/`, one page per hard case.
 | Logo | The sticker mark, the outlined Fredoka wordmark in light and dark, and an upright tab icon, rendered on white, dark and tinted backgrounds from 220 px down to 16 px | ✅ the site's `app/icon.svg` matches `assets/favicon.svg` |
 | README | `npx cursorcam@beta` in every CLI example, a beta note under the links, and the 13-step video as a 1920×1080 animated preview that links to the MP4 | ✅ |
 
+## MCP server
+
+Tested on 2026-10-13 on macOS, Google Chrome, Node 24.14.
+
+| Test | What it checks | Result |
+|---|---|---|
+| Protocol | `initialize` keeps a known protocol version and offers the newest otherwise; `tools/list`, `ping`, unknown tools and methods, bad JSON, notifications, cancelled calls get no reply, and calls in flight finish when the input closes | ✅ unit tests |
+| Tools | Each tool builds the right CLI call with `--json`; inline steps are saved under their name; secrets become `CURSORCAM_SECRET_*` for that call only; images stay within a 4 MB budget; `wait` says what to do next | ✅ unit tests |
+| Output folder | A folder the server cannot write to, like `/` under Claude Desktop, falls back to `~/cursorcam-output` | ✅ unit test |
+| Real server | `cursorcam mcp` from `dist/`: `inspect` returns the frame as an image; `check`, `run`, `answer`, `wait` and `stills` record a flow with a secret and a 2FA answer; a failed check comes back as an error with its frame; the server exits 0 when the client closes | ✅ e2e, and neither the secret nor the answer appears in any reply or run file |
+| Sample app | The README demo app through the tools: `check`, `run` with `maxSize`, `stills` and `render` with a new zoom | ✅ by hand |
+
+## Agent plugins and extensions
+
+Tested on 2026-10-13 on macOS.
+
+| Test | What it checks | Result |
+|---|---|---|
+| Open-standard plugin | `agent-plugin/plugin.json` and `mcp.json` against the official Agent Plugins 1.0 schemas; the skill copy follows the Agent Skills format; every marketplace points at a plugin that exists; VS Code finds the Copilot marketplace before the Claude one | ✅ unit tests, schemas stored in `test/fixtures/agent-plugins/` |
+| Version sync | Every manifest and the pinned MCP server follow the package version; the skill copy drops the Claude-only fields and stale files | ✅ unit tests |
+| Codex CLI 0.162.1 | `codex plugin marketplace add` reads `.agents/plugins/marketplace.json`; `codex plugin add cursorcam@cursorcam` installs and enables the plugin with its skill and logo, and registers the pinned MCP server | ✅ by hand, in a throwaway Codex home |
+| Gemini CLI 0.38.2 | The extension installs, lists the MCP server and the `cursorcam` skill, and the server connects in the workspace folder once the folder is trusted | ✅ by hand, in a throwaway Gemini home |
+| VS Code 1.141 | Read from VS Code's own code: the marketplace files it reads, in order, and that it loads Agent Plugins by their schema | ✅ by reading the source |
+| Claude Desktop 1.40609 | Read from its code: it runs Node extensions on its Electron (Node 24.18) in a utility process, so CLI child processes get `ELECTRON_RUN_AS_NODE` | ✅ by reading the source, and unit tests |
+| `cursorcam.mcpb` | Built with `pnpm deploy` and packed with `@anthropic-ai/mcpb` 2.1.2; manifest validated; unpacked and started like Claude Desktop, from `/`, it lists every tool, `doctor` passes and `inspect` returns its frame, saved under `~/cursorcam-output` | ✅ 13 MB; the build script checks it on every run |
+| MCP roots | The server asks a client that has roots for its folders and works there; without roots it uses its own folder, or the home folder under a plugin | ✅ unit tests |
+
 ## Not checked yet
 
 | Item | Where |
@@ -331,3 +358,6 @@ Browser tests use the pages in `test/fixtures/app/`, one page per hard case.
 | Forced crash writes no core dump | CI machines |
 | Playback in QuickTime and Safari, and the transfer tag | A Mac |
 | VP9 fallback when a browser has no H.264 encoder | A Chromium build without H.264 |
+| Installing each plugin inside the app: VS Code `@agentPlugins`, the `.mcpb` in Claude Desktop, the Cursor install link | Clicks in each app |
+| A video made end to end by Codex, VS Code, Cursor or Claude Desktop | A signed-in session in each |
+| A Cursor Marketplace listing | Submission at cursor.com/marketplace/publish |

@@ -37,7 +37,7 @@ export function SnapCard({ open, snaps, settings, onClose }: SnapCardProps) {
       {open ? (
         <motion.div
           key="tray"
-          className="relative z-10 -mt-2.5 overflow-hidden px-3"
+          className="relative z-10 -mt-8 overflow-hidden px-3"
           initial={{ height: 0 }}
           animate={{ height: 'auto' }}
           exit={{ height: 0 }}
@@ -47,7 +47,7 @@ export function SnapCard({ open, snaps, settings, onClose }: SnapCardProps) {
             ref={card}
             role="group"
             aria-labelledby="snap-title"
-            className="sticker-box relative mx-auto mb-9 grid max-w-160 origin-top -rotate-[1.5deg] gap-3 rounded-b-[28px] bg-white px-[clamp(16px,3vw,26px)] pt-7.5 pb-5"
+            className="sticker-box relative mx-auto mb-9 grid max-w-160 origin-top -rotate-[1.5deg] gap-3 rounded-b-[28px] bg-white px-[clamp(16px,3vw,26px)] pt-13 pb-5"
             initial={TUCKED}
             animate={{ y: 0 }}
             exit={TUCKED}
@@ -57,7 +57,7 @@ export function SnapCard({ open, snaps, settings, onClose }: SnapCardProps) {
               type="button"
               onClick={onClose}
               aria-label="Put the card away"
-              className="sticker-shadow absolute top-4.5 right-3.5 grid size-9 cursor-pointer place-items-center rounded-full bg-white text-ink focus-ring hover:bg-brand-tint"
+              className="sticker-shadow absolute top-10 right-3.5 grid size-9 cursor-pointer place-items-center rounded-full bg-white text-ink focus-ring hover:bg-brand-tint"
             >
               <svg viewBox="0 0 24 24" aria-hidden="true" className="w-4.5">
                 <path
@@ -76,7 +76,7 @@ export function SnapCard({ open, snaps, settings, onClose }: SnapCardProps) {
               <span className="size-6.5 shrink-0">
                 <HeartArt />
               </span>
-              Snap! Paste this in Claude Code.
+              Snap! Paste this into your AI agent.
             </p>
             <CommandPill text={buildRequest(settings)} label="Copy the request" />
             <ul aria-label="Camera settings" className="flex flex-wrap gap-2">

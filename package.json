@@ -1,7 +1,7 @@
 {
   "name": "cursorcam",
   "version": "1.0.0-beta.4",
-  "description": "Ask Claude for a demo video. Claude clicks through your web app and hands back a polished MP4 that zooms in on each click.",
+  "description": "Ask your AI agent for a demo video. CursorCam clicks through your web app and renders a polished MP4 that zooms in on each click, from any MCP agent, Claude Code or the CLI.",
   "keywords": [
     "demo video",
     "click demo",
@@ -11,6 +11,9 @@
     "browser recording",
     "auto zoom",
     "mp4",
+    "ai agent",
+    "mcp",
+    "mcp server",
     "claude code",
     "cli"
   ],
@@ -57,7 +60,7 @@
     "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm knip && pnpm check:version && pnpm test",
     "check:version": "node scripts/sync-version.mjs --check",
     "sync-version": "node scripts/sync-version.mjs",
-    "version": "node scripts/sync-version.mjs && git add plugin",
+    "version": "node scripts/sync-version.mjs && git add plugin agent-plugin .cursor-plugin .github/plugin gemini-extension.json",
     "check:package": "pnpm build && publint",
     "site:dev": "pnpm --filter cursorcam-site dev",
     "check:site": "pnpm --filter cursorcam-site check",

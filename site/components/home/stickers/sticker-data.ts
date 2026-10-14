@@ -17,7 +17,7 @@ export interface WindowTagInfo {
 
 export const START_URL = MOCK_APP.address;
 export const DEMO_URL = 'app.example.com';
-export const DEFAULT_LINE = 'Drag a sticker onto the app. Or just tap one.';
+export const DEFAULT_LINE = 'No stickers yet. This is your app as it is.';
 export const DEFAULT_TAG: WindowTagInfo = { label: 'Default', chips: ['1920×1080', '60 fps'] };
 
 export const STICKERS: readonly Sticker[] = [
@@ -38,7 +38,7 @@ export const STICKERS: readonly Sticker[] = [
   {
     key: 'logins',
     name: 'Logins',
-    about: 'Claude asks you for the login. Passwords show as dots, and nothing is saved.',
+    about: 'your agent asks you for the login. Passwords show as dots, and nothing is saved.',
     chips: ['dots for passwords', 'never saved'],
     tilt: -3,
   },
@@ -52,7 +52,7 @@ export const STICKERS: readonly Sticker[] = [
   {
     key: 'twofa',
     name: '2FA',
-    about: 'the run waits, and Claude asks you for the code.',
+    about: 'the run waits, and your agent asks you for the code.',
     chips: ['waits up to 5 min'],
     tilt: -6,
   },

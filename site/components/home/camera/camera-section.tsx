@@ -20,7 +20,7 @@ import { HOUSING } from './styles';
 const ZOOM_HOLD_MS = 1400;
 const STICKER_DELAY = 0.5;
 const STICKER_STAGGER = 0.15;
-const SNAP_STATUS = 'Snap! Your request is ready under the camera. Copy it into Claude Code.';
+const SNAP_STATUS = 'Snap! Your request is ready under the camera. Copy it into your AI agent.';
 const FLASH = { opacity: [0, 0.95, 0] };
 const FLASH_TIMING: Transition = { duration: 0.52, times: [0, 0.15, 1], ease: 'easeOut' };
 const LENS = { scale: [1, 0.6, 1] };
@@ -80,11 +80,15 @@ export function CameraSection() {
 
   return (
     <Section id={SECTION_IDS.camera} labelledBy="camera-title">
-      <SectionHeading id="camera-title" kicker="Try the camera" title="Set it up, then ask Claude.">
+      <SectionHeading
+        id="camera-title"
+        kicker="Try the camera"
+        title="Set it up, then ask your agent."
+      >
         <p>Turn the dial, pick a shape and set the zoom. The screen shows the video you get.</p>
       </SectionHeading>
       <motion.div
-        className={SECTION_BODY}
+        className={`${SECTION_BODY} relative z-20`}
         initial={{ opacity: 0, y: 40, rotate: 2 }}
         whileInView={{ opacity: 1, y: 0, rotate: 0 }}
         viewport={IN_VIEW}

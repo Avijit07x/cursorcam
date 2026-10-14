@@ -1,5 +1,5 @@
 import type { Components } from 'react-markdown';
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown, { defaultUrlTransform } from 'react-markdown';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 import { TextLink } from '@/components/ui/text-link';
@@ -10,6 +10,9 @@ import { PAGE_TITLE, SECTION_TITLE } from './styles';
 
 const REMARK = [remarkGfm];
 const REHYPE = [rehypeSlug, rehypeCellLabels];
+// The default drops links it does not know, like Cursor's one-click install link.
+const APP_LINK = /^cursor:\/\//;
+const urlTransform = (url: string) => (APP_LINK.test(url) ? url : defaultUrlTransform(url));
 const HEADING = 'scroll-mt-24 text-ink';
 const STEPS =
   'mt-5 grid gap-3 [counter-reset:step] [&>li]:relative [&>li]:min-h-7 [&>li]:pl-10 [&>li]:[counter-increment:step] [&>li]:before:absolute [&>li]:before:top-0 [&>li]:before:left-0 [&>li]:before:grid [&>li]:before:size-7 [&>li]:before:place-items-center [&>li]:before:rounded-full [&>li]:before:bg-brand [&>li]:before:text-sm [&>li]:before:font-bold [&>li]:before:text-white [&>li]:before:content-[counter(step)]';
@@ -66,7 +69,12 @@ const COMPONENTS: Components = {
 export function Markdown({ source }: { readonly source: string }) {
   return (
     <div className="text-[clamp(1rem,0.96rem+0.25vw,1.0625rem)] leading-relaxed text-body">
-      <ReactMarkdown remarkPlugins={REMARK} rehypePlugins={REHYPE} components={COMPONENTS}>
+      <ReactMarkdown
+        remarkPlugins={REMARK}
+        rehypePlugins={REHYPE}
+        components={COMPONENTS}
+        urlTransform={urlTransform}
+      >
         {source}
       </ReactMarkdown>
     </div>

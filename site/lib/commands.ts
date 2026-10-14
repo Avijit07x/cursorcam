@@ -1,9 +1,6 @@
-export const INSTALL_COMMANDS = [
-  '/plugin marketplace add Avijit07x/cursorcam',
-  '/plugin install cursorcam@cursorcam',
-  '/reload-plugins',
-] as const;
+export const MCP_COMMAND = 'npx -y cursorcam mcp';
 
-export const EXAMPLE_REQUEST = '/cursorcam http://localhost:3000 sign up and create a project';
+// The short request in the setup steps, so it fits on one line.
+export const SHORT_REQUEST = 'Make a demo of my sign-up flow';
 
-export const EXAMPLE_WORDS = 'Make a demo of the checkout flow for LinkedIn.';
+export const EXAMPLE_REQUEST = 'Make a demo of http://localhost:3000: sign up and create a project';

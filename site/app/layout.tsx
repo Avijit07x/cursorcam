@@ -25,7 +25,17 @@ export const metadata: Metadata = {
   applicationName: SITE.name,
   authors: [{ name: SITE.author, url: 'https://github.com/Avijit07x' }],
   creator: SITE.author,
-  keywords: ['CursorCam', 'Claude Code', 'demo video', 'product demo', 'auto zoom', 'mp4'],
+  keywords: [
+    'CursorCam',
+    'AI agent',
+    'MCP',
+    'Claude Code',
+    'Cursor',
+    'demo video',
+    'product demo',
+    'auto zoom',
+    'mp4',
+  ],
   openGraph: {
     type: 'website',
     url: SITE.url,
@@ -34,7 +44,12 @@ export const metadata: Metadata = {
     description: SITE.description,
     locale: 'en_US',
     images: [
-      { url: '/og.png', width: 1200, height: 630, alt: 'CursorCam: ask Claude for a demo video' },
+      {
+        url: '/og.png',
+        width: 1200,
+        height: 630,
+        alt: 'CursorCam: ask your AI agent for a demo video',
+      },
     ],
   },
   twitter: {

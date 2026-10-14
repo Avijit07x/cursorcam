@@ -3,6 +3,7 @@ import { ScrollButton } from '@/components/ui/scroll-button';
 import { SiteFooter } from '@/components/ui/site-footer';
 import { SiteHeader } from '@/components/ui/site-header';
 import { SECTION_IDS } from '@/lib/sections';
+import packageJson from '../../../package.json';
 import { CameraSection } from './camera/camera-section';
 import { Hero } from './hero';
 import { SetupSection } from './setup/setup-section';
@@ -22,7 +23,7 @@ export function HomePage() {
         }
       />
       <main>
-        <Hero />
+        <Hero version={packageJson.version} />
         <VideoSection />
         <CameraSection />
         <StickerSection />

@@ -1,0 +1,20 @@
+{
+  "name": "cursorcam",
+  "interface": {
+    "displayName": "CursorCam"
+  },
+  "plugins": [
+    {
+      "name": "cursorcam",
+      "source": {
+        "source": "local",
+        "path": "./agent-plugin"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

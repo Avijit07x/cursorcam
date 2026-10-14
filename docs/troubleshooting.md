@@ -2,7 +2,7 @@
 
 Every failure prints an `Error:` line and, most of the time, a `Fix:` line. A failed step also saves `failure.jpg` in the run folder. Look at it first.
 
-If Claude is making the video, it reads these and fixes most problems itself.
+If an AI agent is making the video, it reads these and fixes most problems itself.
 
 ## By exit code
 
@@ -10,7 +10,7 @@ If Claude is making the video, it reads these and fixes most problems itself.
 | --- | --- | --- |
 | 1 | unexpected error | Run again once. If it happens again, [open an issue](https://github.com/Avijit07x/cursorcam/issues) with the error |
 | 2 | bad input | Fix the steps file, style or option the error names |
-| 3 | no usable browser, or `doctor` found a problem | Run `npx cursorcam@beta doctor` and follow its `Fix:` lines |
+| 3 | no usable browser, or `doctor` found a problem | Run `npx cursorcam doctor` and follow its `Fix:` lines |
 | 4 | a step failed | See the step errors below |
 | 5 | encoding failed | Run `doctor`, then render again |
 | 6 | timeout | A step or an `ask` took too long. See below |
@@ -31,7 +31,8 @@ If Claude is making the video, it reads these and fixes most problems itself.
 | `<target> is see-through (opacity 0)` | Target the visible element instead |
 | `<target> disappeared` | The page changed under the cursor. Add a `waitFor` for the new state first |
 | `The step did not finish within …` | The page is slow. Raise `timeout` in the steps file |
-| `A field shows … instead of …` | A length limit or input mask changed the text. Type text the field accepts |
+| `The page closed its own tab` | Remove the steps after the tab closes, or start from another page |
+| `A field shows … instead of …` (warning) | A length limit or input mask changed the text. Type text the field accepts |
 | `goto "…" leaves http://…` | Add that origin to `allowOrigins` |
 | `The steps use $secret:NAME, but CURSORCAM_SECRET_NAME is not set` | Pass the value to that command |
 | `Nobody answered "…" within 5 minutes` | Run again and send the answer sooner |
@@ -41,7 +42,7 @@ If Claude is making the video, it reads these and fixes most problems itself.
 | Problem | Fix |
 | --- | --- |
 | HTTP 401 | Add `httpCredentials` with `$secret:` values |
-| The page needs a login | Give Claude a demo login, or save one with `login` and use `--profile` |
+| The page needs a login | Give your agent a demo login, or save one with `login` and use `--profile` |
 | Native date or color pickers | They do not show in the video. Type the value into the field instead |
 | A native select list | Add `"showList": true` to show the open list |
 | Tooltips | They do not show in the video. Show the same thing another way |
@@ -56,3 +57,12 @@ If Claude is making the video, it reads these and fixes most problems itself.
 | A cookie banner covers the page | Add a step that closes it, at the start |
 | Private data shows | Add `"mask": [".selector"]` to the steps file |
 | The file is too big | Render again with `--max-size` |
+
+## Login problems
+
+| Problem | Fix |
+| --- | --- |
+| `There is no saved login named "x"` | The error lists your saved logins. Save one with `npx cursorcam login <url> --profile x` |
+| `Nothing was saved` after `login` | The window closed before you logged in. Run `login` again |
+| `The login window was still open after 9 minutes` | Run `login` again and close the window when you are done |
+| A saved login stopped working | The site's session ended. Run `login` again with the same `--profile` name |

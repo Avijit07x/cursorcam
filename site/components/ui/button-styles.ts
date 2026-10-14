@@ -5,6 +5,12 @@ const VARIANTS = {
   soft: 'bg-white text-ink ring-1 ring-ink/10 hover:bg-brand-tint',
 } as const;
 
+// The blade that opens behind each button, a lighter shade of its face.
+const BLADES = {
+  primary: 'bg-brand-soft',
+  soft: 'bg-brand-soft/60',
+} as const;
+
 const SIZES = {
   md: 'h-12 px-6 text-base',
   sm: 'h-10.5 px-5 text-[15px]',
@@ -14,6 +20,10 @@ export interface ButtonLookProps {
   readonly children: ReactNode;
   readonly variant?: keyof typeof VARIANTS;
   readonly size?: keyof typeof SIZES;
+}
+
+export function bladeClass(variant: keyof typeof BLADES = 'primary') {
+  return BLADES[variant];
 }
 
 export function buttonClass(

@@ -1,20 +1,38 @@
 ---
 name: cursorcam
-description: Records a polished click demo video (MP4) of a web app or website. Claude explores the app, writes the steps, records them in a hidden browser and renders a video with auto-zoom, a smooth cursor and click ripples, then checks stills of the result and hands back the file. Use when the user asks for a demo video, walkthrough, product tour, screen recording or click-through video of a site or a local app, for a README, docs, X, LinkedIn, YouTube or Discord. Not for promo or launch videos with motion graphics, voice-over or music.
-argument-hint: <url> — what to show
+description: Records a polished click demo video (MP4) of a web app or website. The agent explores the app, writes the steps, records them in a hidden browser and renders a video with auto-zoom, a smooth cursor and click ripples, then checks stills of the result and hands back the file. Use when the user asks for a demo video, walkthrough, product tour, screen recording or click-through video of a site or a local app, for a README, docs, X, LinkedIn, YouTube or Discord. Not for promo or launch videos with motion graphics, voice-over or music.
+argument-hint: <url> and what to show
 allowed-tools: Bash(npx -y cursorcam@1.0.0-beta.4 *)
 ---
 
 # CursorCam
 
-Make a click demo video of a web app with the `cursorcam` CLI. You do the whole job: explore the app, write the steps, record, review your own video and hand it back. Ask the user only for things you cannot find yourself.
+Make a click demo video of a web app with CursorCam. You do the whole job: explore the app, write the steps, record, review your own video and hand it back. Ask the user only for things you cannot find yourself.
 
-## Run the CLI
+## Run CursorCam
+
+CursorCam comes as MCP tools or as the `cursorcam` CLI. Use whichever this session has.
+
+**MCP tools.** When the CursorCam MCP server's tools are available (`doctor`, `inspect`, `check`, `record`, `run`, `wait`, `stills`, `render`, `answer`), use them instead of the commands below. Each tool does what the command of the same name does:
+
+| In the commands below | With the MCP tools |
+| --- | --- |
+| `--for x`, `--max-size 10MB`, `--style '…'`, `--format square` | The `for`, `maxSize`, `style` and `format` arguments |
+| Any other option, like `--until 3`, `--profile acme`, `--phone`, `--filter`, `--count` | The argument of the same name: `until`, `profile`, `phone`, `filter`, `count` |
+| `check`, `record` or `run` with `--detach`, then `wait` | `check`, `record` or `run`, then `wait`. They always start in the background. `wait` returns within 45 seconds and says what to do next |
+| `CURSORCAM_SECRET_PASSWORD='…' cursorcam run …` | `run` with `secrets` set to `{"PASSWORD": "…"}` |
+| `printf '%s' '<reply>' \| cursorcam answer "<run folder>"` | `answer` with `run` and `answer` |
+| Reading `frame.jpg`, stills and `failure.jpg` from disk | `inspect`, `stills` and a failed `wait` return them as images |
+
+**The CLI.** Without the tools:
 
 - Always run it as `npx -y cursorcam@1.0.0-beta.4 <command>`. Below, `cursorcam` is short for that.
 - Quote every file and folder path.
-- Before the first recording in a session, run `cursorcam doctor`. If a line starts with ✗, show the user that line and its `Fix:` line, then stop.
-- It needs Node.js 22.13+ and Chrome, Edge, Chromium or Brave on this machine. It downloads nothing else.
+
+Either way:
+
+- Before the first recording in a session, run `doctor`. If a check fails (✗), show the user that line and its `Fix:` line, then stop.
+- It needs Node.js 22.13+ and Chrome, Edge, Chromium or Brave 120+ on this machine. It downloads nothing else.
 
 ## 1. Understand the request
 
@@ -113,7 +131,7 @@ cursorcam run "cursorcam-output/create-issue.json" --for x --detach
 cursorcam wait "<run folder>"
 ```
 
-`wait` returns within 90 seconds and prints one of these:
+`wait` returns within 90 seconds (45 with the MCP tool) and says one of these:
 
 - `Done. Video: …`: go to step 7.
 - `Still …`: run `wait` again.
@@ -176,7 +194,7 @@ Ask for everything you need in one message. Ask before you record a real account
 - Password fields show dots. Any other secret value is blurred in the video.
 - For a 2FA or email code, add `{ "ask": "2FA code", "into": "label=Code" }` where the code goes.
 - For HTTP basic auth, add `"httpCredentials": { "username": "$secret:USER", "password": "$secret:PASS" }`.
-- A captcha or bot check ends the run with exit code 10. Never try to solve it. Tell the user a browser window will open and that they should log in there and close the window. Then run `cursorcam login "<login page url>" --profile <name>` in the foreground with a 10 minute timeout. Add `--profile <name>` to `inspect`, `check` and `run` from then on. The saved login holds the site's cookies, not the password. Never open or print the saved login file.
+- A captcha or bot check ends the run with exit code 10. Never try to solve it. Tell the user a browser window will open and that they should log in there and close the window. Then run `cursorcam login "<login page url>" --profile <name>` in the foreground with a 10 minute timeout. With the MCP tools, which have no `login` tool, ask the user to run `npx cursorcam login "<login page url>" --profile <name>` in a terminal instead. Add `--profile <name>` to `inspect`, `check`, `record` and `run` from then on. The saved login holds the site's cookies, not the password. Never open or print the saved login file.
 
 ## Safety
 

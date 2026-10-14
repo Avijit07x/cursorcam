@@ -7,11 +7,9 @@
   </picture>
 </h1>
 
-**Ask Claude for a demo video.** Claude clicks through your web app and hands back a polished MP4 that zooms in on each click.
+**Ask your AI agent for a demo video.** It clicks through your web app and hands back a polished MP4 that zooms in on each click. Works with Claude Code, Codex, VS Code, Gemini CLI, Cursor, Claude Desktop and any other agent that supports MCP, or on its own as a CLI.
 
 [Website](https://cursorcam.vercel.app) &nbsp;·&nbsp; [Changelog](./CHANGELOG.md) &nbsp;·&nbsp; [Contributing](./CONTRIBUTING.md)
-
-<sub>CursorCam is in beta. If something breaks, please [open an issue](https://github.com/Avijit07x/cursorcam/issues).</sub>
 
 <p>
   <a href="https://www.npmjs.com/package/cursorcam"><img alt="npm" src="https://shieldcn.dev/npm/v/cursorcam.svg?variant=secondary&size=xs&theme=zinc" /></a>
@@ -31,39 +29,43 @@
 
 ## Setup
 
-**You need** [Claude Code](https://claude.com/claude-code), Node.js 22.13+ and Chrome, Edge, Chromium or Brave 120+. CursorCam uses the browser you already have and downloads nothing.
+**You need** Node.js 22.13+ and Chrome, Edge, Chromium or Brave 120+. CursorCam uses the browser you already have and downloads nothing.
 
-**1. Install the plugin** in Claude Code:
+**Install it in your agent:**
+
+| Agent | Install |
+| --- | --- |
+| Claude Code | `/plugin marketplace add Avijit07x/cursorcam`, then `/plugin install cursorcam@cursorcam` and `/reload-plugins` |
+| Codex | `codex plugin marketplace add Avijit07x/cursorcam`, then `codex plugin add cursorcam@cursorcam` |
+| VS Code and GitHub Copilot | Add `Avijit07x/cursorcam` to `chat.plugins.marketplaces`, then install it from `@agentPlugins` |
+| Gemini CLI | `gemini extensions install https://github.com/Avijit07x/cursorcam` |
+| Cursor | [One-click MCP install](./docs/agents.md#cursor) |
+| Claude Desktop | Open [`cursorcam.mcpb`](https://github.com/Avijit07x/cursorcam/releases/latest/download/cursorcam.mcpb) |
+| Any other app | The MCP server, `npx -y cursorcam mcp`. See the [MCP guide](./docs/mcp.md) |
+
+[Your AI agent](./docs/agents.md) has each one step by step.
+
+**Then ask for a video:**
 
 ```
-/plugin marketplace add Avijit07x/cursorcam
-/plugin install cursorcam@cursorcam
-/reload-plugins
+Make a 20 second demo of http://localhost:3000: sign up and create a project.
 ```
 
-**2. Ask for a video:**
-
-```
-/cursorcam http://localhost:3000 sign up and create a project
-```
-
-Or ask in your own words: "Make a demo of the checkout flow for LinkedIn."
-
-**3. Get the video.** You get `video.mp4` (1080p, 60 fps) and a `poster.jpg` thumbnail in `cursorcam-output/`. Add that folder to `.gitignore`.
+You get `video.mp4` (1080p, 60 fps) and a `poster.jpg` thumbnail in a run folder inside `cursorcam-output/`. Add that folder to `.gitignore`.
 
 ## How it works
 
-Claude explores your app, writes the steps and records them in a hidden browser. Then it checks the video and fixes anything that looks wrong.
+Your agent explores your app, writes the steps and records them in a hidden browser. Then it checks stills of the video and fixes anything that looks wrong.
 
 If it needs a login or a 2FA code, it asks you. What you type is used for that run only and never saved.
 
 ## Use the CLI
 
-The plugin runs the `cursorcam` CLI. You can run it yourself too:
+The MCP server and the plugins run the `cursorcam` CLI. You can run it yourself too:
 
 ```bash
-npx cursorcam@beta doctor
-npx cursorcam@beta run steps.json
+npx cursorcam doctor
+npx cursorcam run steps.json
 ```
 
 ```json
@@ -82,8 +84,10 @@ npx cursorcam@beta run steps.json
 
 | Guide | Covers |
 | --- | --- |
-| [Getting started](./docs/getting-started.md) | Install the plugin and make your first video |
-| [Better videos](./docs/better-videos.md) | How to ask Claude, with example requests and tips |
+| [Getting started](./docs/getting-started.md) | Set up CursorCam and make your first video |
+| [Your AI agent](./docs/agents.md) | Install it in Claude Code, Codex, VS Code, Gemini CLI, Cursor or Claude Desktop |
+| [MCP server](./docs/mcp.md) | Set it up by hand in any MCP app, and every tool it offers |
+| [Better videos](./docs/better-videos.md) | How to ask your AI agent, with example requests and tips |
 | [Steps file](./docs/steps.md) | Every action, target and option |
 | [Look and size](./docs/style.md) | Presets for X, LinkedIn, YouTube and Discord, formats, backgrounds and zoom |
 | [Logins and secrets](./docs/logins.md) | Passwords, 2FA codes and saved logins |

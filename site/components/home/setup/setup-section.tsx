@@ -4,7 +4,7 @@ import { SectionHeading } from '@/components/ui/section-heading';
 import { SECTION_IDS } from '@/lib/sections';
 import { SetupSteps } from './setup-steps';
 
-const NEEDS = ['Claude Code', 'Node.js 22.13+', 'Chrome, Edge, Chromium or Brave 120+'];
+const NEEDS = ['An AI agent', 'Node.js 22.13+', 'Chrome, Edge, Chromium or Brave 120+'];
 
 export function SetupSection() {
   return (

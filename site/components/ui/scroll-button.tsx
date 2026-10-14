@@ -12,7 +12,7 @@ interface ScrollButtonProps extends ButtonLookProps {
 export function ScrollButton({ to, children, variant, size }: ScrollButtonProps) {
   const scrollToSection = useScrollToSection();
   return (
-    <ButtonMotion>
+    <ButtonMotion variant={variant}>
       <button
         type="button"
         onClick={() => scrollToSection(to)}
