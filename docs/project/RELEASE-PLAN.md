@@ -12,7 +12,7 @@ Updated 2026-10-13. 1.0.0 now also ships the MCP server and the move from Claude
 | README, docs and site lead with any AI agent | ✅ Done |
 | `cursorcam@beta` in the docs (3.1 step 3) | ✅ Changed to `cursorcam` |
 | Phase 1 checks by hand | Open |
-| Version, changelog heading and tag (3.2 to 3.4) | Open. Rename `## Unreleased` to `## 1.0.0` in `CHANGELOG.md` |
+| Version, changelog heading and tag (3.2 to 3.4) | ✅ Version 1.0.0 and the `## 1.0.0` changelog entry are in. Push the tag `v1.0.0` after the merge |
 | Native installs for Codex, VS Code, Gemini CLI, Cursor and Claude Desktop | ✅ Built and tested. The release workflow attaches `cursorcam.mcpb` and the Gemini archives |
 | Try each install once in the real app | Open. See "Not checked yet" in [TEST-RESULTS.md](TEST-RESULTS.md) |
 | Submit the plugin to the Cursor Marketplace | Open, after 1.0.0 is on npm: cursor.com/marketplace/publish |
