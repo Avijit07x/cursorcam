@@ -1,6 +1,8 @@
 # cursorcam
 
-## Unreleased
+## 1.0.0
+
+The first stable release. CursorCam now works with any AI agent, and `npm i cursorcam` and `npx cursorcam` get it without `@beta`.
 
 - New `cursorcam mcp` command: an MCP server, so Cursor, VS Code, Codex, Gemini CLI, Windsurf, Claude Desktop and any other MCP app can make videos. Add it with `npx -y cursorcam mcp`. Its tools match the CLI commands. Recordings run in the background and the agent follows them with `wait`, so no call times out. `inspect`, `stills` and failed runs return their frames as images, so the agent can see its own video. Secrets passed to `check`, `record` and `run` never reach a file, a log or the tool output.
 - Native installs for every major AI agent. Most add the MCP server and the skill that teaches the whole flow:

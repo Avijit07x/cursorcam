@@ -2,7 +2,7 @@
 name: cursorcam
 description: Records a polished click demo video (MP4) of a web app or website. The agent explores the app, writes the steps, records them in a hidden browser and renders a video with auto-zoom, a smooth cursor and click ripples, then checks stills of the result and hands back the file. Use when the user asks for a demo video, walkthrough, product tour, screen recording or click-through video of a site or a local app, for a README, docs, X, LinkedIn, YouTube or Discord. Not for promo or launch videos with motion graphics, voice-over or music.
 argument-hint: <url> and what to show
-allowed-tools: Bash(npx -y cursorcam@1.0.0-beta.4 *)
+allowed-tools: Bash(npx -y cursorcam@1.0.0 *)
 ---
 
 # CursorCam
@@ -26,7 +26,7 @@ CursorCam comes as MCP tools or as the `cursorcam` CLI. Use whichever this sessi
 
 **The CLI.** Without the tools:
 
-- Always run it as `npx -y cursorcam@1.0.0-beta.4 <command>`. Below, `cursorcam` is short for that.
+- Always run it as `npx -y cursorcam@1.0.0 <command>`. Below, `cursorcam` is short for that.
 - Quote every file and folder path.
 
 Either way:
