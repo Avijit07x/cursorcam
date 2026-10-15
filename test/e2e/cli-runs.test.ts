@@ -57,7 +57,7 @@ describe.skipIf(!browserAvailable())('cursorcam check and record', () => {
     });
     const result = await runCli(['check', steps], work.path(), cache.env());
 
-    expect(result.code).toBe(ExitCode.Ok);
+    expect(result.code, result.stderr).toBe(ExitCode.Ok);
     expect(result.stderr).toContain('✓ 2/2 type into label=Email');
     const run = await onlyRun();
     expect(await readdir(join(run, 'check'))).toEqual(['step-01.jpg', 'step-02.jpg']);
@@ -74,7 +74,7 @@ describe.skipIf(!browserAvailable())('cursorcam check and record', () => {
     });
     const result = await runCli(['check', steps, '--json'], work.path(), cache.env());
 
-    expect(result.code).toBe(ExitCode.StepFailed);
+    expect(result.code, result.stderr).toBe(ExitCode.StepFailed);
     expect(result.stderr).toContain('✗ 2/3 click text=Nope');
     const run = await onlyRun();
     const saved = JSON.parse(await readFile(join(run, 'result.json'), 'utf8')) as Record<
@@ -96,7 +96,7 @@ describe.skipIf(!browserAvailable())('cursorcam check and record', () => {
       CURSORCAM_SECRET_PASSWORD: secret,
     });
 
-    expect(result.code).toBe(ExitCode.Ok);
+    expect(result.code, result.stderr).toBe(ExitCode.Ok);
     expect(result.stdout).toContain('Next: cursorcam render');
     const run = await onlyRun();
     for (const name of await readdir(run)) {
@@ -110,7 +110,7 @@ describe.skipIf(!browserAvailable())('cursorcam check and record', () => {
       steps: [{ click: "role=button[name='Get started']" }, { type: 'Robin', into: 'label=Email' }],
     });
     const recorded = await runCli(['run', steps, '--json'], work.path(), cache.env());
-    expect(recorded.code).toBe(ExitCode.Ok);
+    expect(recorded.code, recorded.stderr).toBe(ExitCode.Ok);
     const result = JSON.parse(recorded.stdout) as { run: string; video: string; sizeBytes: number };
     expect(result.video).toBe(join(result.run, 'video.mp4'));
     expect(result.sizeBytes).toBeGreaterThan(0);
@@ -120,13 +120,13 @@ describe.skipIf(!browserAvailable())('cursorcam check and record', () => {
       work.path(),
       cache.env(),
     );
-    expect(square.code).toBe(ExitCode.Ok);
+    expect(square.code, square.stderr).toBe(ExitCode.Ok);
     expect(square.stdout).toMatch(
       /Video: .*video-discord-square\.mp4 \(\d+(\.\d)? (KB|MB), \d+\.\d s, 720×720 30 fps\)/,
     );
 
     const stills = await runCli(['stills', result.run, '--count', '2'], work.path(), cache.env());
-    expect(stills.code).toBe(ExitCode.Ok);
+    expect(stills.code, stills.stderr).toBe(ExitCode.Ok);
     expect(await readdir(join(result.run, 'stills'))).toEqual([
       'crop-01-step-01.png',
       'crop-02-step-02.png',
@@ -141,10 +141,10 @@ describe.skipIf(!browserAvailable())('cursorcam check and record', () => {
       cacheDir: string;
     };
     const cleaned = await runCli(['render', result.run, '--clean'], work.path(), cache.env());
-    expect(cleaned.code).toBe(ExitCode.Ok);
+    expect(cleaned.code, cleaned.stderr).toBe(ExitCode.Ok);
     await expect(readdir(cacheDir)).rejects.toThrow();
     const again = await runCli(['render', result.run], work.path(), cache.env());
-    expect(again.code).toBe(ExitCode.BadInput);
+    expect(again.code, again.stderr).toBe(ExitCode.BadInput);
   });
 
   it('answer passes a code to a run waiting at an ask step', async () => {
@@ -178,7 +178,7 @@ describe.skipIf(!browserAvailable())('cursorcam check and record', () => {
       expect(await readFile(join(run, name), 'utf8').catch(() => '')).not.toContain(code);
     }
     const notWaiting = await runCli(['answer', run], work.path(), cache.env(), 'x');
-    expect(notWaiting.code).toBe(ExitCode.BadInput);
+    expect(notWaiting.code, notWaiting.stderr).toBe(ExitCode.BadInput);
   });
 
   it('run --detach returns at once, and wait follows it to the video and poster', async () => {
@@ -187,7 +187,7 @@ describe.skipIf(!browserAvailable())('cursorcam check and record', () => {
       steps: [{ click: "role=button[name='Get started']" }, { type: 'Robin', into: 'label=Email' }],
     });
     const started = await runCli(['run', steps, '--detach', '--json'], work.path(), cache.env());
-    expect(started.code).toBe(ExitCode.Ok);
+    expect(started.code, started.stderr).toBe(ExitCode.Ok);
     const { run } = JSON.parse(started.stdout) as { run: string; pid: number };
 
     const waited = await runCli(['wait', run, '--timeout', '50'], work.path(), cache.env());
@@ -225,7 +225,7 @@ describe.skipIf(!browserAvailable())('cursorcam check and record', () => {
     expect(asking.stdout).toContain('Waiting for an answer: Verification code');
     expect(asking.stdout).toContain(`| cursorcam answer "${run}"`);
     const answered = await runCli(['answer', run], work.path(), cache.env(), code);
-    expect(answered.code).toBe(ExitCode.Ok);
+    expect(answered.code, answered.stderr).toBe(ExitCode.Ok);
     const done = await runCli(['wait', run, '--timeout', '50'], work.path(), cache.env());
     expect(done.stdout).toContain('Done. Video:');
     for (const name of await readdir(run)) {
@@ -276,11 +276,11 @@ describe.skipIf(!browserAvailable())('cursorcam check and record', () => {
     });
     const result = await runCli(['check', steps, '--until', '2'], work.path(), cache.env());
 
-    expect(result.code).toBe(ExitCode.Ok);
+    expect(result.code, result.stderr).toBe(ExitCode.Ok);
     expect(result.stdout).toContain('Steps 1 to 2 passed.');
     expect(await readdir(join(await onlyRun(), 'check'))).toEqual(['step-01.jpg', 'step-02.jpg']);
     const tooFar = await runCli(['check', steps, '--until', '4'], work.path(), cache.env());
-    expect(tooFar.code).toBe(ExitCode.BadInput);
+    expect(tooFar.code, tooFar.stderr).toBe(ExitCode.BadInput);
   });
 
   it('renders an image background found next to the style file', async () => {
@@ -295,7 +295,7 @@ describe.skipIf(!browserAvailable())('cursorcam check and record', () => {
       cache.env(),
     );
 
-    expect(result.code).toBe(ExitCode.Ok);
+    expect(result.code, result.stderr).toBe(ExitCode.Ok);
     const { run, video } = JSON.parse(result.stdout) as { run: string; video: string };
     expect(JSON.parse(await readFile(join(run, 'style.json'), 'utf8'))).toMatchObject({
       background: { image: join(brand, 'bg.png') },
@@ -311,7 +311,7 @@ describe.skipIf(!browserAvailable())('cursorcam check and record', () => {
   it('refuses bad render options with exit 2', async () => {
     const result = await runCli(['render', 'nowhere', '--for', 'tiktok'], work.path(), cache.env());
 
-    expect(result.code).toBe(ExitCode.BadInput);
+    expect(result.code, result.stderr).toBe(ExitCode.BadInput);
     expect(result.stderr).toContain('Use one of: default, youtube, x, linkedin, discord.');
   });
 
@@ -322,7 +322,7 @@ describe.skipIf(!browserAvailable())('cursorcam check and record', () => {
     });
     const result = await runCli(['record', steps], work.path(), cache.env());
 
-    expect(result.code).toBe(ExitCode.BadInput);
+    expect(result.code, result.stderr).toBe(ExitCode.BadInput);
     expect(result.stderr).toContain('CURSORCAM_SECRET_PASSWORD is not set');
   });
 });
