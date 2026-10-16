@@ -7,7 +7,7 @@
   </picture>
 </h1>
 
-**Ask your AI agent for a demo video.** It clicks through your web app and hands back a polished MP4 that zooms in on each click. Works with Claude Code, Codex, VS Code, Gemini CLI, Cursor, Claude Desktop and any other agent that supports MCP, or on its own as a CLI.
+**Ask your AI agent for a demo video.** It clicks through your web app and hands back a polished MP4 that zooms in on each click. Works with any AI agent, or on its own as a CLI.
 
 [Website](https://cursorcam.vercel.app) &nbsp;·&nbsp; [Changelog](./CHANGELOG.md) &nbsp;·&nbsp; [Contributing](./CONTRIBUTING.md)
 
