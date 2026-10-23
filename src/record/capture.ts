@@ -7,7 +7,7 @@ import type { EventLog } from './events.js';
 import type { FrameStore } from './frames.js';
 import { startScreencast, type Screencast } from './screencast.js';
 
-const FIRST_FRAME_TIMEOUT_MS = 5_000;
+const FIRST_FRAME_TIMEOUT_MS = 15_000;
 
 export class Capture {
   readonly #session: BrowserSession;
