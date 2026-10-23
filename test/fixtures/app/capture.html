@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Capture</title>
+    <style>
+      body {
+        font:
+          16px system-ui,
+          sans-serif;
+        margin: 40px;
+      }
+      button,
+      input,
+      select {
+        font: inherit;
+        padding: 8px 12px;
+        margin: 6px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Projects</h1>
+    <button id="new">New project</button>
+    <form id="project" hidden>
+      <label for="name">Name</label><br />
+      <input id="name" /><br />
+      <label for="plan">Plan</label><br />
+      <select id="plan">
+        <option>Free</option>
+        <option>Pro</option></select
+      ><br />
+      <label><input id="private" type="checkbox" /> Private</label><br />
+      <button type="button">Save draft</button>
+      <button type="submit">Save</button>
+    </form>
+    <p id="result"></p>
+    <p><a href="second.html">Go to second page</a></p>
+    <script>
+      const form = document.querySelector('#project');
+      document.querySelector('#new').addEventListener('click', () => {
+        form.hidden = false;
+      });
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const name = document.querySelector('#name').value;
+        const plan = document.querySelector('#plan').value;
+        const shown = document.querySelector('#private').checked ? 'private' : 'public';
+        document.querySelector('#result').textContent = `Saved ${name} on ${plan}, ${shown}`;
+      });
+    </script>
+  </body>
+</html>

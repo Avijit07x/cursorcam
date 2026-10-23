@@ -74,7 +74,7 @@ export async function captureLogin(request: LoginRequest): Promise<LoginState> {
   return state;
 }
 
-async function openLoginPage(page: Page, url: string): Promise<void> {
+export async function openLoginPage(page: Page, url: string): Promise<void> {
   try {
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: PAGE_TIMEOUT_MS });
   } catch (error) {

@@ -1,45 +1,21 @@
-import { execFile, spawn } from 'node:child_process';
 import { access, stat, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { promisify } from 'node:util';
 import { describe, expect, it } from 'vitest';
 import { savedLoginFile } from '../../src/login/saved.js';
 import { ExitCode } from '../../src/shared/exit-codes.js';
 import { useFixtureServer } from '../helpers/fixture-server.js';
 import { useTempDir } from '../helpers/temp-dir.js';
-import { browserAvailable, CLI_PATH, processCommandLines, useTempCache } from './helpers.js';
+import {
+  browserAvailable,
+  browserPid,
+  hasDisplay,
+  processCommandLines,
+  startCli,
+  useTempCache,
+} from './helpers.js';
 
-const runFile = promisify(execFile);
 const OPEN_MESSAGE = 'A browser window is open.';
 const SNAPSHOT_WAIT_MS = 2_500;
-const hasDisplay =
-  process.platform === 'darwin' ||
-  (process.platform === 'linux' && Boolean(process.env.DISPLAY ?? process.env.WAYLAND_DISPLAY));
-
-interface Finished {
-  readonly code: number;
-  readonly stdout: string;
-  readonly stderr: string;
-}
-
-function startCli(args: readonly string[], cwd: string, env: NodeJS.ProcessEnv) {
-  const child = spawn(process.execPath, [CLI_PATH, ...args], { cwd, env });
-  let stdout = '';
-  let stderr = '';
-  child.stdout.on('data', (chunk: Buffer) => (stdout += chunk.toString()));
-  child.stderr.on('data', (chunk: Buffer) => (stderr += chunk.toString()));
-  const finished = new Promise<Finished>((resolve) => {
-    child.on('close', (code) => resolve({ code: code ?? 1, stdout, stderr }));
-  });
-  return { child, finished, stderr: () => stderr };
-}
-
-async function browserPid(parent: number): Promise<number> {
-  const { stdout } = await runFile('pgrep', ['-P', String(parent)]);
-  const pid = Number(stdout.trim().split('\n')[0]);
-  if (!Number.isInteger(pid) || pid <= 0) throw new Error('No browser process yet');
-  return pid;
-}
 
 describe.skipIf(!browserAvailable() || !hasDisplay)('cursorcam login', () => {
   const site = useFixtureServer();

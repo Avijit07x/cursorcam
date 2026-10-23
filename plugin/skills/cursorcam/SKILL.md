@@ -73,6 +73,11 @@ A zoom change renders again in seconds with `render`, without recording again.
 
 ## 3. Explore
 
+**Steps from the user.** If the user gives you a steps file, skip exploring: check it, fix only what fails, then record. When you cannot find the flow, or the user would rather show it than describe it, offer to let them click through it once:
+
+- Tell the user a browser window will open, and that they should click through the flow and close the window. Then run `cursorcam capture "<url>" "cursorcam-output/<short-name>.json"` in the foreground with a 10 minute timeout. With the MCP tools, which have no `capture` tool, ask the user to run `npx cursorcam capture "<url>"` in a terminal instead, which saves `cursorcam-output/capture.json`.
+- It writes `$secret:` placeholders for passwords and login names, like `$secret:PASSWORD`. Ask for their values (see Logins), then check the file as above.
+
 `cursorcam inspect "<url>"` saves `frame.jpg`, the first frame of the video, and lists targets that match exactly one element, in page order.
 
 - Read the frame image to see the page.

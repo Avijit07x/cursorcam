@@ -1,6 +1,6 @@
 # Steps file
 
-Your AI agent writes the steps for you. Read this to edit them by hand, or to run the [CLI](cli.md) yourself.
+Your AI agent writes the steps for you. Read this to edit them by hand, or to run the [CLI](cli.md) yourself. You can also [click through your app](#click-through-it-yourself) to save them.
 
 A steps file is JSON. It names the first page and the steps to play, in order:
 
@@ -20,6 +20,24 @@ A steps file is JSON. It names the first page and the steps to play, in order:
 ```
 
 More are in [examples](examples/).
+
+## Click through it yourself
+
+Instead of writing the steps, click through your app once and save what you do:
+
+```bash
+npx cursorcam capture http://localhost:3000
+```
+
+A browser window opens. Click and type through your flow, then close the window. The steps are saved in `cursorcam-output/capture.json`, or in the file you name after the URL. The window stays open for up to 9 minutes.
+
+- It saves clicks, double clicks, typing, picked options, uploads, `Enter`, `Escape` and shortcuts like `Mod+K`. Pages you open from the address bar become `goto` steps.
+- It never saves a password. Each one becomes `$secret:PASSWORD`, and the email or user name of a login becomes `$secret:EMAIL` or `$secret:USERNAME`. A one-time code becomes an `ask` step. See [Logins and secrets](logins.md).
+- It does not save hovers or scrolls. The recording scrolls to each target by itself. Add a `hover` step before a click in a menu that opens on hover.
+- An upload saves only the file name. Put the file next to the steps file.
+- Add `--profile <name>` to start logged in, with a login saved by `cursorcam login`.
+
+Then try the steps with `npx cursorcam check cursorcam-output/capture.json`, and add a `waitFor` for the result of each important action.
 
 ## Tips for a good video
 

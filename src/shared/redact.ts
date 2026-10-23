@@ -27,11 +27,16 @@ export function redactUrl(url: string): string {
   } catch {
     return redact(url);
   }
-  if (parsed.password) parsed.password = SECRET_MASK;
-  for (const name of new Set(parsed.searchParams.keys())) {
-    if (SECRET_PARAM_NAME.test(name)) parsed.searchParams.set(name, SECRET_MASK);
+  return redact(decodeSafely(maskUrlSecrets(parsed).toString()));
+}
+
+export function maskUrlSecrets(url: URL): URL {
+  const masked = new URL(url);
+  if (masked.password) masked.password = SECRET_MASK;
+  for (const name of new Set(masked.searchParams.keys())) {
+    if (SECRET_PARAM_NAME.test(name)) masked.searchParams.set(name, SECRET_MASK);
   }
-  return redact(decodeSafely(parsed.toString()));
+  return masked;
 }
 
 function decodeSafely(text: string): string {

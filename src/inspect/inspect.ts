@@ -15,7 +15,12 @@ import { centerOf, distance, type Rect, type Size } from '../shared/geometry.js'
 import { redact } from '../shared/redact.js';
 import type { Lifecycle } from '../system/lifecycle.js';
 import type { AppPaths } from '../system/paths.js';
-import { collectTargets, type RawTarget, type TargetWarning } from './collect.js';
+import {
+  COLLECT_TARGETS,
+  type PageSummary,
+  type RawTarget,
+  type TargetWarning,
+} from './collect.js';
 
 export interface InspectOptions {
   readonly url: string;
@@ -111,18 +116,18 @@ export async function inspectPage(options: InspectOptions): Promise<InspectRepor
 }
 
 async function collectAll(page: Page): Promise<{ found: FoundTarget[]; hasViewportMeta: boolean }> {
-  const main = await page.mainFrame().evaluate(collectTargets);
+  const main = await page.mainFrame().evaluate<PageSummary>(COLLECT_TARGETS);
   const found: FoundTarget[] = main.targets.map((raw) => ({ raw, frame: undefined }));
   for (const frame of page.mainFrame().childFrames()) {
     const selector = await frameSelector(frame);
     if (!selector) continue;
-    const summary = await frame.evaluate(collectTargets).catch(() => undefined);
+    const summary = await frame.evaluate<PageSummary>(COLLECT_TARGETS).catch(() => undefined);
     for (const raw of summary?.targets ?? []) found.push({ raw, frame: selector });
   }
   return { found, hasViewportMeta: main.hasViewportMeta };
 }
 
-async function frameSelector(frame: Frame): Promise<string | undefined> {
+export async function frameSelector(frame: Frame): Promise<string | undefined> {
   const element = await frame.frameElement().catch(() => undefined);
   if (!element) return undefined;
   const selector = await element.evaluate((node) => {
@@ -138,7 +143,7 @@ async function frameSelector(frame: Frame): Promise<string | undefined> {
   return selector || undefined;
 }
 
-function suggestions(raw: RawTarget): string[] {
+export function suggestions(raw: RawTarget): string[] {
   const list: string[] = [];
   if (raw.testId) list.push(`testid=${raw.testId}`);
   if (raw.role && raw.name)

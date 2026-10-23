@@ -10,6 +10,10 @@ Flow:
 7. Call stills and look at them: every step on screen, zoom frames the action, no spinners, errors or private data. To change the look without recording again, call render with a style, like {"zoom":{"max":1.4}}.
 8. Reply with the video path, its size and length, and the steps path to record again later.
 
+Steps from the user:
+- If the user gives a steps file, skip exploring: call check with it, fix only what fails, then call run.
+- When you cannot find the flow, offer to let the user show it: they run "npx cursorcam capture <url>" in a terminal, click through the flow and close the window. It saves cursorcam-output/capture.json, with passwords as $secret:PASSWORD.
+
 Steps file:
 {"name":"create-issue","url":"http://localhost:3000","steps":[{"pause":600},{"click":"role=button[name='New issue']"},{"type":"Add a checklist","into":"label=Title"},{"click":"role=button[name='Create issue']"},{"waitFor":"text=Add a checklist","pauseAfter":1500}]}
 - Top-level keys: url (required), name, viewport ("desktop" or "phone"), colorScheme, mask (CSS selectors to blur), timeout (ms per step), httpCredentials, allowOrigins.
