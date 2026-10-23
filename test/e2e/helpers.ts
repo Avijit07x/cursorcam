@@ -1,6 +1,8 @@
+import { execFile, spawn } from 'node:child_process';
 import { createServer, type Server } from 'node:http';
 import type { AddressInfo } from 'node:net';
 import { join } from 'node:path';
+import { promisify } from 'node:util';
 import { afterAll, beforeAll } from 'vitest';
 import { findBrowser } from '../../src/browser/finder.js';
 import { runCommand } from '../../src/system/command.js';
@@ -10,6 +12,37 @@ import { useTempDir } from '../helpers/temp-dir.js';
 export const CLI_PATH = join(import.meta.dirname, '..', '..', 'dist', 'cli', 'index.js');
 export const CI_SLOWDOWN = process.env.CI ? 3 : 1;
 export const FAIL_FAST_TIMEOUT_MS = process.env.CI ? 10_000 : 1_500;
+
+const runFile = promisify(execFile);
+
+export const hasDisplay =
+  process.platform === 'darwin' ||
+  (process.platform === 'linux' && Boolean(process.env.DISPLAY ?? process.env.WAYLAND_DISPLAY));
+
+interface Finished {
+  readonly code: number;
+  readonly stdout: string;
+  readonly stderr: string;
+}
+
+export function startCli(args: readonly string[], cwd: string, env: NodeJS.ProcessEnv) {
+  const child = spawn(process.execPath, [CLI_PATH, ...args], { cwd, env });
+  let stdout = '';
+  let stderr = '';
+  child.stdout.on('data', (chunk: Buffer) => (stdout += chunk.toString()));
+  child.stderr.on('data', (chunk: Buffer) => (stderr += chunk.toString()));
+  const finished = new Promise<Finished>((resolve) => {
+    child.on('close', (code) => resolve({ code: code ?? 1, stdout, stderr }));
+  });
+  return { child, finished, stderr: () => stderr };
+}
+
+export async function browserPid(parent: number): Promise<number> {
+  const { stdout } = await runFile('pgrep', ['-P', String(parent)]);
+  const pid = Number(stdout.trim().split('\n')[0]);
+  if (!Number.isInteger(pid) || pid <= 0) throw new Error('No browser process yet');
+  return pid;
+}
 
 export function browserAvailable(): boolean {
   try {

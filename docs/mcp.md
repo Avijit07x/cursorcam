@@ -118,6 +118,8 @@ The server tells the agent the whole flow. It explores your app, writes the step
 
 Steps can be passed inline as JSON or as a file path. Inline steps are saved as `cursorcam-output/<name>.json`, so you can record them again later. The [steps guide](steps.md) has every action and option.
 
+To show the agent a flow instead of describing it, run `npx cursorcam capture <url>` in a terminal, click through the flow and close the window. Then ask the agent to record `cursorcam-output/capture.json`. See [Click through it yourself](steps.md#click-through-it-yourself).
+
 ## Logins
 
 - The agent writes `$secret:NAME` in the steps and passes the value in the `secrets` argument of `check`, `record` or `run`. Values never reach a file, a log or the tool output. See [Logins and secrets](logins.md).

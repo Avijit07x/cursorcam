@@ -6,10 +6,11 @@ The MCP server and the Claude Code plugin run the `cursorcam` CLI for you. You c
 
 1. Check the machine once: `npx cursorcam doctor`
 2. See the page and its targets: `npx cursorcam inspect http://localhost:3000`
-3. Try the steps quickly: `npx cursorcam check steps.json`
-4. Record and render: `npx cursorcam run steps.json`
-5. Look at key moments: `npx cursorcam stills cursorcam-output/<run>`
-6. Make another size: `npx cursorcam render cursorcam-output/<run> --for linkedin`
+3. Or click through the flow to save the steps: `npx cursorcam capture http://localhost:3000`
+4. Try the steps quickly: `npx cursorcam check steps.json`
+5. Record and render: `npx cursorcam run steps.json`
+6. Look at key moments: `npx cursorcam stills cursorcam-output/<run>`
+7. Make another size: `npx cursorcam render cursorcam-output/<run> --for linkedin`
 
 ## Commands
 
@@ -17,6 +18,7 @@ The MCP server and the Claude Code plugin run the `cursorcam` CLI for you. You c
 | --- | --- |
 | `doctor` | Checks Node, the browser, screen capture, the video encoder, crash dumps, disk space and fonts, and prints fixes |
 | `inspect <url>` | Saves the first frame of a page and lists what can be clicked, with targets |
+| `capture <url> [steps]` | Opens a browser window and saves what you click and type there as a steps file. See [Click through it yourself](steps.md#click-through-it-yourself) |
 | `check <steps>` | A quick dry run that saves one frame per step and stops at the first failure |
 | `record <steps>` | Records the steps without rendering |
 | `render <run>` | Renders a recorded run into an MP4 |
@@ -36,7 +38,7 @@ The MCP server and the Claude Code plugin run the `cursorcam` CLI for you. You c
 | `--format <format>` | `run`, `render`, `stills` | `landscape`, `square` or `vertical` |
 | `--style <file-or-json>` | `run`, `render`, `stills` | The look of the video |
 | `--clean` | `run`, `render` | Deletes the raw frames after rendering |
-| `--profile <name>` | `inspect`, `check`, `record`, `run`, `login` | Uses a login saved with `login`, or names the login to save |
+| `--profile <name>` | `inspect`, `capture`, `check`, `record`, `run`, `login` | Uses a login saved with `login`, or names the login to save |
 | `--forget` | `login` | Deletes the saved login named with `--profile` |
 | `--headed` | `check`, `record`, `run` | Shows the browser window |
 | `--detach` | `check`, `record`, `run` | Runs in the background and prints the run folder. Follow it with `wait` |

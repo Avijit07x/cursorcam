@@ -28,6 +28,8 @@ Hide the email in the top bar.
 Record the settings page on a phone, as a vertical video for Instagram.
 ```
 
+For a flow that is hard to describe, show it once instead. Run `npx cursorcam capture http://localhost:3000`, click through the flow and close the window. Then ask your agent to record `cursorcam-output/capture.json`. See [Click through it yourself](steps.md#click-through-it-yourself).
+
 | Instead of | Try |
 | --- | --- |
 | "Make a demo of the app" | "Make a 30 second demo of creating a project, from the dashboard to the new project page" |

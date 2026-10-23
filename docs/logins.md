@@ -32,6 +32,7 @@ CURSORCAM_SECRET_PASSWORD='…' npx cursorcam run steps.json
 - `$env:NAME` reads a variable you already keep, like `$env:DEMO_EMAIL`.
 - Secret values never reach a file, a log or the terminal output.
 - They work in `type` and in `httpCredentials`.
+- [`cursorcam capture`](steps.md#click-through-it-yourself) writes these placeholders for the passwords you type, and never saves the passwords.
 
 To blur other things on screen, like the signed-in email, add `"mask": [".user-email"]` at the top of the steps file.
 

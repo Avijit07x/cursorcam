@@ -23,7 +23,8 @@ export interface PageSummary {
   readonly viewport: { readonly width: number; readonly height: number };
 }
 
-export function collectTargets(): PageSummary {
+// Runs in the page, where `(${targetKit})()` builds it. Inspect and capture both describe elements with it.
+export function targetKit() {
   const MAX_TEXT = 60;
   const MAX_NAME = 200;
   const MIN_OPACITY = 0.1;
@@ -172,26 +173,26 @@ export function collectTargets(): PageSummary {
     return null;
   };
 
-  const roots: (Document | ShadowRoot)[] = [document];
-  const elements: Element[] = [];
-  while (roots.length > 0) {
-    const root = roots.shift();
-    if (!root) break;
-    for (const element of root.querySelectorAll('*')) {
-      if (element.shadowRoot) roots.push(element.shadowRoot);
-      if (element.matches(INTERACTIVE)) elements.push(element);
+  const allElements = (): Element[] => {
+    const roots: (Document | ShadowRoot)[] = [document];
+    const elements: Element[] = [];
+    while (roots.length > 0) {
+      const root = roots.shift();
+      if (!root) break;
+      for (const element of root.querySelectorAll('*')) {
+        if (element.shadowRoot) roots.push(element.shadowRoot);
+        elements.push(element);
+      }
     }
-  }
+    return elements;
+  };
 
-  const targets: RawTarget[] = [];
-  for (const element of elements) {
+  const describe = (element: Element): RawTarget => {
     const box = element.getBoundingClientRect();
-    if (!isShown(element, box) || element.parentElement?.closest(CLICKABLE_PARENT)) continue;
-    const name = accessibleName(element).slice(0, MAX_NAME);
-    targets.push({
+    return {
       tag: element.tagName.toLowerCase(),
       role: implicitRole(element),
-      name,
+      name: accessibleName(element).slice(0, MAX_NAME),
       label: labelText(element).slice(0, MAX_NAME),
       placeholder: clean(element.getAttribute('placeholder')).slice(0, MAX_NAME),
       testId: clean(element.getAttribute('data-testid')),
@@ -201,11 +202,37 @@ export function collectTargets(): PageSummary {
       disabled: element.matches(':disabled') || element.getAttribute('aria-disabled') === 'true',
       password: element instanceof HTMLInputElement && element.type === 'password',
       warning: warningFor(element),
-    });
-  }
+    };
+  };
+
+  const collect = (): PageSummary => {
+    const targets = allElements()
+      .filter((element) => element.matches(INTERACTIVE))
+      .filter(
+        (element) =>
+          isShown(element, element.getBoundingClientRect()) &&
+          !element.parentElement?.closest(CLICKABLE_PARENT),
+      )
+      .map(describe);
+    return {
+      targets,
+      hasViewportMeta: document.querySelector('meta[name="viewport"]') !== null,
+      viewport: { width: window.innerWidth, height: window.innerHeight },
+    };
+  };
+
   return {
-    targets,
-    hasViewportMeta: document.querySelector('meta[name="viewport"]') !== null,
-    viewport: { width: window.innerWidth, height: window.innerHeight },
+    interactive: INTERACTIVE,
+    clean,
+    implicitRole,
+    labelText,
+    accessibleName,
+    allElements,
+    describe,
+    collect,
   };
 }
+
+export type TargetKit = ReturnType<typeof targetKit>;
+
+export const COLLECT_TARGETS = `(${targetKit.toString()})().collect()`;

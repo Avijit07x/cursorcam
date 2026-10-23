@@ -1,5 +1,10 @@
 # cursorcam
 
+## Unreleased
+
+- New `cursorcam capture <url>` command: it opens a browser window, you click through your flow, and it saves the steps file when you close the window. It never saves a password: each one becomes `$secret:PASSWORD`. See [Click through it yourself](docs/steps.md#click-through-it-yourself).
+- Agents now record a steps file you give them without exploring the app first, and can offer `capture` when they cannot find a flow.
+
 ## 1.0.0
 
 The first stable release. CursorCam now works with any AI agent, and `npm i cursorcam` and `npx cursorcam` get it without `@beta`.

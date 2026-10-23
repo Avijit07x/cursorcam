@@ -3,6 +3,7 @@ import { createRequire } from 'node:module';
 import { Command, type CommanderError } from 'commander';
 import { ExitCode } from '../shared/exit-codes.js';
 import { registerAnswer } from './commands/answer.js';
+import { registerCapture } from './commands/capture.js';
 import { registerCheck } from './commands/check.js';
 import { registerDoctor } from './commands/doctor.js';
 import { registerInspect } from './commands/inspect.js';
@@ -29,6 +30,7 @@ const program = new Command()
 
 registerDoctor(program);
 registerInspect(program);
+registerCapture(program);
 registerCheck(program);
 registerRecord(program);
 registerRender(program);
