@@ -126,6 +126,7 @@ export async function recordSteps(request: RecordRequest): Promise<Recording> {
       session,
       plan,
       events,
+      frames: store,
       pointer: new Pointer(session, events),
       handlers,
       timeoutMs: header.timeout,

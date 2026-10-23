@@ -68,6 +68,19 @@ describe('FrameStore', () => {
     expect((await store.nextFrame(10))?.toString()).toBe('second');
   });
 
+  it('counts changed frames and says whether one came in time', async () => {
+    const store = new FrameStore({ clock, onError: vi.fn() });
+    store.add(frame('first'), 0);
+    const repeat = store.waitForFrame(20);
+    store.add(frame('first'), 0);
+    expect(await repeat).toBe(false);
+
+    const change = store.waitForFrame(1_000);
+    store.add(frame('second'), 0);
+    expect(await change).toBe(true);
+    expect(store.received).toBe(2);
+  });
+
   it('stops with exit 8 when the disk runs low', async () => {
     await mkdir(join(dir.path(), FRAMES_DIR));
     const onError = vi.fn<(error: CursorCamError) => void>();

@@ -4,6 +4,7 @@
 
 - New `cursorcam capture <url>` command: it opens a browser window, you click through your flow, and it saves the steps file when you close the window. It never saves a password: each one becomes `$secret:PASSWORD`. See [Click through it yourself](docs/steps.md#click-through-it-yourself).
 - Agents now record a steps file you give them without exploring the app first, and can offer `capture` when they cannot find a flow.
+- Scrolls stay smooth in the video on a slow or busy machine. When the browser sent fewer frames, the recorder kept scrolling at full speed, which showed as jumps. Now the scroll slows down to match.
 
 ## 1.0.0
 

@@ -12,6 +12,8 @@ import {
 } from './scroll-plan.js';
 
 const WHEEL_FRAME_MS = 16;
+const UNSEEN_PX = 120;
+const FRAME_WAIT_MS = 100;
 const MAX_ROUNDS = 5;
 const SETTLE_SAMPLE_MS = 60;
 const SETTLE_MAX_MS = 1_500;
@@ -118,17 +120,34 @@ async function wheelPoint(
   return undefined;
 }
 
-async function wheel(context: ActionContext, delta: Point): Promise<void> {
+// Once the page is UNSEEN_PX past the last video frame, the scroll waits for a new one. When the
+// browser sends frames slowly, as on a busy machine, the scroll slows down with them instead of
+// jumping in the video. A late step never makes the next ones hurry to catch up.
+export async function wheel(context: ActionContext, delta: Point): Promise<void> {
+  const { frames } = context;
   const distance = Math.max(Math.abs(delta.x), Math.abs(delta.y));
   const steps = Math.max(1, Math.round(scrollDuration(distance, context.speed) / WHEEL_FRAME_MS));
   const xs = wheelSteps(delta.x, steps);
   const ys = wheelSteps(delta.y, steps);
-  const start = performance.now();
+  let due = performance.now();
+  let seen = frames.received;
+  let unseen = 0;
   for (let step = 0; step < steps; step += 1) {
+    await sleep(due - performance.now());
+    due = Math.max(due + WHEEL_FRAME_MS, performance.now());
     const dx = xs[step] ?? 0;
     const dy = ys[step] ?? 0;
-    if (dx !== 0 || dy !== 0) await context.session.page.mouse.wheel(dx, dy);
-    await sleep(start + (step + 1) * WHEEL_FRAME_MS - performance.now());
+    const size = Math.max(Math.abs(dx), Math.abs(dy));
+    if (size === 0) continue;
+    if (frames.received !== seen) unseen = 0;
+    // A frame that never comes still lets one step through, so the browser has a change to send.
+    if (unseen > 0 && unseen + size > UNSEEN_PX) {
+      await frames.waitForFrame(FRAME_WAIT_MS);
+      unseen = 0;
+    }
+    seen = frames.received;
+    await context.session.page.mouse.wheel(dx, dy);
+    unseen += size;
   }
 }
 
