@@ -2,6 +2,7 @@ import type { PageHandlers } from '../browser/handlers.js';
 import type { BrowserSession } from '../browser/session.js';
 import type { StepsPlan } from '../config/load-steps.js';
 import type { EventLog } from './events.js';
+import type { FrameStore } from './frames.js';
 import type { Pointer } from './mouse.js';
 
 export interface AnswerSource {
@@ -12,6 +13,7 @@ export interface ActionContext {
   readonly session: BrowserSession;
   readonly plan: StepsPlan;
   readonly events: EventLog;
+  readonly frames: Pick<FrameStore, 'received' | 'waitForFrame'>;
   readonly pointer: Pointer;
   readonly handlers: PageHandlers;
   readonly timeoutMs: number;

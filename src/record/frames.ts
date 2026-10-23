@@ -39,6 +39,7 @@ export class FrameStore {
   readonly #waiters = new Set<(frame: Buffer) => void>();
   #latest: Buffer | undefined;
   #lastFrameAt = 0;
+  #received = 0;
   #writing: Promise<void> = Promise.resolve();
   #failed = false;
 
@@ -58,11 +59,17 @@ export class FrameStore {
     return this.#lastFrameAt;
   }
 
+  // Changed frames so far, kept in check runs too, which save no frames.
+  get received(): number {
+    return this.#received;
+  }
+
   add(frame: ScreencastFrame, tab: number): void {
     const at = this.#options.clock.now();
     this.#lastFrameAt = at;
     if (this.#latest?.equals(frame.data)) return;
     this.#latest = frame.data;
+    this.#received += 1;
     for (const waiter of this.#waiters) waiter(frame.data);
     this.#waiters.clear();
 
@@ -84,15 +91,21 @@ export class FrameStore {
     if (index % DISK_CHECK_EVERY_FRAMES === 0) void this.#checkDisk(dir);
   }
 
-  nextFrame(timeoutMs: number): Promise<Buffer | undefined> {
+  async nextFrame(timeoutMs: number): Promise<Buffer | undefined> {
+    await this.waitForFrame(timeoutMs);
+    return this.#latest;
+  }
+
+  // True when a new frame arrives in time, false when the timeout comes first.
+  waitForFrame(timeoutMs: number): Promise<boolean> {
     return new Promise((resolve) => {
       const timer = setTimeout(() => {
         this.#waiters.delete(onFrame);
-        resolve(this.#latest);
+        resolve(false);
       }, timeoutMs);
-      const onFrame = (frame: Buffer) => {
+      const onFrame = () => {
         clearTimeout(timer);
-        resolve(frame);
+        resolve(true);
       };
       this.#waiters.add(onFrame);
     });
