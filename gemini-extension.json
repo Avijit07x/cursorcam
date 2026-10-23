@@ -1,11 +1,11 @@
 {
   "name": "cursorcam",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Ask your AI agent for a demo video. It explores your web app, writes the steps, records them in a hidden browser and hands back a polished MP4 with auto-zoom, a smooth cursor and click ripples.",
   "mcpServers": {
     "cursorcam": {
       "command": "npx",
-      "args": ["-y", "cursorcam@1.0.0", "mcp"],
+      "args": ["-y", "cursorcam@1.1.0", "mcp"],
       "cwd": "${workspacePath}"
     }
   }

@@ -1,6 +1,6 @@
 {
   "name": "cursorcam",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Ask your AI agent for a demo video. CursorCam clicks through your web app and renders a polished MP4 that zooms in on each click, from any MCP agent, Claude Code or the CLI.",
   "keywords": [
     "demo video",
