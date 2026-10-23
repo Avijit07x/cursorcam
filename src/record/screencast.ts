@@ -15,7 +15,7 @@ export interface Screencast {
 }
 
 const JPEG_QUALITY = 75;
-const FIRST_FRAME_TIMEOUT_MS = 5_000;
+const FIRST_FRAME_TIMEOUT_MS = 15_000;
 
 export async function startScreencast(
   page: Page,

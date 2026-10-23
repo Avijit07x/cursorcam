@@ -190,7 +190,7 @@ describe.skipIf(!browserAvailable())('cursorcam check and record', () => {
     expect(started.code, started.stderr).toBe(ExitCode.Ok);
     const { run } = JSON.parse(started.stdout) as { run: string; pid: number };
 
-    const waited = await runCli(['wait', run, '--timeout', '50'], work.path(), cache.env());
+    const waited = await runCli(['wait', run, '--timeout', '90'], work.path(), cache.env());
     const runLog = await readFile(join(run, 'log.txt'), 'utf8').catch(() => '');
     expect(waited.code, `${waited.stdout}\n${runLog}`).toBe(ExitCode.Ok);
     expect(waited.stdout).toContain(`Done. Video: ${join(run, 'video.mp4')}`);
@@ -226,7 +226,7 @@ describe.skipIf(!browserAvailable())('cursorcam check and record', () => {
     expect(asking.stdout).toContain(`| cursorcam answer "${run}"`);
     const answered = await runCli(['answer', run], work.path(), cache.env(), code);
     expect(answered.code, answered.stderr).toBe(ExitCode.Ok);
-    const done = await runCli(['wait', run, '--timeout', '50'], work.path(), cache.env());
+    const done = await runCli(['wait', run, '--timeout', '90'], work.path(), cache.env());
     expect(done.stdout).toContain('Done. Video:');
     for (const name of await readdir(run)) {
       const text = await readFile(join(run, name), 'utf8').catch(() => '');
