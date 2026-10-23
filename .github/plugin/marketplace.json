@@ -5,7 +5,7 @@
   },
   "metadata": {
     "description": "Ask your AI agent for a click demo video of your web app.",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "plugins": [
     {

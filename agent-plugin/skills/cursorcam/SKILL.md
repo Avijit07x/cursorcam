@@ -24,7 +24,7 @@ CursorCam comes as MCP tools or as the `cursorcam` CLI. Use whichever this sessi
 
 **The CLI.** Without the tools:
 
-- Always run it as `npx -y cursorcam@1.0.0 <command>`. Below, `cursorcam` is short for that.
+- Always run it as `npx -y cursorcam@1.1.0 <command>`. Below, `cursorcam` is short for that.
 - Quote every file and folder path.
 
 Either way:
