@@ -87,6 +87,8 @@ Each scene fits every video shape and window size.
 
 `"zoom": { "enabled": true, "max": 2, "hold": 0 }`
 
+The zoom moves the whole window toward the viewer: the window, its bar and its shadow grow past the frame, and the background stays in place. The page is never cropped inside a window of fixed size.
+
 - `enabled: false` turns zoom off for the whole video.
 - `max` is the closest zoom, from 1.3 to 2.5.
 - `hold` keeps the zoom for that many ms after each action, up to 5000.
