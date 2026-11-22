@@ -1,4 +1,5 @@
-import type { Box, DrawFrame, JobDialog, RenderJob } from '../job.js';
+import type { Box, DrawFrame, JobDialog, JobLayout, RenderJob } from '../job.js';
+import { shownPart, windowTransform } from './zoom.js';
 
 type Context = OffscreenCanvasRenderingContext2D;
 
@@ -74,6 +75,7 @@ export class Compositor {
   readonly canvas: OffscreenCanvas;
   readonly #context: Context;
   readonly #base: OffscreenCanvas;
+  readonly #shadow: OffscreenCanvas | undefined;
   readonly #job: RenderJob;
 
   constructor(job: RenderJob, backgroundImage: ImageBitmap | undefined, readable = false) {
@@ -82,7 +84,11 @@ export class Compositor {
     this.canvas = new OffscreenCanvas(width, height);
     this.#context = context2d(this.canvas, readable);
     this.#base = new OffscreenCanvas(width, height);
-    drawBase(context2d(this.#base), job, backgroundImage);
+    drawBackground(context2d(this.#base), job, backgroundImage);
+    if (job.layout.shadow > 0) {
+      this.#shadow = new OffscreenCanvas(width, height);
+      drawShadow(context2d(this.#shadow), job.layout, height);
+    }
   }
 
   pixels(): Uint8ClampedArray {
@@ -91,50 +97,51 @@ export class Compositor {
 
   draw(frame: DrawFrame, source: ImageBitmap): void {
     const context = this.#context;
-    const { layout, source: info } = this.#job;
-    const [cropX, cropY, cropWidth, cropHeight] = frame.crop;
-    const { content } = layout;
-    const scale = content.width / cropWidth;
+    const { layout, source: info, output } = this.#job;
+    const { content, bar } = layout;
+    const camera = windowTransform(frame.crop, content, info.width);
+    const scale = content.width / info.width;
+    const toWindow = (x: number, y: number) => ({
+      x: content.x + x * scale,
+      y: content.y + y * scale,
+    });
 
     context.drawImage(this.#base, 0, 0);
     context.save();
-    roundedPath(
-      context,
-      content,
-      layout.bar ? [0, 0, layout.radius, layout.radius] : layout.radius,
-    );
-    context.clip();
+    // The zoom scales the whole window, so the page is never cropped to a fixed frame.
+    context.setTransform(camera.scale, 0, 0, camera.scale, camera.x, camera.y);
     context.imageSmoothingQuality = 'high';
+    if (this.#shadow) context.drawImage(this.#shadow, 0, 0);
+    if (bar) {
+      drawBar(context, bar, layout.radius);
+      if (frame.url !== undefined) drawUrl(context, bar, this.#job.urls[frame.url] ?? '');
+    }
+    roundedPath(context, content, bar ? [0, 0, layout.radius, layout.radius] : layout.radius);
+    context.clip();
     context.drawImage(
       source,
-      cropX * info.scale,
-      cropY * info.scale,
-      cropWidth * info.scale,
-      cropHeight * info.scale,
+      0,
+      0,
+      info.width * info.scale,
+      info.height * info.scale,
       content.x,
       content.y,
       content.width,
       content.height,
     );
-    const toScreen = (x: number, y: number) => ({
-      x: content.x + (x - cropX) * scale,
-      y: content.y + (y - cropY) * scale,
-    });
     for (const [x, y, progress] of frame.ripples ?? [])
-      drawRipple(context, toScreen(x, y), progress, scale);
+      drawRipple(context, toWindow(x, y), progress, scale);
     const cursor = this.#job.cursor;
     if (cursor && frame.cursor) {
       const [x, y, pressed] = frame.cursor;
-      const point = toScreen(x, y);
+      const point = toWindow(x, y);
       if (cursor.kind === 'touch') drawTouch(context, point, scale * cursor.size);
       else drawArrow(context, point, scale * cursor.size * (pressed ? PRESSED_SCALE : 1));
     }
     context.restore();
 
-    if (layout.bar && frame.url !== undefined)
-      drawUrl(context, layout.bar, this.#job.urls[frame.url] ?? '');
     const dialog = frame.dialog === undefined ? undefined : this.#job.dialogs[frame.dialog];
-    if (dialog) drawDialog(context, layout.content, dialog, this.#job.output.height);
+    if (dialog) drawDialog(context, shownPart(content, camera, output), dialog, output.height);
   }
 }
 
@@ -144,9 +151,8 @@ function context2d(canvas: OffscreenCanvas, readable = false): Context {
   return context;
 }
 
-function drawBase(context: Context, job: RenderJob, image: ImageBitmap | undefined): void {
+function drawBackground(context: Context, job: RenderJob, image: ImageBitmap | undefined): void {
   const { width, height } = job.output;
-  const { layout } = job;
   const background = job.background;
   if (image) {
     const cover = Math.max(width / image.width, height / image.height);
@@ -178,22 +184,20 @@ function drawBase(context: Context, job: RenderJob, image: ImageBitmap | undefin
     context.fillStyle = background.kind === 'solid' ? background.color : FALLBACK_BACKGROUND;
     context.fillRect(0, 0, width, height);
   }
+}
 
-  if (layout.shadow > 0) {
-    context.save();
-    context.shadowColor = `rgba(0, 0, 0, ${layout.shadow})`;
-    context.shadowBlur = height * SHADOW_BLUR;
-    context.shadowOffsetY = height * SHADOW_OFFSET;
-    context.fillStyle = SHADOW_FILL;
-    roundedPath(context, layout.window, layout.radius);
-    context.fill();
-    context.restore();
-  }
+function drawShadow(context: Context, layout: JobLayout, height: number): void {
+  context.shadowColor = `rgba(0, 0, 0, ${layout.shadow})`;
+  context.shadowBlur = height * SHADOW_BLUR;
+  context.shadowOffsetY = height * SHADOW_OFFSET;
+  context.fillStyle = SHADOW_FILL;
+  roundedPath(context, layout.window, layout.radius);
+  context.fill();
+}
 
-  const bar = layout.bar;
-  if (!bar) return;
+function drawBar(context: Context, bar: Box, radius: number): void {
   context.save();
-  roundedPath(context, bar, [layout.radius, layout.radius, 0, 0]);
+  roundedPath(context, bar, [radius, radius, 0, 0]);
   context.fillStyle = BAR_COLOR;
   context.fill();
   context.fillStyle = BAR_LINE_COLOR;
