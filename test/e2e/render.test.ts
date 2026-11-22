@@ -295,6 +295,8 @@ describe.skipIf(!browserAvailable())('rendering', () => {
   it('re-renders a new look without recording again, and explains when the frames are gone', async () => {
     const first: RenderOutcome = await render('colors', { background: '#000000' });
     expect(first.job.background).toEqual({ kind: 'solid', color: '#000000' });
+    const full = await render('colors', { background: 'none' });
+    expect(full.facts).toMatchObject({ width: 1728, height: 1080 });
 
     const recorded = runs.get('colors');
     if (!recorded) throw new Error('missing recording');

@@ -36,6 +36,8 @@ For a flow that is hard to describe, show it once instead. Run `npx cursorcam ca
 | "Show all the features" | Three short videos, one for each feature |
 | "Record the login" | "Log in with the demo account, then show the dashboard" |
 | "Make it look nice" | "Use the midnight background and show app.example.com in the address bar" |
+| "Use my wallpaper" | "Use ~/Pictures/wallpaper.png as the background" |
+| "Just the page" | "No background, the page fills the whole video" |
 
 ## Keep it short
 
@@ -70,6 +72,8 @@ A new look or size renders in seconds from the same recording:
 ```
 Make an X version too.
 Use the sunset background.
+Use ~/Pictures/wallpaper.png as the background.
+No background, the page fills the whole video.
 Show app.example.com in the address bar instead of localhost.
 Make the cursor a bit bigger.
 Keep it under 10 MB, it's for the README.

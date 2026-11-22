@@ -2,6 +2,7 @@ import { CameraPath, cropFor } from '../camera/plan.js';
 import {
   DEFAULT_GRADIENT_ANGLE,
   GRADIENTS,
+  NO_BACKGROUND,
   type BackgroundSpec,
   type Style,
 } from '../config/style.js';
@@ -13,7 +14,7 @@ import { CursorCamError } from '../shared/errors.js';
 import { ExitCode } from '../shared/exit-codes.js';
 import { roundTo, type Point, type Size } from '../shared/geometry.js';
 import type { DrawFrame, JobBackground, RenderJob } from './job.js';
-import { computeLayout } from './layout.js';
+import { computeLayout, fullFrameLayout, fullFrameSize } from './layout.js';
 import { pickMoments, type Moments } from './moments.js';
 import { sceneSvg } from './scene/index.js';
 import { type Frame as SceneFrame, frameOf } from './scene/svg.js';
@@ -55,10 +56,19 @@ const MIN_LENGTH_MS = 500;
 const COORDINATE_DIGITS = 2;
 const PROTOCOL_PREFIX = /^https?:\/\//;
 const TRAILING_SLASH = /\/$/;
+const UNSEEN_FILL = '#000000';
 
 export function planJob(request: JobRequest): PlannedJob {
-  const { recording, style, size, fps } = request;
+  const { recording, style, fps } = request;
   const { meta, events } = recording;
+  const fullFrame = style.background === NO_BACKGROUND;
+  if (fullFrame && style.format === 'square') {
+    throw new CursorCamError('A square video needs a background.', {
+      exitCode: ExitCode.BadInput,
+      hint: 'With "background": "none" the video takes the shape of the recording. Pick a background, or leave out the square format.',
+    });
+  }
+  const size = fullFrame ? fullFrameSize(request.size, meta.viewport) : request.size;
   const picker = new FramePicker(correctFrameTimes(recording.frames), loadingRanges(events));
   const first = picker.first;
   if (!first) {
@@ -113,7 +123,7 @@ export function planJob(request: JobRequest): PlannedJob {
     frames.push(draw);
   }
 
-  const layout = computeLayout(size, meta.viewport, style);
+  const layout = fullFrame ? fullFrameLayout(size) : computeLayout(size, meta.viewport, style);
   const job: RenderJob = {
     output: {
       width: size.width,
@@ -209,6 +219,7 @@ function jobBackground(
   imageUrl: string | undefined,
   frame: SceneFrame,
 ): JobBackground {
+  if (background === NO_BACKGROUND) return { kind: 'solid', color: UNSEEN_FILL };
   if (typeof background === 'string') {
     if (background.startsWith('#')) return { kind: 'solid', color: background };
     const [from, to] = GRADIENTS[background as keyof typeof GRADIENTS];
