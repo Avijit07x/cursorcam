@@ -51,7 +51,7 @@ Find out:
 
 If the user did not say, use the default (1920×1080, 60 fps) and offer other sizes at the end. A new size renders in seconds and does not record again. Only a vertical video needs a phone recording.
 
-**How it zooms.** By default the camera zooms in for each click and typing, stays zoomed while the next actions are in the same area, and zooms out when the flow moves somewhere else. When the user asks for something else, set it:
+**How it zooms.** By default the camera zooms in for each click and typing, stays zoomed while the next actions are in the same area, and zooms out when the flow moves somewhere else. The zoom scales the whole window, so in a zoomed shot the window grows past the frame. When the user asks for something else, set it:
 
 | The user asks for | Set |
 | --- | --- |

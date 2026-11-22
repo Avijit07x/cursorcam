@@ -1,5 +1,9 @@
 # cursorcam
 
+## Unreleased
+
+- The zoom now scales the whole window, with its bar and shadow, instead of cropping the page inside a window of fixed size. The window grows past the frame and the background stays in place.
+
 ## 1.1.0
 
 Click through a flow once, and CursorCam writes the steps for you.
