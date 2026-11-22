@@ -42,9 +42,9 @@ const RunArgs = {
 };
 const RenderArgs = {
   for: z
-    .enum(['youtube', 'x', 'linkedin', 'discord'])
+    .enum(['youtube', 'x', 'linkedin', 'discord', '2k', '4k'])
     .optional()
-    .describe('Where the video will be posted'),
+    .describe('Where the video will be posted, or 2k or 4k for a bigger video'),
   maxSize: z.string().optional().describe('Keep the file under this size, like "10MB"'),
   style: z
     .union([z.string(), JsonObject])

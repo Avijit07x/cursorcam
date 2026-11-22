@@ -33,7 +33,7 @@ The MCP server and the Claude Code plugin run the `cursorcam` CLI for you. You c
 
 | Option | On | Does |
 | --- | --- | --- |
-| `--for <preset>` | `run`, `render`, `stills` | `youtube`, `x`, `linkedin` or `discord`. See [Look and size](style.md) |
+| `--for <preset>` | `run`, `render`, `stills` | `youtube`, `x`, `linkedin`, `discord`, `2k` or `4k`. See [Look and size](style.md) |
 | `--max-size <size>` | `run`, `render` | Keeps the file under a size, like `10MB` |
 | `--format <format>` | `run`, `render`, `stills` | `landscape`, `square` or `vertical` |
 | `--style <file-or-json>` | `run`, `render`, `stills` | The look of the video |
