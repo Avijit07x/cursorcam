@@ -3,6 +3,7 @@
 ## Unreleased
 
 - The `login` window no longer flashes and jumps to the front every second. On a sign-in page with a frame from another site, like a captcha or a Google button, saving the login opened and closed a hidden tab each second.
+- `--for 2k` and `--for 4k` render a 2560×1440 or 3840×2160 video at 60 fps, from the same recording.
 
 ## 1.1.0
 
