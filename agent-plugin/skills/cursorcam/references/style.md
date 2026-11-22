@@ -52,8 +52,9 @@ Pass a JSON file, or inline JSON: `--style '{"background":"sunset","padding":0.0
 - A gradient name: `aurora`, `sunset`, `ocean`, `forest`, `midnight` or `paper`.
 - A hex color, like `"#0f172a"`.
 - A custom gradient: `{ "from": "#7c3aed", "to": "#ec4899", "angle": 135 }`.
-- An image: `{ "image": "brand/bg.png" }`, a PNG, JPEG or WebP file. A relative path starts from the style file's folder, or from the current folder for inline JSON. The image covers the frame.
+- An image: `{ "image": "brand/bg.png" }`, a PNG, JPEG or WebP file. A relative path starts from the style file's folder, or from the current folder for inline JSON, and `~/` is the home folder. The image covers the frame.
 - A scene drawn from two colors: `{ "scene": "glow", "colors": "indigo" }`. The scene is one of `mesh`, `glow`, `split`, `dunes`, `aurora`, `glass`, `ripple`, `contours`, `grid`, `ribbons`, `beams`, `shapes`, `halftone` or `cursor`. `colors` is a palette, `indigo`, `iris`, `ocean`, `teal`, `plum`, `sunset`, `graphite`, `peach` or `paper`, `indigo` by default, or two hex colors, deep then light: `["#1e3a8a", "#38bdf8"]`.
+- `"none"`: no background. The page fills the whole video, with no padding, window bar, corners or shadow. The video takes the shape of the recording, so nothing is cropped: 1728×1080 from a desktop recording.
 
 ## Fixes from stills
 

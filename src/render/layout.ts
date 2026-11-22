@@ -11,6 +11,21 @@ export interface LayoutStyle {
 const BAR_CSS_PX = 38;
 const BASE_SHORT_SIDE = 1080;
 
+export function fullFrameSize(box: Size, viewport: Size): Size {
+  const scale = Math.min(box.width / viewport.width, box.height / viewport.height);
+  return { width: even(viewport.width * scale), height: even(viewport.height * scale) };
+}
+
+export function fullFrameLayout(size: Size): JobLayout {
+  const frame = { x: 0, y: 0, width: size.width, height: size.height };
+  return { window: frame, content: frame, bar: null, radius: 0, shadow: 0 };
+}
+
+// H.264 needs even sides.
+function even(value: number): number {
+  return 2 * Math.round(value / 2);
+}
+
 export function computeLayout(output: Size, viewport: Size, style: LayoutStyle): JobLayout {
   const shortSide = Math.min(output.width, output.height);
   const padding = Math.round(shortSide * style.padding);

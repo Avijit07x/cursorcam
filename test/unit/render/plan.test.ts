@@ -88,6 +88,14 @@ describe('planJob', () => {
     expect(job.urls).toEqual(['app.example']);
   });
 
+  it('fills the whole video with the page when there is no background', () => {
+    const { job } = plan({ background: 'none' });
+    const frame = { x: 0, y: 0, width: 1728, height: 1080 };
+
+    expect(job.output).toMatchObject({ width: 1728, height: 1080 });
+    expect(job.layout).toMatchObject({ window: frame, content: frame, bar: null });
+  });
+
   it('draws a scene background as an SVG at the output size', () => {
     const { job } = plan({ background: { scene: 'glass', colors: 'ocean' } });
 
