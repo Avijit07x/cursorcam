@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Login with a frame</title>
+  </head>
+  <body>
+    <h1>Signed in</h1>
+    <iframe id="captcha" title="Captcha"></iframe>
+    <script>
+      document.cookie = 'frame_session=xyz; path=/';
+      localStorage.setItem('frame-user', 'Sam');
+      const open = indexedDB.open('auth', 1);
+      open.onupgradeneeded = () => open.result.createObjectStore('tokens');
+      open.onsuccess = () => {
+        const write = open.result.transaction('tokens', 'readwrite');
+        write.objectStore('tokens').put({ token: 'abc' }, 'me');
+        write.oncomplete = () => (document.title = 'Saved');
+      };
+      document.querySelector('#captcha').src = location.href
+        .replace('127.0.0.1', 'localhost')
+        .replace('login-frame.html', 'second.html');
+    </script>
+  </body>
+</html>

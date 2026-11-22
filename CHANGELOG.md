@@ -1,5 +1,9 @@
 # cursorcam
 
+## Unreleased
+
+- The `login` window no longer flashes and jumps to the front every second. On a sign-in page with a frame from another site, like a captcha or a Google button, saving the login opened and closed a hidden tab each second.
+
 ## 1.1.0
 
 Click through a flow once, and CursorCam writes the steps for you.
