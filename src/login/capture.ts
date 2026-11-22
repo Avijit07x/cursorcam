@@ -8,6 +8,7 @@ import { redactUrl } from '../shared/redact.js';
 import { withTimeout } from '../shared/time.js';
 import type { Lifecycle } from '../system/lifecycle.js';
 import type { AppPaths } from '../system/paths.js';
+import { readLoginState } from './storage.js';
 
 export type LoginState = Awaited<ReturnType<BrowserContext['storageState']>>;
 
@@ -131,8 +132,7 @@ class Snapshots {
   }
 
   take(): Promise<void> {
-    this.#pending ??= this.#context
-      .storageState({ indexedDB: true })
+    this.#pending ??= readLoginState(this.#context, this.#latest)
       .then((state) => {
         this.#latest = state;
       })
