@@ -1,3 +1,4 @@
+import { readFile } from 'node:fs/promises';
 import type { BrowserContext, Page } from 'playwright-core';
 import { LOGIN_IDENTITY } from '../browser/identity.js';
 import { launchBrowser } from '../browser/launch.js';
@@ -8,6 +9,7 @@ import { redactUrl } from '../shared/redact.js';
 import { withTimeout } from '../shared/time.js';
 import type { Lifecycle } from '../system/lifecycle.js';
 import type { AppPaths } from '../system/paths.js';
+import { readLoginState } from './storage.js';
 
 export type LoginState = Awaited<ReturnType<BrowserContext['storageState']>>;
 
@@ -37,7 +39,7 @@ export async function captureLogin(request: LoginRequest): Promise<LoginState> {
     interrupted.abort();
     return session.dispose();
   });
-  const snapshots = new Snapshots(session.context);
+  const snapshots = new Snapshots(session.context, await readSavedState(request.startFrom));
   const timeoutMs = request.timeoutMs ?? LOGIN_TIMEOUT_MS;
   try {
     await openLoginPage(session.page, request.url);
@@ -72,6 +74,10 @@ export async function captureLogin(request: LoginRequest): Promise<LoginState> {
     });
   }
   return state;
+}
+
+async function readSavedState(file: string | undefined): Promise<LoginState | undefined> {
+  return file ? (JSON.parse(await readFile(file, 'utf8')) as LoginState) : undefined;
 }
 
 export async function openLoginPage(page: Page, url: string): Promise<void> {
@@ -122,8 +128,9 @@ class Snapshots {
   #pending: Promise<void> | undefined;
   #timer: NodeJS.Timeout | undefined;
 
-  constructor(context: BrowserContext) {
+  constructor(context: BrowserContext, startFrom: LoginState | undefined) {
     this.#context = context;
+    this.#latest = startFrom;
   }
 
   get latest(): LoginState | undefined {
@@ -131,8 +138,7 @@ class Snapshots {
   }
 
   take(): Promise<void> {
-    this.#pending ??= this.#context
-      .storageState({ indexedDB: true })
+    this.#pending ??= readLoginState(this.#context, this.#latest)
       .then((state) => {
         this.#latest = state;
       })
