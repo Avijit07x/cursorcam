@@ -226,6 +226,26 @@ describe.skipIf(!browserAvailable())('rendering', () => {
     });
   });
 
+  it('makes 2K and 4K H.264 videos at 60 fps', async () => {
+    for (const [presetName, width, height] of [
+      ['2k', 2560, 1440],
+      ['4k', 3840, 2160],
+    ] as const) {
+      const outcome = await render('colors', QUIET_STYLE, { presetName });
+      expect(outcome.facts).toMatchObject({ width, height });
+      expect(outcome.job.output.fps).toBe(60);
+      if (!ffmpeg) continue;
+      expect(await probe(outcome.file)).toMatchObject({
+        codec_name: 'h264',
+        width: String(width),
+        height: String(height),
+        r_frame_rate: '60/1',
+        nb_read_frames: String(outcome.job.output.frameCount),
+      });
+      expect(await decodeErrors(outcome.file)).toBe('');
+    }
+  });
+
   it('makes square and vertical videos, and refuses vertical from a desktop recording', async () => {
     const square = await render('flow', { format: 'square' });
     expect(square.facts).toMatchObject({ width: 1080, height: 1080 });

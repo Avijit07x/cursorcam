@@ -17,7 +17,10 @@ Raw frames are kept for 7 days, so you can render again. `--clean` deletes them 
 | `x` | 1920×1080 | 30 | 6 Mbps | up to 140 s and 512 MB |
 | `linkedin` | 1920×1080 | 30 | 6 Mbps | 3 s to 15 min |
 | `discord` | 1280×720 | 30 | 4 Mbps | under 20 MB |
+| `2k` | 2560×1440 | 60 | 16 Mbps | none |
+| `4k` | 3840×2160 | 60 | 35 Mbps | none |
 
+- `2k` and `4k` make a bigger video from the same recording, not a sharper one. The page is recorded at 2560×1600, so a 4K video scales it up: about 1.1 times with no zoom, and about 2.3 times in a 2× zoom.
 - `--max-size 10MB` keeps the file under that size. Use it for a README or docs.
 - `--format square` makes a 1080×1080 video from any recording.
 - `--format vertical` makes a 1080×1920 video. It needs a phone recording, with `"viewport": "phone"` in the steps.

@@ -1,5 +1,9 @@
 # cursorcam
 
+## Unreleased
+
+- `--for 2k` and `--for 4k` render a 2560×1440 or 3840×2160 video at 60 fps, from the same recording.
+
 ## 1.1.0
 
 Click through a flow once, and CursorCam writes the steps for you.

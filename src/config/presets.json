@@ -20,6 +20,14 @@
       "maxSeconds": 900,
       "maxBytes": 5000000000
     },
-    "discord": { "width": 1280, "height": 720, "fps": 30, "bitrate": 4000000, "maxBytes": 20000000 }
+    "discord": {
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "bitrate": 4000000,
+      "maxBytes": 20000000
+    },
+    "2k": { "width": 2560, "height": 1440, "fps": 60, "bitrate": 16000000 },
+    "4k": { "width": 3840, "height": 2160, "fps": 60, "bitrate": 35000000 }
   }
 }

@@ -45,6 +45,7 @@ Find out:
 | X | `--for x` (up to 140 s) |
 | LinkedIn | `--for linkedin` (3 s to 15 min) |
 | Discord | `--for discord` (under 20 MB) |
+| Anywhere, in 2K or 4K | `--for 2k` (2560×1440) or `--for 4k` (3840×2160) |
 | README or docs | `--max-size 10MB` |
 | Square feed post | `--format square` |
 | Phone, vertical | `"viewport": "phone"` in the steps, then `--format vertical` |
