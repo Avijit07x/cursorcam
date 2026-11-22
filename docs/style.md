@@ -53,8 +53,9 @@ npx cursorcam run steps.json --style '{"background":"midnight","padding":0.08}'
 - A gradient name: `aurora`, `sunset`, `ocean`, `forest`, `midnight` or `paper`.
 - A hex color, like `"#0f172a"`.
 - A custom gradient: `{ "from": "#7c3aed", "to": "#ec4899", "angle": 135 }`.
-- An image: `{ "image": "brand/bg.png" }`, a PNG, JPEG or WebP file that covers the frame. A relative path starts from the style file's folder.
+- An image: `{ "image": "brand/bg.png" }`, a PNG, JPEG or WebP file that covers the frame. A relative path starts from the style file's folder, and `~/` is your home folder.
 - A scene drawn from two colors: `{ "scene": "glow", "colors": "indigo" }`.
+- `"none"`: no background. The page fills the whole video, with no padding, window bar, corners or shadow. The video takes the shape of the recording, so nothing is cropped: 1728×1080 from a desktop recording. A square video needs a background, so `"none"` with `--format square` fails with exit code 2.
 
 #### Scenes
 

@@ -7,7 +7,7 @@ Flow:
 4. Write the steps: one flow, 5 to 15 steps. Pass them inline; they are saved as cursorcam-output/<name>.json in the user's project. A file path works too.
 5. Call check, then wait, until it passes. On a failure, read the error, the fix and the frame, and change the steps.
 6. Call run, then wait until it is done. Pick "for" from where the video goes: youtube, x, linkedin or discord. For a README use maxSize "10MB".
-7. Call stills and look at them: every step on screen, zoom frames the action, no spinners, errors or private data. To change the look without recording again, call render with a style, like {"zoom":{"max":1.4}}.
+7. Call stills and look at them: every step on screen, zoom frames the action, no spinners, errors or private data. To change the look without recording again, call render with a style, like {"zoom":{"max":1.4}}. For the user's own background image use {"background":{"image":"<full path>"}}, and for no background, with the page filling the whole video, {"background":"none"}.
 8. Reply with the video path, its size and length, and the steps path to record again later.
 
 Steps from the user:

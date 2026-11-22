@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { computeLayout } from '../../../src/render/layout.js';
+import { computeLayout, fullFrameLayout, fullFrameSize } from '../../../src/render/layout.js';
 
 const STYLE = { padding: 0.06, radius: 14, shadow: 0.45, browserBar: true };
 const DESKTOP = { width: 1280, height: 800 };
@@ -32,5 +32,34 @@ describe('computeLayout', () => {
 
     expect(layout.window.height).toBeLessThanOrEqual(1920 - 2 * 65);
     expect(layout.window.width).toBeLessThan(1080);
+  });
+});
+
+describe('a video without a background', () => {
+  it('takes the shape of the recording, as big as the frame allows, with even sides', () => {
+    expect(fullFrameSize({ width: 1920, height: 1080 }, DESKTOP)).toEqual({
+      width: 1728,
+      height: 1080,
+    });
+    expect(fullFrameSize({ width: 1080, height: 1080 }, DESKTOP)).toEqual({
+      width: 1080,
+      height: 676,
+    });
+    expect(fullFrameSize({ width: 1080, height: 1920 }, { width: 390, height: 844 })).toEqual({
+      width: 888,
+      height: 1920,
+    });
+  });
+
+  it('fills the frame with the page: no bar, corners or shadow', () => {
+    const frame = { x: 0, y: 0, width: 1728, height: 1080 };
+
+    expect(fullFrameLayout({ width: 1728, height: 1080 })).toEqual({
+      window: frame,
+      content: frame,
+      bar: null,
+      radius: 0,
+      shadow: 0,
+    });
   });
 });

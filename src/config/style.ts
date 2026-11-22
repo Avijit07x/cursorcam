@@ -1,4 +1,5 @@
 import { access, readFile } from 'node:fs/promises';
+import { homedir } from 'node:os';
 import { dirname, extname, resolve } from 'node:path';
 import { z } from 'zod';
 import { messageOf, CursorCamError } from '../shared/errors.js';
@@ -9,6 +10,8 @@ const HEX_COLOR = /^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i;
 const IMAGE_EXTENSIONS: ReadonlySet<string> = new Set(['.png', '.jpg', '.jpeg', '.webp']);
 const Color = z.string().regex(HEX_COLOR, 'must be a color like #1e293b');
 const MAX_ZOOM_HOLD_MS = 5_000;
+const HOME_PREFIX = /^~(?=\/)/;
+export const NO_BACKGROUND = 'none';
 
 export const GRADIENTS = {
   aurora: ['#4f46e5', '#06b6d4'],
@@ -24,6 +27,7 @@ const GRADIENT_NAMES = Object.keys(GRADIENTS) as [GradientName, ...GradientName[
 export const DEFAULT_GRADIENT_ANGLE = 135;
 
 const Background = z.union([
+  z.literal(NO_BACKGROUND),
   z.enum(GRADIENT_NAMES),
   Color,
   z.strictObject({ from: Color, to: Color, angle: z.number().default(DEFAULT_GRADIENT_ANGLE) }),
@@ -111,7 +115,7 @@ export async function loadStyle(option: string | undefined): Promise<Style> {
 async function withImagePath(style: Style, baseDir: string, baseName: string): Promise<Style> {
   const background = style.background;
   if (typeof background !== 'object' || !('image' in background)) return style;
-  const image = resolve(baseDir, background.image);
+  const image = resolve(baseDir, background.image.replace(HOME_PREFIX, homedir()));
   if (!IMAGE_EXTENSIONS.has(extname(image).toLowerCase())) {
     throw new CursorCamError(`The background image ${image} is not a PNG, JPEG or WebP file.`, {
       exitCode: ExitCode.BadInput,

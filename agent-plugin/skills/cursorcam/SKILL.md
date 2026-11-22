@@ -63,6 +63,16 @@ If the user did not say, use the default (1920×1080, 60 fps) and offer other si
 
 A zoom change renders again in seconds with `render`, without recording again.
 
+**The background.** By default the window sits on a gradient. When the user asks for something else, set it:
+
+| The user asks for | Set |
+| --- | --- |
+| Their own wallpaper or image, with its path | `--style '{"background":{"image":"/full/path/wallpaper.png"}}'`, a PNG, JPEG or WebP file |
+| No background, the page fills the whole video | `--style '{"background":"none"}'` |
+| A color, a gradient or a drawn scene | See [references/style.md](references/style.md) |
+
+Put every style key in one `--style`, like `'{"background":"none","zoom":{"max":1.5}}'`. A background change renders again with `render` too.
+
 ## 2. Make sure the app is running
 
 - Check the URL answers: `curl -s -o /dev/null -w "%{http_code}" "<url>"`.
