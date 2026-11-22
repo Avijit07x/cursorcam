@@ -3,6 +3,7 @@
 ## Unreleased
 
 - `--for 2k` and `--for 4k` render a 2560×1440 or 3840×2160 video at 60 fps, from the same recording.
+- The zoom now scales the whole window, with its bar and shadow, instead of cropping the page inside a window of fixed size. The window grows past the frame and the background stays in place.
 
 ## 1.1.0
 
