@@ -4,6 +4,8 @@
 
 - The `login` window no longer flashes and jumps to the front every second. On a sign-in page with a frame from another site, like a captcha or a Google button, saving the login opened and closed a hidden tab each second.
 - `--for 2k` and `--for 4k` render a 2560×1440 or 3840×2160 video at 60 fps, from the same recording.
+- New `"background": "none"` style: the page fills the whole video, with no padding, window bar, corners or shadow. The video takes the shape of the recording, 1728×1080 from a desktop recording, so nothing is cropped.
+- Agents now set your own background image when you give its path, like "use ~/Pictures/wallpaper.png as the background", and `~/` works in an image path.
 
 ## 1.1.0
 

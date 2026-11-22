@@ -1,4 +1,5 @@
 import { mkdir, writeFile } from 'node:fs/promises';
+import { homedir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { loadStyle, parseStyle } from '../../../src/config/style.js';
@@ -67,6 +68,13 @@ describe('style', () => {
     await expect(loadStyle(JSON.stringify({ background: { image: file } }))).rejects.toThrow(
       'is not a PNG, JPEG or WebP file',
     );
+  });
+
+  it('takes "none" for a video without a background, and ~ in an image path', async () => {
+    expect(parseStyle({ background: 'none' }, 'x').background).toBe('none');
+    await expect(
+      loadStyle('{ "background": { "image": "~/cursorcam-missing/wall.png" } }'),
+    ).rejects.toThrow(join(homedir(), 'cursorcam-missing', 'wall.png'));
   });
 
   it('takes a scene with a palette name or two colors, and indigo by default', () => {
