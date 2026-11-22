@@ -312,7 +312,7 @@ describe.skipIf(!browserAvailable())('cursorcam check and record', () => {
     const result = await runCli(['render', 'nowhere', '--for', 'tiktok'], work.path(), cache.env());
 
     expect(result.code, result.stderr).toBe(ExitCode.BadInput);
-    expect(result.stderr).toContain('Use one of: default, youtube, x, linkedin, discord.');
+    expect(result.stderr).toContain('Use one of: default, youtube, x, linkedin, discord, 2k, 4k.');
   });
 
   it('rejects a missing secret before opening a browser', async () => {

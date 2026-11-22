@@ -9,7 +9,7 @@ import { ExitCode } from '../../../src/shared/exit-codes.js';
 
 describe('presets', () => {
   it('lists the platforms with a check date', () => {
-    expect(PRESET_NAMES).toEqual(['default', 'youtube', 'x', 'linkedin', 'discord']);
+    expect(PRESET_NAMES).toEqual(['default', 'youtube', 'x', 'linkedin', 'discord', '2k', '4k']);
     expect(presetsCheckedOn()).toMatch(/^\d{4}-\d{2}-\d{2}$/);
   });
 
@@ -23,6 +23,8 @@ describe('presets', () => {
       maxBytes: 5_000_000_000,
     });
     expect(findPreset('discord')).toMatchObject({ width: 1280, height: 720, maxBytes: 20_000_000 });
+    expect(findPreset('2k')).toMatchObject({ width: 2560, height: 1440, fps: 60 });
+    expect(findPreset('4k')).toMatchObject({ width: 3840, height: 2160, fps: 60 });
   });
 
   it('refuses unknown presets', () => {

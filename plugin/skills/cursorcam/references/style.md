@@ -19,7 +19,10 @@
 | `x` | 1920×1080 | 30 | 6 Mbps | up to 140 s and 512 MB |
 | `linkedin` | 1920×1080 | 30 | 6 Mbps | 3 s to 15 min |
 | `discord` | 1280×720 | 30 | 4 Mbps | under 20 MB |
+| `2k` | 2560×1440 | 60 | 16 Mbps | none |
+| `4k` | 3840×2160 | 60 | 35 Mbps | none |
 
+- `2k` and `4k` make a bigger video from the same recording. The page is recorded at 2560×1600, so in a 4K video it is scaled up a little.
 - `square` is 1080×1080 and works from any recording.
 - `vertical` is 1080×1920 and needs a phone recording: `"viewport": "phone"` in the steps.
 - A video too long for its preset fails with exit code 2. Shorten the steps, or render with the default preset.
