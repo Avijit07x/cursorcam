@@ -104,7 +104,7 @@ To change one step instead, set `zoom` on it in the [steps file](steps.md#the-ca
 | A zoomed shot is mostly empty space | Lower `zoom.max`, or `"zoom": false` on that step |
 | The result needs a closer look | A `hover` on it with `"zoom": 1.5` and `pauseAfter` |
 | The camera zooms out too soon after a click | `"zoom": { "hold": 1000 }` |
-| The cursor is too small | `"cursor": { "size": 1.4 }` |
+| The cursor is too big or too small | `"cursor": { "size": 0.6 }` or `1.4`. It grows with the zoom, like the page |
 | The address bar shows `localhost` | `"urlBar": "app.example.com"` |
 | Long waits look slow | Keep `trimIdle` on, and shorten `pause` steps |
 | The file is too big | `--max-size`, or a shorter flow |

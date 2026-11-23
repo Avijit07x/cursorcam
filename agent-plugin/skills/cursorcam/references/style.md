@@ -65,7 +65,7 @@ Pass a JSON file, or inline JSON: `--style '{"background":"sunset","padding":0.0
 | A zoomed shot is mostly empty space | Lower `zoom.max` for the whole video, or `"zoom": false` on that step |
 | A result needs a closer look | Add a `hover` on the result with `"zoom": 1.5` and `pauseAfter`. It holds the zoom on that part for the whole step |
 | The camera zooms out too soon after a click | `"zoom": { "hold": 1000 }` keeps it zoomed for 1 s after each action |
-| Cursor too small on a big screen | `"cursor": { "size": 1.4 }` |
+| Cursor too big or too small | `"cursor": { "size": 0.6 }` or `1.4`. It grows with the zoom, like the page |
 | Address bar shows a local URL | `"urlBar": "app.example.com"` |
 | Long waits look slow | Keep `trimIdle` on, and shorten `pause` steps |
 | Video over the size limit | `--max-size`, or a shorter flow |
