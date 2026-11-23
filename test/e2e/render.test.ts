@@ -25,6 +25,13 @@ const COLOR_TOLERANCE = 6;
 const BANDS = ['ff0000', '00ff00', '0000ff', 'ffffff', '000000', '808080', '112233', '6366f1'];
 const QUIET_STYLE = { zoom: { enabled: false }, cursor: { show: false }, trimIdle: false };
 const RENDER_SPEED_LIMIT = 2 * CI_SLOWDOWN;
+const CURSOR_HEIGHT = 22;
+// Measured from the cursor tip, in cursor heights: inside the tilted arrow, and inside an upright one.
+const TILTED_ARROW = { x: 0.52, y: 0.19 };
+const UPRIGHT_ARROW = { x: 0.08, y: 0.71 };
+const DARK = 60;
+const LIGHT = 200;
+const SETTLED_SECONDS = 0.2;
 
 interface Recorded {
   readonly run: RunFile;
@@ -204,6 +211,28 @@ describe.skipIf(!browserAvailable())('rendering', () => {
       ...expected.map((value, channel) => Math.abs(value - (actual[channel] ?? 0))),
     );
     expect(worst).toBeLessThanOrEqual(COLOR_TOLERANCE);
+  });
+
+  it('draws the cursor as a tilted black arrow', async () => {
+    await record('pointer', {
+      url: site.url('/colors.html'),
+      steps: [{ hover: 'div:nth-of-type(4)', pauseAfter: 600 }],
+    });
+    const outcome = await render('pointer', { zoom: { enabled: false }, trimIdle: false });
+    if (!ffmpeg) return;
+    const { content } = outcome.job.layout;
+    const { width } = outcome.job.output;
+    const scale = content.width / 1280;
+    const [tipX, tipY] = outcome.job.frames.at(-1)?.cursor ?? [0, 0];
+    const pixels = await frameRgb(outcome.file, outcome.facts.seconds - SETTLED_SECONDS);
+    const brightness = (point: { x: number; y: number }) => {
+      const x = Math.round(content.x + (tipX + point.x * CURSOR_HEIGHT) * scale);
+      const y = Math.round(content.y + (tipY + point.y * CURSOR_HEIGHT) * scale);
+      return pixels[(y * width + x) * 3] ?? -1;
+    };
+
+    expect(brightness(TILTED_ARROW)).toBeLessThan(DARK);
+    expect(brightness(UPRIGHT_ARROW)).toBeGreaterThan(LIGHT);
   });
 
   it('meets every preset rule', async () => {
