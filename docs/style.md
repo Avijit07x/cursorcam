@@ -46,7 +46,7 @@ npx cursorcam run steps.json --style '{"background":"midnight","padding":0.08}'
 | `shadow` | `0.45` | Window shadow strength, 0 to 1 |
 | `browserBar` | `true` | `false` hides the window bar |
 | `urlBar` | the page URL | Text for the address bar, up to 120 characters, or `false` to hide it |
-| `cursor` | shown | `{ "show": true, "size": 1, "ripple": true }`, size 0.5 to 3 |
+| `cursor` | shown | `{ "show": true, "size": 1, "ripple": true }`, size 0.25 to 3 |
 | `zoom` | on, up to 2× | See below |
 | `dialogs` | `true` | Draws browser dialogs as cards |
 | `trimIdle` | `true` | Speeds up idle waits. `pause`, `pauseAfter` and the ending keep their time |
@@ -104,7 +104,7 @@ To change one step instead, set `zoom` on it in the [steps file](steps.md#the-ca
 | A zoomed shot is mostly empty space | Lower `zoom.max`, or `"zoom": false` on that step |
 | The result needs a closer look | A `hover` on it with `"zoom": 1.5` and `pauseAfter` |
 | The camera zooms out too soon after a click | `"zoom": { "hold": 1000 }` |
-| The cursor is too small | `"cursor": { "size": 1.4 }` |
+| The cursor is too big or too small | `"cursor": { "size": 0.6 }` or `1.4`. It grows with the zoom, like the page |
 | The address bar shows `localhost` | `"urlBar": "app.example.com"` |
 | Long waits look slow | Keep `trimIdle` on, and shorten `pause` steps |
 | The file is too big | `--max-size`, or a shorter flow |

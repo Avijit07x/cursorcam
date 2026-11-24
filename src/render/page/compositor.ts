@@ -16,7 +16,7 @@ const URL_FONT = 0.36;
 const URL_PILL_WIDTH = 0.5;
 const URL_PILL_HEIGHT = 0.62;
 const FONT_FAMILY = 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
-const CURSOR_CSS_HEIGHT = 22;
+const CURSOR_CSS_HEIGHT = 44;
 const PRESSED_SCALE = 0.86;
 const RIPPLE_START_CSS = 6;
 const RIPPLE_GROWTH_CSS = 26;
@@ -45,10 +45,11 @@ const URL_TEXT_ROOM = 0.9;
 const TOUCH_RING_WIDTH_CSS = 1.5;
 const ARROW_FILL = '#000000';
 const ARROW_OUTLINE = '#ffffff';
-const ARROW_OUTLINE_WIDTH = 1.2;
-const ARROW_SHADOW_COLOR = 'rgba(0, 0, 0, 0.35)';
-const ARROW_SHADOW_BLUR = 2;
-const ARROW_SHADOW_OFFSET = 0.6;
+const ARROW_OUTLINE_WIDTH = 2;
+const ARROW_TILT_DEGREES = -48;
+const ARROW_SHADOW_COLOR = 'rgba(0, 0, 0, 0.4)';
+const ARROW_SHADOW_BLUR = 1.6;
+const ARROW_SHADOW_OFFSET = 0.7;
 const FALLBACK_BACKGROUND = '#111827';
 const SHADOW_FILL = '#000000';
 const CARD_COLOR = '#ffffff';
@@ -271,6 +272,7 @@ function drawArrow(context: Context, point: { x: number; y: number }, scale: num
   const size = (CURSOR_CSS_HEIGHT / ARROW_HEIGHT) * scale;
   context.save();
   context.translate(point.x, point.y);
+  context.rotate(ARROW_TILT_DEGREES * DEGREES_TO_RADIANS);
   context.scale(size, size);
   context.beginPath();
   for (const [index, [x, y]] of ARROW_PATH.entries()) {
@@ -278,16 +280,20 @@ function drawArrow(context: Context, point: { x: number; y: number }, scale: num
     else context.lineTo(x, y);
   }
   context.closePath();
+  // Shadows ignore the transform, so they are sized in output pixels to grow with the arrow.
+  const { a, b } = context.getTransform();
+  const pixels = Math.hypot(a, b);
   context.shadowColor = ARROW_SHADOW_COLOR;
-  context.shadowBlur = ARROW_SHADOW_BLUR;
-  context.shadowOffsetY = ARROW_SHADOW_OFFSET;
-  context.fillStyle = ARROW_FILL;
-  context.fill();
-  context.shadowColor = 'transparent';
-  context.lineJoin = 'round';
+  context.shadowBlur = ARROW_SHADOW_BLUR * pixels;
+  context.shadowOffsetY = ARROW_SHADOW_OFFSET * pixels;
+  // Half of the outline shows outside the arrow, and the fill covers the inner half.
+  context.lineJoin = 'miter';
   context.lineWidth = ARROW_OUTLINE_WIDTH;
   context.strokeStyle = ARROW_OUTLINE;
   context.stroke();
+  context.shadowColor = 'transparent';
+  context.fillStyle = ARROW_FILL;
+  context.fill();
   context.restore();
 }
 

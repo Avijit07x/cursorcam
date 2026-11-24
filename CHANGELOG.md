@@ -7,6 +7,8 @@
 - New `"background": "none"` style: the page fills the whole video, with no padding, window bar, corners or shadow. The video takes the shape of the recording, 1728×1080 from a desktop recording, so nothing is cropped.
 - Agents now set your own background image when you give its path, like "use ~/Pictures/wallpaper.png as the background", and `~/` works in an image path.
 - The zoom now scales the whole window, with its bar and shadow, instead of cropping the page inside a window of fixed size. The window grows past the frame and the background stays in place.
+- The cursor now looks like the one in Screen Studio: a black arrow that leans to the left, with a thick white outline and a soft shadow.
+- The cursor is 2 times bigger, so you see it grow with the zoom. For a smaller one, set `"cursor": { "size": 0.6 }`. The size now goes down to 0.25, and 0.5 is the size it had before.
 
 ## 1.1.0
 

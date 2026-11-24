@@ -25,6 +25,15 @@ const COLOR_TOLERANCE = 6;
 const BANDS = ['ff0000', '00ff00', '0000ff', 'ffffff', '000000', '808080', '112233', '6366f1'];
 const QUIET_STYLE = { zoom: { enabled: false }, cursor: { show: false }, trimIdle: false };
 const RENDER_SPEED_LIMIT = 2 * CI_SLOWDOWN;
+const CURSOR_HEIGHT = 44;
+// Measured from the cursor tip, in cursor heights: inside the tilted arrow, inside an upright one,
+// and inside the arrow's head, where a cursor twice as big is but one of normal size is not.
+const TILTED_ARROW = { x: 0.52, y: 0.19 };
+const UPRIGHT_ARROW = { x: 0.08, y: 0.71 };
+const ARROW_HEAD = { x: 0.62, y: 0.08 };
+const HOVER_ZOOM = 2;
+const DARK = 60;
+const LIGHT = 200;
 
 interface Recorded {
   readonly run: RunFile;
@@ -204,6 +213,43 @@ describe.skipIf(!browserAvailable())('rendering', () => {
       ...expected.map((value, channel) => Math.abs(value - (actual[channel] ?? 0))),
     );
     expect(worst).toBeLessThanOrEqual(COLOR_TOLERANCE);
+  });
+
+  it('draws the cursor as a tilted black arrow that grows with the zoom', async () => {
+    await record('pointer', {
+      url: site.url('/colors.html'),
+      steps: [{ hover: 'div:nth-of-type(4)', zoom: HOVER_ZOOM, pauseAfter: 600 }],
+    });
+    // The brightness of the pixel at a point of the cursor, in the frame where the camera is closest.
+    const look = async (style: object) => {
+      const outcome = await render('pointer', { trimIdle: false, ...style });
+      const { frames, layout, output } = outcome.job;
+      const closest = Math.min(...frames.map((frame) => frame.crop[2]));
+      const index = frames.findLastIndex((frame) => frame.cursor && frame.crop[2] === closest);
+      const frame = frames[index];
+      const [tipX, tipY] = frame?.cursor ?? [0, 0];
+      const [cropX, cropY, cropWidth] = frame?.crop ?? [0, 0, 1280, 800];
+      const zoom = 1280 / cropWidth;
+      const scale = layout.content.width / 1280;
+      const pixels = ffmpeg ? await frameRgb(outcome.file, index / output.fps) : undefined;
+      const brightness = (point: { x: number; y: number }, grown = zoom) => {
+        const reach = CURSOR_HEIGHT * scale * grown;
+        const x = layout.content.x + (tipX - cropX) * scale * zoom + point.x * reach;
+        const y = layout.content.y + (tipY - cropY) * scale * zoom + point.y * reach;
+        return pixels?.[(Math.round(y) * output.width + Math.round(x)) * 3] ?? -1;
+      };
+      return { zoom, brightness };
+    };
+
+    const flat = await look({ zoom: { enabled: false } });
+    const zoomed = await look({});
+    expect(flat.zoom).toBe(1);
+    expect(zoomed.zoom).toBeCloseTo(HOVER_ZOOM, 1);
+    if (!ffmpeg) return;
+    expect(flat.brightness(TILTED_ARROW)).toBeLessThan(DARK);
+    expect(flat.brightness(UPRIGHT_ARROW)).toBeGreaterThan(LIGHT);
+    expect(flat.brightness(ARROW_HEAD, HOVER_ZOOM)).toBeGreaterThan(LIGHT);
+    expect(zoomed.brightness(ARROW_HEAD)).toBeLessThan(DARK);
   });
 
   it('meets every preset rule', async () => {
