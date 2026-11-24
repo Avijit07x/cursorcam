@@ -40,6 +40,12 @@ describe('style', () => {
     });
   });
 
+  it('takes a cursor size from 0.25, small enough for the 22 px cursor of 1.1', () => {
+    expect(parseStyle({ cursor: { size: 0.5 } }, 'x').cursor.size).toBe(0.5);
+    expect(parseStyle({ cursor: { size: 0.25 } }, 'x').cursor.size).toBe(0.25);
+    expect(() => parseStyle({ cursor: { size: 0.2 } }, 'x')).toThrow();
+  });
+
   it('finds a background image next to the style file, or in the current folder', async () => {
     await mkdir(join(dir.path(), 'brand'));
     await writeFile(join(dir.path(), 'brand', 'bg.png'), 'png');

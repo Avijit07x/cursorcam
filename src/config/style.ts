@@ -49,7 +49,7 @@ export const StyleSchema = z.strictObject({
   cursor: z
     .strictObject({
       show: z.boolean().default(true),
-      size: z.number().min(0.5).max(3).default(1),
+      size: z.number().min(0.25).max(3).default(1),
       ripple: z.boolean().default(true),
     })
     .prefault({}),
