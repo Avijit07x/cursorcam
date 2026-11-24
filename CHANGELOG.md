@@ -1,5 +1,10 @@
 # cursorcam
 
+## Unreleased
+
+- The cursor now looks like the one in Screen Studio: a black arrow that leans to the left, with a thick white outline and a soft shadow.
+- The cursor is 2 times bigger, so you see it grow with the zoom. For a smaller one, set `"cursor": { "size": 0.6 }`. The size now goes down to 0.25, and 0.5 is the size it had before.
+
 ## 1.1.0
 
 Click through a flow once, and CursorCam writes the steps for you.

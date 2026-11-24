@@ -39,7 +39,7 @@ Pass a JSON file, or inline JSON: `--style '{"background":"sunset","padding":0.0
 | `shadow` | `0.45` | Window shadow strength, 0 to 1 |
 | `browserBar` | `true` | `false` hides the window bar |
 | `urlBar` | the page URL | Text for the address bar, up to 120 characters, or `false` to hide it |
-| `cursor` | shown | `{ "show": true, "size": 1, "ripple": true }`, size 0.5 to 3 |
+| `cursor` | shown | `{ "show": true, "size": 1, "ripple": true }`, size 0.25 to 3 |
 | `zoom` | on, up to 2× | `{ "enabled": true, "max": 2, "hold": 0 }`. `max` is 1.3 to 2.5. `hold` keeps the zoom for that many ms after each action, up to 5000. Nearby actions always share one zoom |
 | `dialogs` | `true` | Draws browser dialogs as cards |
 | `trimIdle` | `true` | Speeds up idle waits. `pause`, `pauseAfter` and the ending keep their time |
@@ -61,7 +61,7 @@ Pass a JSON file, or inline JSON: `--style '{"background":"sunset","padding":0.0
 | A zoomed shot is mostly empty space | Lower `zoom.max` for the whole video, or `"zoom": false` on that step |
 | A result needs a closer look | Add a `hover` on the result with `"zoom": 1.5` and `pauseAfter`. It holds the zoom on that part for the whole step |
 | The camera zooms out too soon after a click | `"zoom": { "hold": 1000 }` keeps it zoomed for 1 s after each action |
-| Cursor too small on a big screen | `"cursor": { "size": 1.4 }` |
+| Cursor too big or too small | `"cursor": { "size": 0.6 }` or `1.4`. It grows with the zoom, like the page |
 | Address bar shows a local URL | `"urlBar": "app.example.com"` |
 | Long waits look slow | Keep `trimIdle` on, and shorten `pause` steps |
 | Video over the size limit | `--max-size`, or a shorter flow |
