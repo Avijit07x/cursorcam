@@ -17,7 +17,7 @@
     "@animateicons/react": "^0.12.0",
     "@vercel/analytics": "^2.0.1",
     "motion": "^14.0.0",
-    "next": "^16.4.0",
+    "next": "^16.4.6",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "react-markdown": "^10.1.0",
@@ -30,7 +30,7 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "eslint": "^9.39.5",
-    "eslint-config-next": "^16.4.0",
+    "eslint-config-next": "^16.4.6",
     "tailwindcss": "^4.3.3",
     "typescript": "~6.0.3"
   }
