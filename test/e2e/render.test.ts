@@ -34,6 +34,8 @@ const ARROW_HEAD = { x: 0.62, y: 0.08 };
 const HOVER_ZOOM = 2;
 const DARK = 60;
 const LIGHT = 200;
+// Well under the 8 Mbit/s default, but above the lowest bitrate even for the longer CI recording.
+const TIGHT_LIMIT = 1_000_000;
 
 interface Recorded {
   readonly run: RunFile;
@@ -261,8 +263,8 @@ describe.skipIf(!browserAvailable())('rendering', () => {
     expect(discord.facts).toMatchObject({ width: 1280, height: 720 });
     expect(discord.facts.bytes).toBeLessThanOrEqual(findPreset('discord').maxBytes ?? 0);
 
-    const tight = await render('flow', {}, { maxBytes: 600_000 });
-    expect(tight.facts.bytes).toBeLessThanOrEqual(600_000);
+    const tight = await render('flow', {}, { maxBytes: TIGHT_LIMIT });
+    expect(tight.facts.bytes).toBeLessThanOrEqual(TIGHT_LIMIT);
 
     await cutShort('colors', 'short');
     const short = await renderFails('short', {}, 'linkedin');
