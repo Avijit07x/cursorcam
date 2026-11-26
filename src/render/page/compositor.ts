@@ -111,7 +111,6 @@ export class Compositor {
     context.save();
     // The zoom scales the whole window, so the page is never cropped to a fixed frame.
     context.setTransform(camera.scale, 0, 0, camera.scale, camera.x, camera.y);
-    context.imageSmoothingQuality = 'high';
     if (this.#shadow) context.drawImage(this.#shadow, 0, 0);
     if (bar) {
       drawBar(context, bar, layout.radius);
@@ -119,6 +118,8 @@ export class Compositor {
     }
     roundedPath(context, content, bar ? [0, 0, layout.radius, layout.radius] : layout.radius);
     context.clip();
+    // Only the page needs sharp scaling; scaling the blurred shadow this way costs a lot per frame.
+    context.imageSmoothingQuality = 'high';
     context.drawImage(
       source,
       0,
